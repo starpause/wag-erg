@@ -28,7 +28,7 @@
 	<property name="project.name" value="WagErg" />
 	<property name="project.src" value="${basedir}/src" />
 	<property name="project.bin" value="${basedir}/bin" />
-	<property name="project.lib" value="${basedir}/lib" />
+	<property name="project.lib" value="${basedir}/libs" />
 	<property name="project.mainclass" value="${project.src}/${project.name}.as" />
 	<property name="project.xml" value="${project.bin}/${project.name}-app.xml" />
 	<property name="project.swf" value="${project.bin}/${project.name}.swf" />
