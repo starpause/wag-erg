@@ -7,6 +7,7 @@
  * http://blog.formatlos.de/2010/12/13/playbook-development-with-fdt-and-ant/
  */
 package {
+	import view.components.DrumControls;
 	import flash.display.Shape;
 	import com.junkbyte.console.Cc;
 	import view.components.DrumHead;
@@ -92,13 +93,17 @@ package {
 		private function onAddDrum(event : MouseEvent) : void {
 			//if we're not at 12 seconds already
 
-			//new instance
+			//new drum head
 			drumCounter++;
 			var tempName:String = "drum"+drumCounter.toString();
 			var tempDrum:DrumHead = new DrumHead(tempName, navHeight);
 			tempDrum.x = tempDrum.y = 0;
 			drums.push(tempDrum);
 			addChild(tempDrum);
+			
+			//new drum controls
+			tempName "controls"+drumCounter.toString();
+			var tempControls:DrumControls = new DrumControls(tempName, tempDrum.color);
 			
 			//re arange all the drums
 			redrawDrums();
@@ -134,11 +139,14 @@ package {
 			drums = temp;
 			
 			//clean up listeners
-
+			
 			//clean off stage
 			this.removeChild(this.getChildByName(_name));
+			redrawDrums();
 			
-			//clean up related screen			
+			//clean up related screen	
+			
+			//show the home screen		
 		}
 		
 		private function onDialogButton(event : Event) : void

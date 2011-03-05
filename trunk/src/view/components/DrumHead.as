@@ -10,7 +10,7 @@ package view.components {
 		private var synth:SfxrSynth;
 		private var baseParams:SfxrParams;
 		private var bgShape:Shape = new Shape;
-		private var color:Number = Math.random() * 0xFFFFFF; 
+		public var color:Number = Math.random() * 0xFFFFFF; 
 		private var passedHeight:Number;
 		private var passedWidth:Number;
 		
