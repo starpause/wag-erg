@@ -1,5 +1,7 @@
 package view.components {
-	import com.junkbyte.console.Cc;
+	import events.pVent;
+	import events.EventCentral;
+	import flash.events.Event;
 	import flash.display.Shape;
 	import flash.events.MouseEvent;
 	import flash.display.Sprite;
@@ -13,10 +15,12 @@ package view.components {
 		public var color:Number = Math.random() * 0xFFFFFF; 
 		private var passedHeight:Number;
 		private var passedWidth:Number;
+		private var key:String = "";
 		
 		public function DrumHead(_name:String="", _height:Number=10){
 			//Cc.log('DrumHead with '+_name+' '+_height);
 			this.name = _name;
+			this.key = _name;
 			this.passedHeight = _height;
 			this.passedWidth = _height;
 			
@@ -39,14 +43,22 @@ package view.components {
 			//bgSprite.alpha = .2;
 			addChild(bgShape);
 			
+			this.buttonMode = true;
+			this.useHandCursor = true;
+			this.mouseChildren = false;
 			this.addEventListener(MouseEvent.CLICK, onClick);
 		}
 
 		private function onClick(event : MouseEvent) : void {
+			triggerSound();
+			EventCentral.getInstance().dispatchEvent(new pVent(pVent.DRUM_HEAD_HIT, {key:this.key}));
+		}
+		
+		private function triggerSound(event:Event=null):void{
 			synth.params = baseParams.clone();
 			synth.params.mutate();
 			synth.params.minFrequency = 0;
-			synth.play();
+			synth.play();			
 		}
 
 		public function redraw(newWidth : Number = -1) : void {
