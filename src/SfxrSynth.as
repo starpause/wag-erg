@@ -772,6 +772,7 @@
 						}
 						case 3: // Noise
 						{
+							//if(uint(_phase * 32 / int(_periodTemp) > 32){Math.rand 0-32}
 							_sample = _noiseBuffer[uint(_phase * 32 / int(_periodTemp))];
 							break;
 						}

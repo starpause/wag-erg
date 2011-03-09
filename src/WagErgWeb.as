@@ -11,9 +11,9 @@ package {
 	import flash.events.Event;
 
 	[SWF(height="600", width="1024", frameRate="30", backgroundColor="#010101")]
-	public class WagErg extends Sprite
-	{		
-		public function WagErg(){
+	public class WagErgWeb extends Sprite
+	{
+		public function WagErgWeb(){
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);			
 		}
@@ -21,7 +21,6 @@ package {
 		private function init(e:Event=null):void{
 			var main:Main = new Main();
 			addChild(main);
-			stage.nativeWindow.visible = true;
 		}
 
 		
