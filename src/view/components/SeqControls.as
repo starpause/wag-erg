@@ -1,4 +1,5 @@
 package view.components {
+	import model.Data;
 	import events.pVent;
 	import events.EventCentral;
 	import flash.events.Event;
@@ -10,7 +11,6 @@ package view.components {
 	public class SeqControls extends Sprite {
 		private var passedWidth : Number;
 		private var passedHeight : Number;
-		private var margin : Number;
 		private var bgShape : Shape = new Shape;
 		private var lastX : Number = 0;
 		
@@ -39,21 +39,20 @@ package view.components {
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 
-			margin = Math.floor(stage.stageWidth * .01 / 2);
-			lastX = margin;
+			lastX = Data.margin;
 			
 			drawBackground();
 			drawNewDrumButton();			
 		}
 
 		private function drawNewDrumButton() : void {
-			var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (margin*2));
+			var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (Data.margin*2));
 			addChild(newDrumButton);
 			
 			newDrumButton.alpha = .5;
 			newDrumButton.x = lastX; //(passedWidth - newDrumButton.width)/2;
-			newDrumButton.y = passedHeight - margin;
-			lastX = newDrumButton.width + margin;
+			newDrumButton.y = passedHeight - Data.margin;
+			lastX = newDrumButton.width + Data.margin;
 		}
 		
 		private function drawBackground() : void {

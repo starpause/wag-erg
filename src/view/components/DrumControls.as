@@ -1,4 +1,5 @@
 package view.components {
+	import model.Data;
 	import flash.display.Shape;
 	import events.pVent;
 	import events.EventCentral;
@@ -13,7 +14,6 @@ package view.components {
 		private var passedHeight : Number;
 		private var bgShape : Shape = new Shape;
 		private var key : String = "";
-		private var margin : Number;
 		private var lastX : Number = 0;
 		
 		public function DrumControls(_width:Number,_height:Number,_name:String="",_color:Number=0x000000){
@@ -55,8 +55,7 @@ package view.components {
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			margin = Math.floor(stage.stageWidth * .01 / 2);
-			lastX = margin;
+			lastX = Data.margin;
 
 			drawBackground();			
 			drawRemoveDrumButton();
@@ -67,13 +66,13 @@ package view.components {
 		}
 
 		private function drawRemoveDrumButton() : void {
-			var eraseDrumButton:EraseDrumButton = new EraseDrumButton(passedHeight - (margin*2),key);
+			var eraseDrumButton:EraseDrumButton = new EraseDrumButton(passedHeight - (Data.margin*2),key);
 			addChild(eraseDrumButton);
 			
 			eraseDrumButton.alpha = .5;
 			eraseDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
-			eraseDrumButton.y = passedHeight - margin;
-			lastX = eraseDrumButton.width + margin;
+			eraseDrumButton.y = passedHeight - Data.margin;
+			lastX = eraseDrumButton.width + Data.margin;
 		}
 
 		private function drawBackground() : void {

@@ -6,6 +6,7 @@ package {
 	import view.components.DrumControls;
 	import com.junkbyte.console.Cc;
 	import view.components.DrumHead;
+	import model.Data;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -33,7 +34,7 @@ package {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			navHeight = stage.stageHeight/3;
-			
+			Data.margin = Math.floor(stage.stageWidth * .01 / 2);
 			
 			// listeners
 			EventCentral.getInstance().addEventListener(pVent.ADD_DRUM, onAddDrum);
