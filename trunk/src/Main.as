@@ -1,7 +1,6 @@
 package {
 	import view.components.SeqHead;
 	import view.components.SeqControls;
-	import view.components.NewDrumButton;
 	import events.pVent;
 	import events.EventCentral;
 	import view.components.DrumControls;
@@ -10,7 +9,6 @@ package {
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 
 	public class Main extends Sprite{
 		private var drums:Vector.<DrumHead> = new Vector.<DrumHead>();
@@ -22,6 +20,10 @@ package {
 		private var navHeight : Number;
 		private var redrawDrumsCallback : Function;
 		
+		//assets
+		[Embed(source="/assets/nokiafc22.ttf", fontFamily="nokia", mimeType="application/x-font-truetype")]
+		public var nokia:String;
+		
 		public function Main(){
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);			
@@ -29,25 +31,27 @@ package {
 		
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			
 			navHeight = stage.stageHeight/3;
+			
 			
 			// listeners
 			EventCentral.getInstance().addEventListener(pVent.ADD_DRUM, onAddDrum);
 			
-			//drawing
+			//drawing			
 			var seqControls:SeqControls = new SeqControls(stage.stageWidth, stage.stageHeight-navHeight);
 			addChild(seqControls);
 			seqControls.x = 0;
 			seqControls.y = navHeight;
 			var seqHead:SeqHead = new SeqHead(navHeight,navHeight);
 			addChild(seqHead);
-			seqHead.x = stage.stageWidth - seqHead.width;
+			seqHead.x = 0;//stage.stageWidth - seqHead.width;
 			seqHead.y = 0;
 			
 			//debugging
 			Cc.startOnStage(this, "");
-			Cc.y = stage.stageHeight-Cc.height;
-			Cc.x = (stage.stageWidth-Cc.width)/2;			
+			Cc.y = 90;//stage.stageHeight-Cc.height;
+			Cc.x = 300;//(stage.stageWidth-Cc.width)/2;			
 		}
 		
 		private function onAddDrum(event:pVent) : void {
@@ -74,7 +78,7 @@ package {
 
 		private function redrawDrums() : void {
 			//start stacking left to right
-			var lastX:Number = 0;
+			var lastX:Number = navHeight;
 			
 			//reserve a square in the right hand corner for the sequencer circle/main screen
 			var newWidth:Number = stage.stageWidth - navHeight;

@@ -11,6 +11,8 @@ package view.components {
 		private var passedWidth : Number;
 		private var passedHeight : Number;
 		private var bgShape : Shape = new Shape;
+		private var lastX : Number = 0;
+		private var funkY : Number = 0;
 		
 		public function SeqControls(_width:Number,_height:Number){
 			//store passed variables
@@ -38,12 +40,18 @@ package view.components {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			drawBackground();
 			
-			var newDrumButton:NewDrumButton = new NewDrumButton();
+			drawNewDrumButton();			
+		}
+
+		private function drawNewDrumButton() : void {
+			var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight);
 			addChild(newDrumButton);
 			
-			newDrumButton.x = (passedWidth - newDrumButton.width)/2;
-			newDrumButton.y = (passedHeight - newDrumButton.height)/2;
-			
+			newDrumButton.alpha = .5;
+			newDrumButton.x = 0;//lastX; //(passedWidth - newDrumButton.width)/2;
+			newDrumButton.y = passedHeight;
+			lastX = newDrumButton.width;
+			newDrumButton.rotation = - 90;
 		}
 		
 		private function drawBackground() : void {
