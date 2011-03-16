@@ -772,8 +772,13 @@
 						}
 						case 3: // Noise
 						{
-							//if(uint(_phase * 32 / int(_periodTemp) > 32){Math.rand 0-32}
-							_sample = _noiseBuffer[uint(_phase * 32 / int(_periodTemp))];
+							var temp:uint = uint(_phase * 32 / int(_periodTemp));
+							if(temp > 32){
+								//if temp is our of range, go for a new value in the range
+								//since it's just noise anyway, go for a random value 0-31
+								temp = Math.floor(Math.random()*32);
+							}
+							_sample = _noiseBuffer[temp];
 							break;
 						}
 					}
