@@ -1,7 +1,7 @@
 package view.components {
 	import model.Data;
-	import events.pVent;
-	import events.EventCentral;
+	import events.Thought;
+	import events.Brain;
 	import flash.events.Event;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -24,15 +24,15 @@ package view.components {
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 			
 			// add listeners
-			EventCentral.getInstance().addEventListener(pVent.DRUM_HEAD_HIT, hide);
-			EventCentral.getInstance().addEventListener(pVent.SEQ_HEAD_HIT, show);
+			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, hide);
+			Brain.addThoughtListener(Thought.SEQ_HEAD_HIT, show);
 		}
 
-		private function hide(event : pVent) : void {
+		private function hide(event : Thought) : void {
 			this.visible = false;
 		}
 
-		private function show(event : pVent) : void {
+		private function show(event : Thought) : void {
 			this.visible = true;
 		}
 

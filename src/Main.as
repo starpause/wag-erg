@@ -1,8 +1,8 @@
 package {
 	import view.components.SeqHead;
 	import view.components.SeqControls;
-	import events.pVent;
-	import events.EventCentral;
+	import events.Thought;
+	import events.Brain;
 	import view.components.DrumControls;
 	import com.junkbyte.console.Cc;
 	import view.components.DrumHead;
@@ -37,8 +37,8 @@ package {
 			Data.margin = Math.floor(stage.stageWidth * .01 / 2);
 			
 			// listeners
-			EventCentral.getInstance().addEventListener(pVent.ADD_DRUM, onAddDrum);
-			EventCentral.getInstance().addEventListener(pVent.ERASE_DRUM, eraseDrum);
+			Brain.addThoughtListener(Thought.ADD_DRUM, onAddDrum);
+			Brain.addThoughtListener(Thought.ERASE_DRUM, eraseDrum);
 			
 			//drawing			
 			var seqControls:SeqControls = new SeqControls(stage.stageWidth, stage.stageHeight-navHeight);
@@ -56,7 +56,7 @@ package {
 			Cc.x = 300;//(stage.stageWidth-Cc.width)/2;			
 		}
 		
-		private function onAddDrum(event:pVent) : void {
+		private function onAddDrum(event:Thought) : void {
 			//if we're not at 12 seconds already
 
 			//new drum head
@@ -97,7 +97,7 @@ package {
 			}
 		}
 		
-		private function eraseDrum(event:pVent) : void {
+		private function eraseDrum(event:Thought) : void {
 			var _name:String = event.params["key"];
 			
 			//clean out of vector
@@ -118,7 +118,7 @@ package {
 			
 			//show the home screen
 			redrawDrums();
-			EventCentral.getInstance().dispatchEvent(new pVent(pVent.SEQ_HEAD_HIT));
+			Brain.send(new Thought(Thought.SEQ_HEAD_HIT));
 		}
 
 		

@@ -1,6 +1,6 @@
 package view.components {
-	import events.pVent;
-	import events.EventCentral;
+	import events.Thought;
+	import events.Brain;
 	import flash.events.Event;
 	import flash.display.Shape;
 	import flash.events.MouseEvent;
@@ -51,7 +51,7 @@ package view.components {
 
 		private function onClick(event : MouseEvent) : void {
 			triggerSound();
-			EventCentral.getInstance().dispatchEvent(new pVent(pVent.DRUM_HEAD_HIT, {key:this.key}));
+			Brain.send(new Thought(Thought.DRUM_HEAD_HIT, {key:this.key}));
 		}
 		
 		private function triggerSound(event:Event=null):void{
