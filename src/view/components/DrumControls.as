@@ -13,6 +13,8 @@ package view.components {
 		private var passedHeight : Number;
 		private var bgShape : Shape = new Shape;
 		private var key : String = "";
+		private var margin : Number;
+		private var lastX : Number = 0;
 		
 		public function DrumControls(_width:Number,_height:Number,_name:String="",_color:Number=0x000000){
 			//store passed variables
@@ -52,10 +54,26 @@ package view.components {
 		
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			drawBackground();
+			
+			margin = Math.floor(stage.stageWidth * .01 / 2);
+			lastX = margin;
+
+			drawBackground();			
+			drawRemoveDrumButton();
+			
 			hide();
 			//draw the other shit drums need
 			
+		}
+
+		private function drawRemoveDrumButton() : void {
+			var eraseDrumButton:EraseDrumButton = new EraseDrumButton(passedHeight - (margin*2),key);
+			addChild(eraseDrumButton);
+			
+			eraseDrumButton.alpha = .5;
+			eraseDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
+			eraseDrumButton.y = passedHeight - margin;
+			lastX = eraseDrumButton.width + margin;
 		}
 
 		private function drawBackground() : void {

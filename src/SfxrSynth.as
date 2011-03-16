@@ -773,7 +773,7 @@
 						case 3: // Noise
 						{
 							var temp:uint = uint(_phase * 32 / int(_periodTemp));
-							if(temp > 32){
+							if(temp >= 32){
 								//if temp is our of range, go for a new value in the range
 								//since it's just noise anyway, go for a random value 0-31
 								temp = Math.floor(Math.random()*32);

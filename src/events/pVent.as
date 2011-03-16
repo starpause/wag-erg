@@ -17,6 +17,7 @@
 		public static const ADD_DRUM : String = "ADD_DRUM";
 		public static const SEQ_HEAD_HIT : String = "SEQ_HEAD_HIT";
 		public static const DRUM_HEAD_HIT : String = "DRUM_HEAD_HIT";
+		public static const ERASE_DRUM : String = "ERASE_DRUM";
 		
 		public var params:Object;
 		public function pVent($type:String, $params:Object = null) {
