@@ -10,9 +10,9 @@ package view.components {
 	public class SeqControls extends Sprite {
 		private var passedWidth : Number;
 		private var passedHeight : Number;
+		private var margin : Number;
 		private var bgShape : Shape = new Shape;
 		private var lastX : Number = 0;
-		private var funkY : Number = 0;
 		
 		public function SeqControls(_width:Number,_height:Number){
 			//store passed variables
@@ -38,20 +38,22 @@ package view.components {
 
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			drawBackground();
+
+			margin = Math.floor(stage.stageWidth * .01 / 2);
+			lastX = margin;
 			
+			drawBackground();
 			drawNewDrumButton();			
 		}
 
 		private function drawNewDrumButton() : void {
-			var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight);
+			var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (margin*2));
 			addChild(newDrumButton);
 			
 			newDrumButton.alpha = .5;
-			newDrumButton.x = 0;//lastX; //(passedWidth - newDrumButton.width)/2;
-			newDrumButton.y = passedHeight;
-			lastX = newDrumButton.width;
-			newDrumButton.rotation = - 90;
+			newDrumButton.x = lastX; //(passedWidth - newDrumButton.width)/2;
+			newDrumButton.y = passedHeight - margin;
+			lastX = newDrumButton.width + margin;
 		}
 		
 		private function drawBackground() : void {

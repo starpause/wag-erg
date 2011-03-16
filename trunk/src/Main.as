@@ -37,6 +37,7 @@ package {
 			
 			// listeners
 			EventCentral.getInstance().addEventListener(pVent.ADD_DRUM, onAddDrum);
+			EventCentral.getInstance().addEventListener(pVent.ERASE_DRUM, eraseDrum);
 			
 			//drawing			
 			var seqControls:SeqControls = new SeqControls(stage.stageWidth, stage.stageHeight-navHeight);
@@ -95,7 +96,9 @@ package {
 			}
 		}
 		
-		private function RemoveDrum(_name : String) : void {
+		private function eraseDrum(event:pVent) : void {
+			var _name:String = event.params["key"];
+			
 			//clean out of vector
 			var temp:Vector.<DrumHead> = new Vector.<DrumHead>();
 			for each (var drum:DrumHead in drums) {
@@ -105,15 +108,16 @@ package {
 			}
 			drums = temp;
 			
-			//clean up listeners
+			//destroy listeners
 			
-			//clean off stage
+			//destroy drum head
 			this.removeChild(this.getChildByName(_name));
+			
+			//destroy drum controls	
+			
+			//show the home screen
 			redrawDrums();
-			
-			//clean up related screen	
-			
-			//show the home screen		
+			EventCentral.getInstance().dispatchEvent(new pVent(pVent.SEQ_HEAD_HIT));
 		}
 
 		

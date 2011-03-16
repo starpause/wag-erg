@@ -12,15 +12,17 @@ package view.components {
 	/**
 	 * @author jgray
 	 */
-	public class NewDrumButton extends Sprite{
+	public class EraseDrumButton extends Sprite{
 		private var holder:Sprite = new Sprite;
 		private var bg : Sprite = new Sprite;
 		private var addDrumField:TextField = new TextField();		
 		private var passedHeight : Number;
+		private var key:String;
 		
-		public function NewDrumButton(_height:Number){
+		public function EraseDrumButton(_height:Number, _key:String){
 			//store
 			passedHeight = _height;
+			key = _key;
 			
 			//wait
 			if (stage) init();
@@ -41,7 +43,7 @@ package view.components {
 			addDrumField.defaultTextFormat = new TextFormat("nokia", 32, 0x000000);
 			addDrumField.border = false;
 			addDrumField.selectable = false;
-			addDrumField.text = ' add sound';
+			addDrumField.text = ' erase sound';
 			
 			//bg properties after tf is done
 			bg.graphics.beginFill(0xFFFFFF);
@@ -61,7 +63,7 @@ package view.components {
 		}
 
 		private function onAddDrum(event : MouseEvent) : void {
-			EventCentral.getInstance().dispatchEvent(new pVent(pVent.ADD_DRUM));
+			EventCentral.getInstance().dispatchEvent(new pVent(pVent.ERASE_DRUM, {key:this.key}));
 		}
 		
 
