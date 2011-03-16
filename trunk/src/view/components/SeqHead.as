@@ -1,6 +1,6 @@
 package view.components {
-	import events.EventCentral;
-	import events.pVent;
+	import events.Brain;
+	import events.Thought;
 	import flash.display.Shape;
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
@@ -35,7 +35,7 @@ package view.components {
 		}
 
 		private function onClick(event : MouseEvent) : void {
-			EventCentral.getInstance().dispatchEvent(new pVent(pVent.SEQ_HEAD_HIT));
+			Brain.send(new Thought(Thought.SEQ_HEAD_HIT));
 		}
 
 

@@ -1,7 +1,7 @@
 package view.components {
 	import flash.text.TextFieldAutoSize;
-	import events.pVent;
-	import events.EventCentral;
+	import events.Thought;
+	import events.Brain;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.text.TextFormat;
@@ -63,7 +63,7 @@ package view.components {
 		}
 
 		private function onAddDrum(event : MouseEvent) : void {
-			EventCentral.getInstance().dispatchEvent(new pVent(pVent.ERASE_DRUM, {key:this.key}));
+			Brain.send(new Thought(Thought.ERASE_DRUM, {key:this.key}));
 		}
 		
 
