@@ -4,7 +4,8 @@ package model{
 	//Data.margin = 2; 
     public class Data{
 		//layout
-		public static var margin:int;
+		public static var margin : int;
+		public static var totalTicks : int;
 
 		//
 		

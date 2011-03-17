@@ -18,6 +18,7 @@
 		public static const ERASE_DRUM : String = "ERASE_DRUM";
 		public static const ON_BEAT : String = "ON_BEAT";
 		public static const ADD_DRUM_COMPLETE : String = "ADD_DRUM_COMPLETE";
+		public static const ON_TICK : String = "ON_TICK";
 
 
 

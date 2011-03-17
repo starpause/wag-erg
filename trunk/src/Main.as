@@ -73,22 +73,21 @@ package {
 		}
 
 		private function initBeater() : void {
-			//three ticks a beat cause 6 (lsdj default) was causing pauses on beats playing back multiple sounds at once
-			beater = new BeatDispatcher(120, 8, 4, 3);
-			beater.addEventListener(BeatDispatcherEvent.BEAT, onBeat);
+			//the max example of euclidean beats that i played with had a resolution of 128 steps and that was accurate enough
+			//so 16 measures * 4 beats a measure * 2 ticks a beat should be enough resolution
+			//went with more measures than more ticks per beat because things were slowing down when i increased the tick resolution, even matching lsdj's 6 ticks a beat would pause on cached sfxr play
+			beater = new BeatDispatcher(160, 16, 4, 2);
+			//beater.addEventListener(BeatDispatcherEvent.BEAT, onBeat);
 			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
 			beater.start();
+			
+			Data.totalTicks = beater.totalPosition;
 		}
 
 		private function onTick(event : BeatDispatcherEvent) : void {
 			Cc.log(event.toString());
+			Brain.send(new Thought(Thought.ON_TICK,{'position':event.currentPosition}));
 		}
-
-		private function onBeat(event : BeatDispatcherEvent) : void {
-			Brain.send(new Thought(Thought.ON_BEAT));
-		}
-		
-		
 		
 		private function onAddDrum(event:Thought) : void {
 			//if we're not at 12 seconds already
