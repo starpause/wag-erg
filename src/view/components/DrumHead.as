@@ -1,4 +1,5 @@
 package view.components {
+	import model.Data;
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 	import flash.media.Sound;
@@ -9,6 +10,8 @@ package view.components {
 	import flash.display.Shape;
 	import flash.events.MouseEvent;
 	import flash.display.Sprite;
+	import model.EuclideanSequence;
+	
 	/**
 	 * @author jgray
 	 */
@@ -21,6 +24,7 @@ package view.components {
 		private var passedWidth:Number;
 		private var key : String = "";
 		private	var sTransform:SoundTransform = new SoundTransform(0,0);
+		private var euclideanSequence:EuclideanSequence;
 		
 		public function DrumHead(_name:String="", _height:Number=10){
 			//Cc.log('DrumHead with '+_name+' '+_height);
@@ -32,6 +36,9 @@ package view.components {
 			//init display
 			this.visible = false;
 			drawBackground();
+			
+			//init sequencer
+			euclideanSequence = new EuclideanSequence(Data.totalTicks);
 			
 			//init sound
 			synth = new SfxrSynth();
@@ -61,14 +68,14 @@ package view.components {
 			SoundMixer.soundTransform = sTransform;
 			
 			//hear
-			triggerSound();
+			//triggerSound();
 
 			//show
 			this.visible = true;
 			Brain.send(new Thought(Thought.ADD_DRUM_COMPLETE));
 			
 			//listeners
-			Brain.addThoughtListener(Thought.ON_BEAT, this.triggerSound);
+			Brain.addThoughtListener(Thought.ON_TICK, onTick);
 		}
 
 		private function drawBackground() : void {
@@ -88,6 +95,20 @@ package view.components {
 		private function onClick(event : MouseEvent) : void {
 			triggerSound();
 			Brain.send(new Thought(Thought.DRUM_HEAD_HIT, {key:this.key}));
+		}
+		
+		private function onTick(event:Thought):void{
+			var position:uint = event.params['position'];
+			if(euclideanSequence.hasHitAt(position)){
+				triggerSound();
+			}else if(euclideanSequence.hasAccentedHitAt(position)){
+				triggerSoundWithAccent();
+			}
+		}
+
+		private function triggerSoundWithAccent() : void {
+			if(synth==null){return;};
+			synth.play();
 		}
 		
 		private function triggerSound(event:Event=null):void{
