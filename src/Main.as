@@ -1,4 +1,7 @@
 package {
+	import view.components.WaitScreen;
+	import events.BeatDispatcherEvent;
+	import events.BeatDispatcher;
 	import view.components.SeqHead;
 	import view.components.SeqControls;
 	import events.Thought;
@@ -21,6 +24,10 @@ package {
 		private var navHeight : Number;
 		private var redrawDrumsCallback : Function;
 		
+		private var beater:BeatDispatcher;
+		private var mainScreen:Sprite = new Sprite();
+		private var waitScreen:WaitScreen = new WaitScreen();
+		
 		//assets
 		[Embed(source="/assets/nokiafc22.ttf", fontFamily="nokia", mimeType="application/x-font-truetype")]
 		public var nokia:String;
@@ -33,49 +40,82 @@ package {
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
+			//compute some stage based variables now that we have access
 			navHeight = stage.stageHeight/3;
 			Data.margin = Math.floor(stage.stageWidth * .01 / 2);
 			
 			// listeners
 			Brain.addThoughtListener(Thought.ADD_DRUM, onAddDrum);
 			Brain.addThoughtListener(Thought.ERASE_DRUM, eraseDrum);
+			Brain.addThoughtListener(Thought.ADD_DRUM_COMPLETE, onAddDrumComplete);
 			
-			//drawing			
+			//drawing
+			addChild(mainScreen);
+			addChild(waitScreen);
+			waitScreen.visible = false;
+			
 			var seqControls:SeqControls = new SeqControls(stage.stageWidth, stage.stageHeight-navHeight);
-			addChild(seqControls);
+			mainScreen.addChild(seqControls);
 			seqControls.x = 0;
 			seqControls.y = navHeight;
 			var seqHead:SeqHead = new SeqHead(navHeight,navHeight);
-			addChild(seqHead);
+			mainScreen.addChild(seqHead);
 			seqHead.x = 0;//stage.stageWidth - seqHead.width;
 			seqHead.y = 0;
+			
+			//init the sequencer
+			initBeater();
 			
 			//debugging
 			Cc.startOnStage(this, "");
 			Cc.y = 90;//stage.stageHeight-Cc.height;
-			Cc.x = 300;//(stage.stageWidth-Cc.width)/2;			
+			Cc.x = 300;//(stage.stageWidth-Cc.width)/2;
 		}
+
+		private function initBeater() : void {
+			//three ticks a beat cause 6 (lsdj default) was causing pauses on beats playing back multiple sounds at once
+			beater = new BeatDispatcher(120, 8, 4, 3);
+			beater.addEventListener(BeatDispatcherEvent.BEAT, onBeat);
+			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+			beater.start();
+		}
+
+		private function onTick(event : BeatDispatcherEvent) : void {
+			Cc.log(event.toString());
+		}
+
+		private function onBeat(event : BeatDispatcherEvent) : void {
+			Brain.send(new Thought(Thought.ON_BEAT));
+		}
+		
+		
 		
 		private function onAddDrum(event:Thought) : void {
 			//if we're not at 12 seconds already
-
+			
+			//blank out the screen so user doesn't going nuts on adding sounds or expect the app to be responsive
+			waitScreen.visible = true;
+			
 			//new drum head
 			drumCounter++;
 			var tempName:String = "drum"+drumCounter.toString();
 			var tempDrum:DrumHead = new DrumHead(tempName, navHeight);
 			tempDrum.x = tempDrum.y = 0;
 			drums.push(tempDrum);
-			addChild(tempDrum);
+			mainScreen.addChild(tempDrum);
 			
 			//new drum controls
 			//tempName = "controls"+drumCounter.toString();
 			var tempControls:DrumControls = new DrumControls(stage.stageWidth, stage.stageHeight-navHeight, tempName, tempDrum.color);
 			tempControls.x = 0;
 			tempControls.y = navHeight;
-			addChild(tempControls);
-			
+			mainScreen.addChild(tempControls);
+		}
+		
+		private function onAddDrumComplete(event:Thought):void{
+			waitScreen.visible = false;
 			//re arange all the drums
-			redrawDrums();
+			redrawDrums();			
 		}
 
 		private function redrawDrums() : void {
@@ -112,9 +152,10 @@ package {
 			//destroy listeners
 			
 			//destroy drum head
-			this.removeChild(this.getChildByName(_name));
+			DrumHead(mainScreen.getChildByName(_name)).destroy();
+			mainScreen.removeChild(mainScreen.getChildByName(_name));
 			
-			//destroy drum controls	
+			//destroy drum controls
 			
 			//show the home screen
 			redrawDrums();

@@ -1,4 +1,8 @@
 package view.components {
+	import flash.media.SoundMixer;
+	import flash.media.SoundTransform;
+	import flash.media.Sound;
+	import com.junkbyte.console.Cc;
 	import events.Thought;
 	import events.Brain;
 	import flash.events.Event;
@@ -15,7 +19,8 @@ package view.components {
 		public var color:Number = Math.random() * 0xFFFFFF; 
 		private var passedHeight:Number;
 		private var passedWidth:Number;
-		private var key:String = "";
+		private var key : String = "";
+		private	var sTransform:SoundTransform = new SoundTransform(0,0);
 		
 		public function DrumHead(_name:String="", _height:Number=10){
 			//Cc.log('DrumHead with '+_name+' '+_height);
@@ -24,15 +29,46 @@ package view.components {
 			this.passedHeight = _height;
 			this.passedWidth = _height;
 			
+			//init display
+			this.visible = false;
+			drawBackground();
+			
 			//init sound
 			synth = new SfxrSynth();
 			synth.params.randomize();
-			synth.params.minFrequency = 0;
-			baseParams = synth.params.clone();
-			synth.play();
 			
-			//init display
-			drawBackground();
+			//hard set some values
+			synth.params.minFrequency = 0;
+			
+			//baseParams = synth.params.clone();
+			//silence
+			SoundMixer.soundTransform = sTransform;
+			synth.cacheSound(onCacheComplete,500);
+		}
+		
+		
+		/*
+		 * playing around with cache ... doesn't sound as good
+		 * 
+		 */
+		private function init(e:Event=null) : void {
+			removeEventListener(Event.ADDED_TO_STAGE, init);
+		}
+
+		private function onCacheComplete() : void {
+			//back to normal volume
+			sTransform.volume = 1;
+			SoundMixer.soundTransform = sTransform;
+			
+			//hear
+			triggerSound();
+
+			//show
+			this.visible = true;
+			Brain.send(new Thought(Thought.ADD_DRUM_COMPLETE));
+			
+			//listeners
+			Brain.addThoughtListener(Thought.ON_BEAT, this.triggerSound);
 		}
 
 		private function drawBackground() : void {
@@ -55,12 +91,16 @@ package view.components {
 		}
 		
 		private function triggerSound(event:Event=null):void{
+			/*
 			synth.params = baseParams.clone();
 			synth.params.mutate();
 			synth.params.minFrequency = 0;
-			synth.play();			
+			synth.play();
+			*/
+			if(synth==null){return;};
+			synth.play();
 		}
-
+		
 		public function redraw(newWidth : Number = -1) : void {
 			bgShape.graphics.clear();
 			bgShape.graphics.beginFill(color);
@@ -72,6 +112,12 @@ package view.components {
 			}
 			bgShape.graphics.endFill();
 			addChild(bgShape);
+		}
+		
+		
+		public function destroy() : void {
+			//is there anything else i can do to clean up? no removeEventListener on Brain 
+			synth = null;
 		}
 				
 	}
