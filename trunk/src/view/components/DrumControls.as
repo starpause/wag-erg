@@ -29,7 +29,6 @@ package view.components {
 			
 			// add listeners
 			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, onDrumHeadHit);
-			Brain.addThoughtListener(Thought.SEQ_HEAD_HIT, onSeqHeadHit);
 		}
 
 		private function onSeqHeadHit(event : Thought) : void {
