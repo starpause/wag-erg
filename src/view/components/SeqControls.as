@@ -42,7 +42,8 @@ package view.components {
 			lastX = Data.margin;
 			
 			drawBackground();
-			drawNewDrumButton();			
+			drawNewDrumButton();
+			drawStartStopButton();
 		}
 
 		private function drawNewDrumButton() : void {
@@ -50,11 +51,21 @@ package view.components {
 			addChild(newDrumButton);
 			
 			newDrumButton.alpha = .5;
-			newDrumButton.x = lastX; //(passedWidth - newDrumButton.width)/2;
+			newDrumButton.x = lastX; 
 			newDrumButton.y = passedHeight - Data.margin;
-			lastX = newDrumButton.width + Data.margin;
+			lastX = newDrumButton.width + Data.margin*2;
 		}
 		
+		private function drawStartStopButton() : void {
+			var startSopButton:StartStopButton = new StartStopButton(passedHeight - (Data.margin*2));
+			addChild(startSopButton);
+			
+			startSopButton.alpha = .5;
+			startSopButton.x = lastX; 
+			startSopButton.y = passedHeight - Data.margin;
+			lastX = startSopButton.width + Data.margin;
+		}
+
 		private function drawBackground() : void {
 			//shape with _height for h&w
 			bgShape.graphics.beginFill(0x000000);

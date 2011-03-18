@@ -44,10 +44,7 @@ package {
 			navHeight = stage.stageHeight/3;
 			Data.margin = Math.floor(stage.stageWidth * .01 / 2);
 			
-			// listeners
-			Brain.addThoughtListener(Thought.ADD_DRUM, onAddDrum);
-			Brain.addThoughtListener(Thought.ERASE_DRUM, eraseDrum);
-			Brain.addThoughtListener(Thought.ADD_DRUM_COMPLETE, onAddDrumComplete);
+			addListeners();
 			
 			//drawing
 			addChild(mainScreen);
@@ -72,6 +69,30 @@ package {
 			Cc.x = 300;//(stage.stageWidth-Cc.width)/2;
 		}
 
+		private function addListeners() : void {
+			Brain.addThoughtListener(Thought.ADD_DRUM, onAddDrum);
+			Brain.addThoughtListener(Thought.ERASE_DRUM, eraseDrum);
+			Brain.addThoughtListener(Thought.ADD_DRUM_COMPLETE, onAddDrumComplete);
+			Brain.addThoughtListener(Thought.STOP_SEQ, onStopSeq);
+			Brain.addThoughtListener(Thought.START_SEQ, onStartSeq);
+		}
+
+		private function onStartSeq(event:Thought) : void {
+			//set position?
+			Data.beaterOn=true;
+			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+		}
+
+		private function onStopSeq(event:Thought) : void {
+			//store position?
+			Data.beaterOn=false;
+			beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
+		}
+		
+		private function destroyBeater():void{
+			
+		}
+
 		private function initBeater() : void {
 			//the max example of euclidean beats that i played with had a resolution of 128 steps and that was accurate enough
 			//so 16 measures * 4 beats a measure * 2 ticks a beat should be enough resolution
@@ -80,6 +101,7 @@ package {
 			//beater.addEventListener(BeatDispatcherEvent.BEAT, onBeat);
 			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
 			beater.start();
+			Data.beaterOn = beater.isTicking;
 			
 			Data.totalTicks = beater.totalPosition;
 		}
