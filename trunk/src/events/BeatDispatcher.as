@@ -95,6 +95,7 @@
 		public function get isOnMeasure():Boolean { return _isOnMeasure; }
 		public function get isOnBeat():Boolean { return _isOnBeat; }
 		public function get isOnTick():Boolean { return _isOnTick; }
+		public function get isTicking():Boolean { return _isTicking; }
 		
 		public function get isOnStart():Boolean { return _isOnStart; }
 		public function get isOnComplete():Boolean { return _isOnComplete; }
@@ -177,7 +178,7 @@
 			
 			addEventListener(Event.ENTER_FRAME, _update);
 		}
-		
+				
 		/**
 		 * 任意の小節, ビート, Tickで発行するイベントを登録する
 		 * @param	beat

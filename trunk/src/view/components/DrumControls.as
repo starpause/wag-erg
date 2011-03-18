@@ -57,12 +57,27 @@ package view.components {
 			
 			lastX = Data.margin;
 
-			drawBackground();			
+			drawBackground();
+			drawCloneDrumButton();			
+			//drawRandomizeSequenceButton();
+			//drawMutatePrevButton();
+			//drawMutateNextButton();
+			//drawCacheMutationButton();
 			drawRemoveDrumButton();
 			
 			hide();
 			//draw the other shit drums need
 			
+		}
+
+		private function drawCloneDrumButton() : void {
+			var cloneDrumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'clone sound',Thought.CLONE_DRUM);
+			addChild(cloneDrumButton);
+			
+			cloneDrumButton.alpha = .5;
+			cloneDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
+			cloneDrumButton.y = passedHeight - Data.margin;
+			lastX = cloneDrumButton.width + Data.margin *2;
 		}
 
 		private function drawRemoveDrumButton() : void {

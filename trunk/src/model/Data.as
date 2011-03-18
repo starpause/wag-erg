@@ -6,6 +6,7 @@ package model{
 		//layout
 		public static var margin : int;
 		public static var totalTicks : int;
+		public static var beaterOn : Boolean;
 
 		//
 		

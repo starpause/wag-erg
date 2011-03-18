@@ -9,6 +9,9 @@ package model {
 		private var pulses:int;
 		private var euHits:Array;
 		
+		private var chambers:int;
+		private var bullets:int;
+		
 		public function EuclideanSequence(_totalTicks:int):void{
 			totalTicks = _totalTicks;
 			randomizeHits();
@@ -20,10 +23,14 @@ package model {
 			euHits=null;
 			
 			//get a cool eucledean sequnce
-			var chambers:int = Math.floor((Math.random()*totalTicks));
-			var bullets:int = Math.floor((Math.random()*chambers));
+			chambers = Math.floor((Math.random()*totalTicks));
+			bullets = Math.floor((Math.random()*chambers));
 			euHits = eugen(chambers,bullets);
 			
+			mapChambersToTick();			
+		}
+
+		private function mapChambersToTick() : void {
 			//map the eu resolution to our tick resolution
 			var ticksPerChamber:Number = totalTicks / chambers;
 			for(var i:int=0;i<chambers;i++){
@@ -33,9 +40,8 @@ package model {
 					tickHits[targetTick] = true;
 				}
 			}
-			
 		}
-
+		
 		public function hasHitAt(position:int):Boolean{
 			return tickHits[position];
 		}
