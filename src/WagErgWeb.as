@@ -10,7 +10,7 @@ package {
 	import flash.display.Sprite;
 	import flash.events.Event;
 
-	[SWF(height="600", width="1024", frameRate="32", scriptTimeLimit='255', backgroundColor="#010101")]
+	[SWF(height="600", width="1024", frameRate="64", scriptTimeLimit='255', backgroundColor="#010101")]
 	public class WagErgWeb extends Sprite
 	{
 		public function WagErgWeb(){

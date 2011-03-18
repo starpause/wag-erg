@@ -26,6 +26,7 @@ package {
 		
 		private var beater:BeatDispatcher;
 		private var mainScreen:Sprite = new Sprite();
+		private var drumControlsHolder:Sprite = new Sprite();
 		private var waitScreen:WaitScreen = new WaitScreen();
 		
 		//assets
@@ -48,6 +49,7 @@ package {
 			
 			//drawing
 			addChild(mainScreen);
+			addChild(drumControlsHolder);
 			addChild(waitScreen);
 			waitScreen.visible = false;
 			
@@ -59,7 +61,7 @@ package {
 			mainScreen.addChild(seqHead);
 			seqHead.x = 0;//stage.stageWidth - seqHead.width;
 			seqHead.y = 0;
-			
+						
 			//init the sequencer
 			initBeater();
 			
@@ -75,6 +77,16 @@ package {
 			Brain.addThoughtListener(Thought.ADD_DRUM_COMPLETE, onAddDrumComplete);
 			Brain.addThoughtListener(Thought.STOP_SEQ, onStopSeq);
 			Brain.addThoughtListener(Thought.START_SEQ, onStartSeq);
+			Brain.addThoughtListener(Thought.SEQ_HEAD_HIT, onSeqHeadHit);
+			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, onDrumHeadHit);
+		}
+
+		private function onDrumHeadHit(event:Thought) : void {
+			drumControlsHolder.visible = true;
+		}
+
+		private function onSeqHeadHit(event:Thought) : void {
+			drumControlsHolder.visible = false;
 		}
 
 		private function onStartSeq(event:Thought) : void {
@@ -130,7 +142,10 @@ package {
 			var tempControls:DrumControls = new DrumControls(stage.stageWidth, stage.stageHeight-navHeight, tempName, tempDrum.color);
 			tempControls.x = 0;
 			tempControls.y = navHeight;
-			mainScreen.addChild(tempControls);
+			drumControlsHolder.addChild(tempControls);
+			
+			//new drum ring
+			Brain.send(new Thought(Thought.ADD_RING,{drumColor:tempDrum.color,key:tempName}));
 		}
 		
 		private function onAddDrumComplete(event:Thought):void{
