@@ -6,14 +6,13 @@ package view.components {
 	import flash.display.BlendMode;
 	import flash.display.Shape;
 	import flash.display.Sprite;
-	import flash.filters.GlowFilter;
 	
 	public class Ring extends Sprite{
 		private var fillColor:Number;
 		private var backColor:Number;
 		private var maskColor:Number = 0xFF0000;
 		
-		private var offset:Number = 90;// Initial angle
+		private var offset:Number = -90;// Initial angle
 		private var circleR:Number; // Circle radius (in pixels)
 		private var maskR:Number;
 		
@@ -22,19 +21,21 @@ package view.components {
 		private var maskFill:Shape;
 		private var maskBoard:Sprite;
 		
-		private var foreFill:Shape
-		private var foreBoard:Sprite;		
 		private var maskForeFill:Shape;
-		private var maskForeBoard:Sprite;
 		private var thickness:int = 3;
 		private var key:String;
+		private var euHits : Array;
+		private var degreeHits:Vector.<Boolean>;
+		private var degreesToDraw:int =1;
 		
-		public function Ring(radius:Number=29, _key:String="", foreColor:Number=0xFFFFFF, backgroundColor:Number=0x888888){
+		public function Ring(radius:Number=29, _key:String="", foreColor:Number=0xFFFFFF, backgroundColor:Number=0x888888,sequence:Array=null){
 			key = _key;
 			name = _key;
 			fillColor = foreColor;
 			backColor = backgroundColor;
 			circleR = radius;
+			euHits=sequence;
+			mapChambersToDegrees();
 			
 			//
 			backBoard = new Sprite();
@@ -67,7 +68,7 @@ package view.components {
 			//Since the drawing is between beginFill and endFill, we get the filled shape.
 			maskFill.graphics.endFill();
 		}
-
+/*
 		private function drawForeMask():void{
 			maskForeFill.graphics.clear();
 			maskForeFill.graphics.lineStyle(1,maskColor);
@@ -84,7 +85,7 @@ package view.components {
 			//Since the drawing is between beginFill and endFill, we get the filled shape.
 			maskForeFill.graphics.endFill();
 		}
-
+*/
 		private function drawBack():void{
 			backFill.graphics.clear();
 			backFill.graphics.lineStyle(1,backColor);
@@ -92,17 +93,20 @@ package view.components {
 			backFill.graphics.beginFill(backColor,1);//.7
 			
 			for (var i:int=0; i<361; i++) {
-				backFill.graphics.lineTo(circleR*Math.cos(i*Math.PI/180), -circleR*Math.sin(i*Math.PI/180) );
+				if(degreeHits[i]==true){
+					var v:Number = (i+offset)*-1;
+					backFill.graphics.lineTo(circleR*Math.cos(v*Math.PI/180), -circleR*Math.sin(v*Math.PI/180) );
+					backFill.graphics.lineTo(0,0);
+				}
 			}
 
 			//The final lineTo outside of the loop takes the "pen" back to its starting point.
-			backFill.graphics.lineTo(0,0);
 			
 			//Since the drawing is between beginFill and endFill, we get the filled shape.
 			backFill.graphics.endFill();
 		}
 		
-		
+/*		
 		public function update(percent:Number):void{
 			//t is in degrees
 			var t:Number = 360*(percent);
@@ -124,52 +128,45 @@ package view.components {
 			//Since the drawing is between beginFill and endFill, we get the filled shape.
 			foreFill.graphics.endFill();
 		}
+*/
 
 		//sequence is a euclidean sequence for getting the beat ring right
-		public function redraw(radius : Number, sequence:Array) : void {
+		public function redraw(radius : Number, sequence:Array=null) : void {
 			//new radius
 			circleR = radius;
 			//required for punch out mask
-			maskR = circleR - thickness;						
+			maskR = circleR - thickness;
+			//did we get a new sequence?
+			if(sequence!=null){
+				euHits=sequence;
+				mapChambersToDegrees();
+			}
 			
 			//draw back fill
 			drawBack();
 			
 			//punch out masking of back
-			drawMask();
-				
-			/*		
-			//draw front fill
-			foreBoard = new Sprite();
-			foreFill = new Shape();
-			addChild(foreBoard);
-			foreBoard.addChild(foreFill);
-			//drawFore(); //done every update
-			
-			//punch out masking of front
-			maskForeBoard = new Sprite();
-			maskForeFill = new Shape();
-			maskForeBoard.addChild(maskForeFill);
-			drawForeMask();
-			foreBoard.blendMode = BlendMode.LAYER;
-			maskForeBoard.blendMode = BlendMode.ERASE;
-			foreBoard.addChild(maskForeBoard);
-			
-			//Glow Filter
-			var glow:GlowFilter = new GlowFilter();
-			glow.color = fillColor;
-			glow.alpha = .4;
-			glow.blurX = 8;
-			glow.blurY = 8;
-			var filtersArray:Array = new Array(glow);
-			foreBoard.filters = filtersArray;
-			*/
+			drawMask();				
 		}
 
 		public function get _key() : String {
 			return key;
 		}
 		
+		private function mapChambersToDegrees() : void {
+			//map the eu resolution to our tick resolution
+			degreeHits = new Vector.<Boolean>(361);
+			var degreesPerChamber:Number = 360 / euHits.length;
+			degreesToDraw = Math.floor(degreesPerChamber);
+			for(var i:int=0;i<euHits.length;i++){
+				if(euHits[i]==1){
+					var targetDegree:Number = Math.round(i*degreesPerChamber);
+					degreeHits[targetDegree] = true;
+				}
+			}
+		}
+		
+
 		
 	}
 }

@@ -23,6 +23,7 @@
 		public static const STOP_SEQ : String = "STOP_SEQ";
 		public static const START_SEQ : String = "START_SEQ";
 		public static const ADD_RING : String = "ADD_RING";
+		public static const ON_GHOST : String = "ON_GHOST";
 
 
 

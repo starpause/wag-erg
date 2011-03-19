@@ -102,7 +102,11 @@ package model {
 		            }
 		        }
 		    }
-		    return r;
+			return r;
+		}
+
+		public function get _euHits() : Array {
+			return euHits;
 		}
 
 

@@ -17,7 +17,7 @@ package view.components {
 		private var passedHeight : Number;
 		private var passedWidth : Number;
 		private var ringHolder : Sprite = new Sprite;
-
+		
 		private var rings:Vector.<Ring> = new Vector.<Ring>();
 		private var greatestRadius : Number;
 		private var ringSpacer : Number = 4;
@@ -64,12 +64,13 @@ package view.components {
 			//show the home screen
 			redrawRings();
 		}
-
+		
 		private function onAddRing(event:Thought) : void {
 			//new ring
 			var tKey:String = event.params['key'];
 			var tColor:Number = event.params['drumColor'];
-			var tempRing:Ring = new Ring(greatestRadius, tKey, 0xFFFFFF, tColor);
+			var tSequence:Array = event.params['sequence'];
+			var tempRing:Ring = new Ring(greatestRadius, tKey, 0xFFFFFF, tColor,tSequence);
 			ringHolder.addChild(tempRing);
 			rings.unshift(tempRing);
 			//make 'em pritty
@@ -87,7 +88,7 @@ package view.components {
 			var sequence:Array = new Array;//get from event
 			for each (var ring:Ring in rings){
 				Cc.log("i"+i+" "+ring._key);
-				ring.redraw(greatestRadius - i*ringSpacer, sequence);
+				ring.redraw(greatestRadius - i*ringSpacer);
 				i++;
 			}
 		}

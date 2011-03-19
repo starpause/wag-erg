@@ -140,6 +140,10 @@ package view.components {
 			//is there anything else i can do to clean up? no removeEventListener on Brain 
 			synth = null;
 		}
+		
+		public function euSeq():Array{
+			return euclideanSequence._euHits;
+		}
 				
 	}
 }

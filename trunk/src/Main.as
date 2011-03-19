@@ -15,7 +15,7 @@ package {
 	import flash.events.Event;
 
 	public class Main extends Sprite{
-		private var drums:Vector.<DrumHead> = new Vector.<DrumHead>();
+		//private var drums:Vector.<DrumHead> = new Vector.<DrumHead>();
 		//private var baseParams:Object = new Object();
 		//private var drumPads:Object = new Object();
 		private var drumCounter:int = 0;
@@ -112,6 +112,7 @@ package {
 			beater = new BeatDispatcher(160, 16, 4, 2);
 			//beater.addEventListener(BeatDispatcherEvent.BEAT, onBeat);
 			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+			beater.addEventListener(BeatDispatcherEvent.TICK,onGhost);
 			beater.start();
 			Data.beaterOn = beater.isTicking;
 			
@@ -123,18 +124,27 @@ package {
 			Brain.send(new Thought(Thought.ON_TICK,{'position':event.currentPosition}));
 		}
 		
+		private function onGhost(event : BeatDispatcherEvent) : void {
+			Brain.send(new Thought(Thought.ON_GHOST,{'position':event.currentPosition}));
+		}
+		
 		private function onAddDrum(event:Thought) : void {
 			//if we're not at 12 seconds already
 			
 			//blank out the screen so user doesn't going nuts on adding sounds or expect the app to be responsive
 			waitScreen.visible = true;
+
+			//when we make a new drum sound every property sits on the head
+			//when the controls and ring might also need access
+			//so an array of sounds should sit in Data with all the interesting properties
+			//everythign else can feed off that instead of the drumhead
 			
 			//new drum head
 			drumCounter++;
 			var tempName:String = "drum"+drumCounter.toString();
 			var tempDrum:DrumHead = new DrumHead(tempName, navHeight);
 			tempDrum.x = tempDrum.y = 0;
-			drums.push(tempDrum);
+			Data.drums.push(tempDrum);
 			mainScreen.addChild(tempDrum);
 			
 			//new drum controls
@@ -145,7 +155,7 @@ package {
 			drumControlsHolder.addChild(tempControls);
 			
 			//new drum ring
-			Brain.send(new Thought(Thought.ADD_RING,{drumColor:tempDrum.color,key:tempName}));
+			Brain.send(new Thought(Thought.ADD_RING,{drumColor:tempDrum.color,key:tempName,sequence:tempDrum.euSeq()}));
 		}
 		
 		private function onAddDrumComplete(event:Thought):void{
@@ -162,9 +172,9 @@ package {
 			var newWidth:Number = stage.stageWidth - navHeight;
 			
 			//give each sound the same width in the remaining space
-			newWidth = newWidth / drums.length;
+			newWidth = newWidth / Data.drums.length;
 			
-			for each (var drum:DrumHead in drums){
+			for each (var drum:DrumHead in Data.drums){
 				//Cc.log(drum.name+" "+newWidth+" "+lastX);
 				drum.redraw(newWidth);
 				drum.y = 0;
@@ -178,12 +188,12 @@ package {
 			
 			//clean out of vector
 			var temp:Vector.<DrumHead> = new Vector.<DrumHead>();
-			for each (var drum:DrumHead in drums) {
+			for each (var drum:DrumHead in Data.drums) {
 				if (drum.name != _name) {
 					temp.push(drum);
 				}
 			}
-			drums = temp;
+			Data.drums = temp;
 			
 			//destroy listeners
 			

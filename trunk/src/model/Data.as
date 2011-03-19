@@ -1,4 +1,5 @@
-package model{
+package model {
+	import view.components.DrumHead;
 	//create public static vars for easy reference without getting an instance ala
 	//import model.Data; 
 	//Data.margin = 2; 
@@ -7,6 +8,7 @@ package model{
 		public static var margin : int;
 		public static var totalTicks : int;
 		public static var beaterOn : Boolean;
+		public static var drums:Vector.<DrumHead> = new Vector.<DrumHead>();
 
 		//
 		
