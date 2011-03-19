@@ -22,7 +22,7 @@ package view.components {
 		private var maskBoard:Sprite;
 		
 		private var maskForeFill:Shape;
-		private var thickness:int = 3;
+		private var thickness:int = 4;
 		private var key:String;
 		private var euHits : Array;
 		private var degreeHits:Vector.<Boolean>;
