@@ -21,15 +21,25 @@ package view.components {
 		private var rings:Vector.<Ring> = new Vector.<Ring>();
 		private var greatestRadius : Number;
 		private var ringSpacer : Number = 4;
+		private var positionIndicator : PositionIndicator;
 		
 		public function SeqHead(_height:Number, _width:Number) {
 			this.passedHeight = _height;
 			this.passedWidth = _width;
+			greatestRadius = (passedWidth - Data.margin*2) / 2;
+			
 			drawBackground();
 			drawRingHolder();
-			//drawPositionIndicator();
+			drawPositionIndicator();
 			
 			addListeners();
+		}
+
+		private function drawPositionIndicator() : void {
+			positionIndicator = new PositionIndicator(greatestRadius+ringSpacer/2);
+			addChild(positionIndicator);
+			positionIndicator.x = (passedWidth)/2;
+			positionIndicator.y = (passedHeight)/2;			
 		}
 		
 		private function addListeners():void{
@@ -73,8 +83,6 @@ package view.components {
 		}
 		
 		private function redrawRings() : void {
-			greatestRadius = (passedWidth - Data.margin*2) / 2;
-			
 			var i:int=0;
 			var sequence:Array = new Array;//get from event
 			for each (var ring:Ring in rings){
