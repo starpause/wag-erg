@@ -24,6 +24,10 @@
 		public static const START_SEQ : String = "START_SEQ";
 		public static const ADD_RING : String = "ADD_RING";
 		public static const ON_GHOST : String = "ON_GHOST";
+		public static const RANDOMIZE_SEQUENCE : String = "RANDOMIZE_SEQUENCE";
+		public static const UPDATE_RINGS : String = "UPDATE_RINGS";
+		public static const RANDOMIZE_COLOR : String = "RANDOMIZE_COLOR";
+		public static const NEW_COLOR : String = "NEW_COLOR";
 
 
 
