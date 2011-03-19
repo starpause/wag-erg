@@ -161,7 +161,8 @@ package {
 		private function onAddDrumComplete(event:Thought):void{
 			waitScreen.visible = false;
 			//re arange all the drums
-			redrawDrums();			
+			redrawDrums();
+			Brain.send(new Thought(Thought.DRUM_HEAD_HIT, {key:event.params['key']}));
 		}
 
 		private function redrawDrums() : void {
