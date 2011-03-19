@@ -42,8 +42,19 @@ package view.components {
 			lastX = Data.margin;
 			
 			drawBackground();
+			drawByLine();
 			drawNewDrumButton();
 			drawStartStopButton();
+		}
+
+		private function drawByLine() : void {
+			var byLine:ByLine = new ByLine(passedHeight - (Data.margin*2));
+			addChild(byLine);
+			
+			byLine.alpha = 1;
+			byLine.x = lastX; 
+			byLine.y = passedHeight - Data.margin;
+			lastX = lastX + byLine.width + Data.margin;			
 		}
 
 		private function drawNewDrumButton() : void {
@@ -53,7 +64,7 @@ package view.components {
 			newDrumButton.alpha = .5;
 			newDrumButton.x = lastX; 
 			newDrumButton.y = passedHeight - Data.margin;
-			lastX = newDrumButton.width + Data.margin*2;
+			lastX = lastX + newDrumButton.width + Data.margin;
 		}
 		
 		private function drawStartStopButton() : void {
@@ -63,7 +74,7 @@ package view.components {
 			startSopButton.alpha = .5;
 			startSopButton.x = lastX; 
 			startSopButton.y = passedHeight - Data.margin;
-			lastX = startSopButton.width + Data.margin;
+			lastX = lastX + startSopButton.width + Data.margin;
 		}
 
 		private function drawBackground() : void {
