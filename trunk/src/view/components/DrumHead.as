@@ -50,11 +50,7 @@ package view.components {
 			//baseParams = synth.params.clone();
 			//silence
 			SoundMixer.soundTransform = sTransform;
-			synth.cacheSound(onCacheComplete,500);
-			
-			//LISTENERS
-			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
-			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
+			synth.cacheSound(onCacheComplete,500);			
 		}
 		
 		private function onRandomizeColor(event:Thought) : void {
@@ -78,14 +74,16 @@ package view.components {
 			SoundMixer.soundTransform = sTransform;
 			
 			//hear
-			//triggerSound();
+			triggerSound();
 			
 			//show
 			this.visible = true;
-			Brain.send(new Thought(Thought.ADD_DRUM_COMPLETE));
+			Brain.send(new Thought(Thought.ADD_DRUM_COMPLETE,{key:this.key}));
 			
 			//listeners
 			Brain.addThoughtListener(Thought.ON_TICK, onTick);
+			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
+			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
 		}
 
 		private function drawBackground() : void {
