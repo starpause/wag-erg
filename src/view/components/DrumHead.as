@@ -51,15 +51,25 @@ package view.components {
 			//silence
 			SoundMixer.soundTransform = sTransform;
 			synth.cacheSound(onCacheComplete,500);
+			
+			//LISTENERS
+			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
+			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
 		}
 		
-		
-		/*
-		 * playing around with cache ... doesn't sound as good
-		 * 
-		 */
-		private function init(e:Event=null) : void {
-			removeEventListener(Event.ADDED_TO_STAGE, init);
+		private function onRandomizeColor(event:Thought) : void {
+			if(event.params['key']==this.key){
+				color = Math.random() * 0xFFFFFF;
+				onNewColor();
+				Brain.send(new Thought(Thought.NEW_COLOR,{key:this.key,color:this.color}));
+			}
+		}
+
+		private function onRandomizeSequence(event:Thought) : void {
+			if(event.params['key'] == this.key){
+				euclideanSequence = new EuclideanSequence(Data.totalTicks);
+				Brain.send(new Thought(Thought.UPDATE_RINGS,{key:this.key,sequence:euclideanSequence._euHits}));
+			}
 		}
 
 		private function onCacheComplete() : void {
@@ -69,7 +79,7 @@ package view.components {
 			
 			//hear
 			//triggerSound();
-
+			
 			//show
 			this.visible = true;
 			Brain.send(new Thought(Thought.ADD_DRUM_COMPLETE));
@@ -80,16 +90,23 @@ package view.components {
 
 		private function drawBackground() : void {
 			//shape with _height for h&w
+			bgShape.graphics.clear();
 			bgShape.graphics.beginFill(color);
 			bgShape.graphics.drawRect(0,0,passedHeight,passedWidth);
-			bgShape.graphics.endFill();
-			//bgSprite.alpha = .2;
+			bgShape.graphics.endFill();			
 			addChild(bgShape);
 			
 			this.buttonMode = true;
 			this.useHandCursor = true;
 			this.mouseChildren = false;
 			this.addEventListener(MouseEvent.CLICK, onClick);
+		}
+		
+		private function onNewColor():void{
+			bgShape.graphics.clear();
+			bgShape.graphics.beginFill(color);
+			bgShape.graphics.drawRect(0,0,passedWidth,passedHeight);
+			bgShape.graphics.endFill();			
 		}
 
 		private function onClick(event : MouseEvent) : void {

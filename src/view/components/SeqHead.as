@@ -20,7 +20,7 @@ package view.components {
 		
 		private var rings:Vector.<Ring> = new Vector.<Ring>();
 		private var greatestRadius : Number;
-		private var ringSpacer : Number = 4;
+		private var ringSpacer : Number = 5;
 		private var positionIndicator : PositionIndicator;
 		
 		public function SeqHead(_height:Number, _width:Number) {
@@ -44,7 +44,25 @@ package view.components {
 		
 		private function addListeners():void{
 			Brain.addThoughtListener(Thought.ADD_RING, onAddRing);			
-			Brain.addThoughtListener(Thought.ERASE_DRUM, onEraseDrum);			
+			Brain.addThoughtListener(Thought.ERASE_DRUM, onEraseDrum);
+			Brain.addThoughtListener(Thought.UPDATE_RINGS, onUpdateRings);
+			Brain.addThoughtListener(Thought.NEW_COLOR, onNewColor);
+		}
+
+		private function onNewColor(event:Thought) : void {
+			for each (var ring:Ring in rings) {
+				if (ring._key == event.params['key'] ){
+					ring.newColor(event.params['color']);
+				}
+			}			
+		}
+
+		private function onUpdateRings(event:Thought) : void {
+			for each (var ring:Ring in rings) {
+				if (ring._key == event.params['key'] ){
+					ring.redraw(ring._circleR,event.params['sequence']);
+				}
+			}
 		}
 
 		private function onEraseDrum(event:Thought) : void {
@@ -83,7 +101,7 @@ package view.components {
 			ringHolder.y = (passedHeight)/2;			
 		}
 		
-		private function redrawRings() : void {
+		private function redrawRings(event:Thought=null) : void {
 			var i:int=0;
 			var sequence:Array = new Array;//get from event
 			for each (var ring:Ring in rings){

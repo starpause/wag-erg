@@ -9,7 +9,7 @@ package view.components {
 	 */
 	public class PositionIndicator extends Sprite {
 		private var circleR:Number = 0;
-		private var offset:Number = -91; //initial angle, -90 is 12 o'clock
+		private var offset:Number = -90; //initial angle, -90 is 12 o'clock
 		private var dial:Sprite = new Sprite();
 		private var ghost:Sprite = new Sprite();
 		
@@ -38,7 +38,7 @@ package view.components {
 		}
 		
 		private function onGhost(event:Thought):void{
-			var ghostAlpha:Number = .4;
+			var ghostAlpha:Number = .2;
 			//map total ticks against 360
 			var x:Number = 360/Data.totalTicks;
 			var i:Number = (x*event.params['position'])+offset;

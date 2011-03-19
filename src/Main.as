@@ -66,7 +66,7 @@ package {
 			initBeater();
 			
 			//debugging
-			Cc.startOnStage(this, "");
+			Cc.startOnStage(this, "`");
 			Cc.y = 90;//stage.stageHeight-Cc.height;
 			Cc.x = 300;//(stage.stageWidth-Cc.width)/2;
 		}

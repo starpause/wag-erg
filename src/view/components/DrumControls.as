@@ -56,9 +56,12 @@ package view.components {
 			
 			lastX = Data.margin;
 
+			addChild(bgShape);
 			drawBackground();
-			drawCloneDrumButton();			
-			//drawRandomizeSequenceButton();
+			
+			//drawCloneDrumButton();
+			drawRandomizeColorButton();
+			drawRandomizeSequenceButton();
 			//drawMutatePrevButton();
 			//drawMutateNextButton();
 			//drawCacheMutationButton();
@@ -66,7 +69,28 @@ package view.components {
 			
 			hide();
 			//draw the other shit drums need
+			Brain.addThoughtListener(Thought.NEW_COLOR, onNewColor);
 			
+		}
+
+		private function drawRandomizeColorButton() : void {
+			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand color',Thought.RANDOMIZE_COLOR);
+			addChild(drumButton);
+			
+			drumButton.alpha = .5;
+			drumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
+			drumButton.y = passedHeight - Data.margin;
+			lastX = lastX + drumButton.width + Data.margin;
+		}
+
+		private function drawRandomizeSequenceButton() : void {
+			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand sequence',Thought.RANDOMIZE_SEQUENCE);
+			addChild(drumButton);
+			
+			drumButton.alpha = .5;
+			drumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
+			drumButton.y = passedHeight - Data.margin;
+			lastX = lastX + drumButton.width + Data.margin;
 		}
 
 		private function drawCloneDrumButton() : void {
@@ -76,7 +100,7 @@ package view.components {
 			cloneDrumButton.alpha = .5;
 			cloneDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
 			cloneDrumButton.y = passedHeight - Data.margin;
-			lastX = cloneDrumButton.width + Data.margin *2;
+			lastX = lastX + cloneDrumButton.width + Data.margin;
 		}
 
 		private function drawRemoveDrumButton() : void {
@@ -86,15 +110,22 @@ package view.components {
 			eraseDrumButton.alpha = .5;
 			eraseDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
 			eraseDrumButton.y = passedHeight - Data.margin;
-			lastX = eraseDrumButton.width + Data.margin;
+			lastX = lastX + eraseDrumButton.width + Data.margin;
+		}
+		
+		private function onNewColor(event:Thought):void{
+			if(this.key == event.params['key']){
+				this.color = event.params['color'];
+				drawBackground();
+			}
 		}
 
 		private function drawBackground() : void {
 			//shape with _height for h&w
+			bgShape.graphics.clear();
 			bgShape.graphics.beginFill(color);
 			bgShape.graphics.drawRect(0,0,passedWidth,passedHeight);
 			bgShape.graphics.endFill();
-			addChild(bgShape);
 		}
 		
 		

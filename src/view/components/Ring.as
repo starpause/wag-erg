@@ -1,4 +1,7 @@
 package view.components {
+	import flash.filters.GlowFilter;
+	import events.Thought;
+	import events.Brain;
 	/**
 	 * @author jgray
 	 */
@@ -9,127 +12,95 @@ package view.components {
 	
 	public class Ring extends Sprite{
 		private var fillColor:Number;
-		private var backColor:Number;
+		private var tickColor:Number;
 		private var maskColor:Number = 0xFF0000;
 		
 		private var offset:Number = -90;// Initial angle
 		private var circleR:Number; // Circle radius (in pixels)
 		private var maskR:Number;
 		
-		private var backFill:Shape;
-		private var backBoard:Sprite;
-		private var maskFill:Shape;
-		private var maskBoard:Sprite;
+		private var tickFill:Shape;
+		private var tickSprite:Sprite;
+		private var tickMaskFill:Shape;
+		private var tickMaskSprite:Sprite;
 		
-		private var maskForeFill:Shape;
 		private var thickness:int = 4;
 		private var key:String;
 		private var euHits : Array;
 		private var degreeHits:Vector.<Boolean>;
 		private var degreesToDraw:int =1;
+		private var degreesPerChamber:Number =0;
 		
 		public function Ring(radius:Number=29, _key:String="", foreColor:Number=0xFFFFFF, backgroundColor:Number=0x888888,sequence:Array=null){
 			key = _key;
 			name = _key;
 			fillColor = foreColor;
-			backColor = backgroundColor;
+			tickColor = backgroundColor;
 			circleR = radius;
 			euHits=sequence;
 			mapChambersToDegrees();
 			
-			//
-			backBoard = new Sprite();
-			addChild(backBoard);
-			backFill = new Shape();
-			backBoard.addChild(backFill);		
+			//drawing set up
+			tickSprite = new Sprite();
+			addChild(tickSprite);
+			tickFill = new Shape();
+			tickSprite.addChild(tickFill);		
 			
-			//punchout
-			maskBoard = new Sprite();
-			maskFill = new Shape();
-			maskBoard.addChild(maskFill);
-			backBoard.blendMode = BlendMode.LAYER;
-			maskBoard.blendMode = BlendMode.ERASE;
-			backBoard.addChild(maskBoard);				
+			//drawing set up
+			tickMaskSprite = new Sprite();
+			tickMaskFill = new Shape();
+			tickMaskSprite.addChild(tickMaskFill);
+			tickSprite.blendMode = BlendMode.LAYER;
+			tickMaskSprite.blendMode = BlendMode.ERASE;
+			tickSprite.addChild(tickMaskSprite);
 		}
-		
+
 		private function drawMask():void{
-			maskFill.graphics.clear();
-			maskFill.graphics.lineStyle(1,maskColor);
-			maskFill.graphics.moveTo(0,0);
-			maskFill.graphics.beginFill(maskColor,1);//.7
+			tickMaskFill.graphics.clear();
+			tickMaskFill.graphics.lineStyle(1,maskColor);
+			tickMaskFill.graphics.moveTo(0,0);
+			tickMaskFill.graphics.beginFill(maskColor,1);//.7
 			
 			for (var i:int=0; i<361; i++) {
-				maskFill.graphics.lineTo(maskR*Math.cos(i*Math.PI/180), -maskR*Math.sin(i*Math.PI/180) );
+				tickMaskFill.graphics.lineTo(maskR*Math.cos(i*Math.PI/180), -maskR*Math.sin(i*Math.PI/180) );
 			}
 
 			//The final lineTo outside of the loop takes the "pen" back to its starting point.
-			maskFill.graphics.lineTo(0,0);
+			tickMaskFill.graphics.lineTo(0,0);
 			
 			//Since the drawing is between beginFill and endFill, we get the filled shape.
-			maskFill.graphics.endFill();
+			tickMaskFill.graphics.endFill();
 		}
-/*
-		private function drawForeMask():void{
-			maskForeFill.graphics.clear();
-			maskForeFill.graphics.lineStyle(1,maskColor);
-			maskForeFill.graphics.moveTo(0,0);
-			maskForeFill.graphics.beginFill(maskColor,1);//.7
-			
-			for (var i:int=0; i<361; i++) {
-				maskForeFill.graphics.lineTo(maskR*Math.cos(i*Math.PI/180), -maskR*Math.sin(i*Math.PI/180) );
-			}
 
-			//The final lineTo outside of the loop takes the "pen" back to its starting point.
-			maskForeFill.graphics.lineTo(0,0);
-			
-			//Since the drawing is between beginFill and endFill, we get the filled shape.
-			maskForeFill.graphics.endFill();
-		}
-*/
-		private function drawBack():void{
-			backFill.graphics.clear();
-			backFill.graphics.lineStyle(1,backColor);
-			backFill.graphics.moveTo(0,0);
-			backFill.graphics.beginFill(backColor,1);//.7
+		private function drawTicks():void{
+			tickFill.graphics.clear();
+			tickFill.graphics.lineStyle(1,tickColor);
+			tickFill.graphics.moveTo(0,0);
+			tickFill.graphics.beginFill(tickColor,1);//.7
 			
 			for (var i:int=0; i<361; i++) {
 				if(degreeHits[i]==true){
-					var v:Number = (i+offset)*-1;
-					backFill.graphics.lineTo(circleR*Math.cos(v*Math.PI/180), -circleR*Math.sin(v*Math.PI/180) );
-					backFill.graphics.lineTo(0,0);
+					var dFirst:Number = (i+offset)*-1;
+					var dLast:Number = Math.floor((i+degreesPerChamber-2+offset)*-1);
+					while(dFirst > dLast){
+						tickFill.graphics.lineTo(circleR*Math.cos(dFirst*Math.PI/180), -circleR*Math.sin(dFirst*Math.PI/180) );
+						//tickFill.graphics.lineTo(circleR*Math.cos(dLast*Math.PI/180), -circleR*Math.sin(dLast*Math.PI/180) );
+						dFirst = dFirst - .5;
+					}
+					//The final lineTo outside of the loop takes the "pen" back to its starting point.
+					tickFill.graphics.lineTo(0,0);
 				}
 			}
-
-			//The final lineTo outside of the loop takes the "pen" back to its starting point.
 			
 			//Since the drawing is between beginFill and endFill, we get the filled shape.
-			backFill.graphics.endFill();
+			tickFill.graphics.endFill();
 		}
 		
-/*		
-		public function update(percent:Number):void{
-			//t is in degrees
-			var t:Number = 360*(percent);
-			
-			foreFill.graphics.clear();
-			foreFill.graphics.lineStyle(1,fillColor);
-			foreFill.graphics.moveTo(0,0);
-			foreFill.graphics.beginFill(fillColor,1);//.7
-			
-			// The loop draws tiny lines between points on the circle one
-			// separated from each other by one degree.
-			for (var i:int=0+offset; i>=(offset-t); i--) {
-				foreFill.graphics.lineTo(circleR*Math.cos(i*Math.PI/180), -circleR*Math.sin(i*Math.PI/180) );
-			}
-			
-			//The final lineTo outside of the loop takes the "pen" back to its starting point.
-			foreFill.graphics.lineTo(0,0);
-			
-			//Since the drawing is between beginFill and endFill, we get the filled shape.
-			foreFill.graphics.endFill();
+		public function newColor(color:Number):void{
+			tickColor = color;
+			redraw(circleR);
 		}
-*/
-
+		
 		//sequence is a euclidean sequence for getting the beat ring right
 		public function redraw(radius : Number, sequence:Array=null) : void {
 			//new radius
@@ -143,7 +114,7 @@ package view.components {
 			}
 			
 			//draw back fill
-			drawBack();
+			drawTicks();
 			
 			//punch out masking of back
 			drawMask();				
@@ -156,7 +127,7 @@ package view.components {
 		private function mapChambersToDegrees() : void {
 			//map the eu resolution to our tick resolution
 			degreeHits = new Vector.<Boolean>(361);
-			var degreesPerChamber:Number = 360 / euHits.length;
+			degreesPerChamber = 360 / euHits.length;
 			degreesToDraw = Math.floor(degreesPerChamber);
 			for(var i:int=0;i<euHits.length;i++){
 				if(euHits[i]==1){
@@ -164,6 +135,10 @@ package view.components {
 					degreeHits[targetDegree] = true;
 				}
 			}
+		}
+
+		public function get _circleR() : Number {
+			return circleR;
 		}
 		
 
