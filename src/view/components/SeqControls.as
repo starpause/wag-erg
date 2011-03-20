@@ -61,7 +61,6 @@ package view.components {
 			var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (Data.margin*2));
 			addChild(newDrumButton);
 			
-			newDrumButton.alpha = .5;
 			newDrumButton.x = lastX; 
 			newDrumButton.y = passedHeight - Data.margin;
 			lastX = lastX + newDrumButton.width + Data.margin;
@@ -71,7 +70,6 @@ package view.components {
 			var startSopButton:StartStopButton = new StartStopButton(passedHeight - (Data.margin*2));
 			addChild(startSopButton);
 			
-			startSopButton.alpha = .5;
 			startSopButton.x = lastX; 
 			startSopButton.y = passedHeight - Data.margin;
 			lastX = lastX + startSopButton.width + Data.margin;
