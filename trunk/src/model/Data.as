@@ -8,7 +8,10 @@ package model {
 		public static var margin : int;
 		public static var totalTicks : int;
 		public static var beaterOn : Boolean;
-		public static var drums:Vector.<DrumHead> = new Vector.<DrumHead>();
+		public static var drums : Vector.<DrumHead> = new Vector.<DrumHead>();
+		public static var alphaUp : Number = .5;
+		public static var alphaDown : Number = .75;
+		
 
 		//
 		

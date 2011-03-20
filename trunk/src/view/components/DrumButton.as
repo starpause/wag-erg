@@ -1,4 +1,5 @@
 package view.components {
+	import model.Data;
 	import flash.text.TextFieldAutoSize;
 	import events.Thought;
 	import events.Brain;
@@ -61,15 +62,27 @@ package view.components {
 			holder.mouseChildren = false;
 			holder.useHandCursor = true;
 			holder.addEventListener(MouseEvent.CLICK, sendEvent);
+			holder.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
+			holder.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			holder.addEventListener(MouseEvent.MOUSE_OUT, onUp);
 			
 			//rotating inside the button so the layout class doesn't have to do funny width/heigt 
 			holder.rotation = -90;
+			this.alpha = Data.alphaUp;
 		}
 
 		private function sendEvent(event : MouseEvent) : void {
 			Brain.send(new Thought(passedEvent, {key:this.key}));
 		}
 		
+		private function onUp(event : MouseEvent) : void {
+			this.alpha = Data.alphaUp;
+		}
+
+		private function onDown(event : MouseEvent) : void {
+			this.alpha = Data.alphaDown;
+		}
+
 
 
 

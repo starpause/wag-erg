@@ -77,7 +77,6 @@ package view.components {
 			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand color',Thought.RANDOMIZE_COLOR);
 			addChild(drumButton);
 			
-			drumButton.alpha = .5;
 			drumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
 			drumButton.y = passedHeight - Data.margin;
 			lastX = lastX + drumButton.width + Data.margin;
@@ -87,7 +86,6 @@ package view.components {
 			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand sequence',Thought.RANDOMIZE_SEQUENCE);
 			addChild(drumButton);
 			
-			drumButton.alpha = .5;
 			drumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
 			drumButton.y = passedHeight - Data.margin;
 			lastX = lastX + drumButton.width + Data.margin;
@@ -97,7 +95,6 @@ package view.components {
 			var cloneDrumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'clone sound',Thought.CLONE_DRUM);
 			addChild(cloneDrumButton);
 			
-			cloneDrumButton.alpha = .5;
 			cloneDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
 			cloneDrumButton.y = passedHeight - Data.margin;
 			lastX = lastX + cloneDrumButton.width + Data.margin;
@@ -107,7 +104,6 @@ package view.components {
 			var eraseDrumButton:EraseDrumButton = new EraseDrumButton(passedHeight - (Data.margin*2),key);
 			addChild(eraseDrumButton);
 			
-			eraseDrumButton.alpha = .5;
 			eraseDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
 			eraseDrumButton.y = passedHeight - Data.margin;
 			lastX = lastX + eraseDrumButton.width + Data.margin;

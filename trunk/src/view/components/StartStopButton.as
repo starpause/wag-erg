@@ -69,9 +69,22 @@ package view.components {
 			holder.mouseChildren = false;
 			holder.useHandCursor = true;
 			holder.addEventListener(MouseEvent.CLICK, onHit);
+			holder.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
+			holder.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			holder.addEventListener(MouseEvent.MOUSE_OUT, onUp);
 			
 			//rotating inside the button so the layout class doesn't have to do funny width/heigt 
 			holder.rotation = -90;
+			
+			this.alpha = Data.alphaUp;
+		}
+
+		private function onUp(event : MouseEvent) : void {
+			this.alpha = Data.alphaUp;
+		}
+
+		private function onDown(event : MouseEvent) : void {
+			this.alpha = Data.alphaDown;
 		}
 
 		private function showStart() : void {
