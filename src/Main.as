@@ -30,6 +30,8 @@ package {
 		private var waitScreen:WaitScreen = new WaitScreen();
 		
 		//assets
+		//set -managers=flash.fonts.AFEFontManager in the flex compiler arguments if fonts are blank
+		//comment out all other font managers in /blackberry-tablet-sdk-0.9.2/frameworks/air-config.xml
 		[Embed(source="/assets/nokiafc22.ttf", fontFamily="nokia", mimeType="application/x-font-truetype")]
 		public var nokia:String;
 		
