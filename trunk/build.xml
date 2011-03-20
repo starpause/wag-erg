@@ -31,6 +31,7 @@
 	<property name="project.lib" value="${basedir}/libs" />
 	<property name="project.mainclass" value="${project.src}/${project.name}.as" />
 	<property name="project.xml" value="${project.bin}/${project.name}-app.xml" />
+	<property name="blackberry-tablet.xml" value="${project.bin}/blackberry-tablet.xml" />
 	<property name="project.swf" value="${project.bin}/${project.name}.swf" />
 	<property name="project.bar" value="${project.bin}/${project.name}.bar" />
 	
@@ -93,6 +94,7 @@
 			<arg value="-launchApp" />
 			<arg value="${project.xml}" />
 			<arg value="${project.swf}" />
+			<arg value="${blackberry-tablet.xml}" />
 			<arg value="-device" />
 			<arg value="${device.ip}" />
 			<arg value="-password"/>
@@ -128,11 +130,23 @@
 			<arg value="${project.bar}" />
 			<arg value="${project.xml}" />
 			<arg value="${project.swf}" />
+			<arg value="${blackberry-tablet.xml}" />
 			<arg line="-C ${project.bin} ${bin.dirs.string}" />
 		</exec>
 	</target>
 
-		
+	<target name="uninstall" description="remove the app from the simulator">
+		<exec executable="${sdk.bbdeploy}" dir="${project.bin}">
+			<arg value="-uninstallApp" />
+			<arg value="-device" />
+			<arg value="${device.ip}" />
+			<arg value="-password"/>
+			<arg value="${device.password}"/>
+			<arg value="-package" />
+			<arg value="${project.bar}" />
+		</exec>
+	</target>
+	
 	<!-- deploy -->
 	<target name="release-deploy" depends="release-create-package" if="sdk.home" description="deploy the app in the standard configuration">
 		<exec executable="${sdk.bbdeploy}" dir="${project.bin}">
