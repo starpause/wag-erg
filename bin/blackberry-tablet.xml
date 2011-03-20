@@ -1,0 +1,9 @@
+<qnx>
+	<icon>
+		<image>images/blackberry.png</image>
+	</icon>
+	<publisher>starpause.com</publisher>
+	<category>core.media</category>
+	<splashscreen>images/blackberry-splash.png</splashscreen>
+	<permission>play_audio</permission>
+</qnx>
