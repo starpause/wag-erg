@@ -36,7 +36,7 @@
 	<property name="project.bar" value="${project.bin}/${project.name}.bar" />
 	
 	<!-- playbook simulator ip -->
-	<property name="device.ip" value="172.16.54.128" />
+	<property name="device.ip" value="172.16.54.129" />
 	<!-- playbook simulator password -->
 	<property name="device.password" value="z9kqu" />
 	<!-- your computers ip ... needed for debugging -->
@@ -135,18 +135,6 @@
 		</exec>
 	</target>
 
-	<target name="uninstall" description="remove the app from the simulator">
-		<exec executable="${sdk.bbdeploy}" dir="${project.bin}">
-			<arg value="-uninstallApp" />
-			<arg value="-device" />
-			<arg value="${device.ip}" />
-			<arg value="-password"/>
-			<arg value="${device.password}"/>
-			<arg value="-package" />
-			<arg value="${project.bar}" />
-		</exec>
-	</target>
-	
 	<!-- deploy -->
 	<target name="release-deploy" depends="release-create-package" if="sdk.home" description="deploy the app in the standard configuration">
 		<exec executable="${sdk.bbdeploy}" dir="${project.bin}">
@@ -178,6 +166,18 @@
 	</target>
 	
 
+	<target name="uninstall" description="remove the app from the simulator">
+		<exec executable="${sdk.bbdeploy}" dir="${project.bin}">
+			<arg value="-uninstallApp" />
+			<arg value="-device" />
+			<arg value="${device.ip}" />
+			<arg value="-password"/>
+			<arg value="${device.password}"/>
+			<arg value="-package" />
+			<arg value="${project.bar}" />
+		</exec>
+	</target>
+	
 			
 			
 	<!-- ###########################	MACRO-DEFINITIONS ######################### -->

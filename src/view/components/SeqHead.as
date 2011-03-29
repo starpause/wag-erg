@@ -12,7 +12,7 @@ package view.components {
 	 * @author jgray
 	 */
 	public class SeqHead extends Sprite {
-		private var color:Number = 0x000000;
+		private var color:Number = 0xFFFFFF;
 		private var bgShape : Shape = new Shape;
 		private var passedHeight : Number;
 		private var passedWidth : Number;
@@ -116,13 +116,31 @@ package view.components {
 			bgShape.graphics.beginFill(color);
 			bgShape.graphics.drawRect(0,0,passedHeight,passedWidth);
 			bgShape.graphics.endFill();
-			//bgSprite.alpha = .2;
+			bgShape.alpha = Data.alphaHeadUp;
 			addChild(bgShape);
 			
 			this.buttonMode = true;
 			this.useHandCursor = true;
 			this.mouseChildren = false;
 			this.addEventListener(MouseEvent.CLICK, onClick);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
+			this.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
+			this.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			this.addEventListener(MouseEvent.MOUSE_OUT, onUp);
+		}
+
+		private function onUp(event : MouseEvent) : void {
+			bgShape.alpha = Data.alphaHeadUp;
+		}
+
+		private function onDown(event : MouseEvent) : void {
+			bgShape.alpha = Data.alphaHeadDown;
+		}
+
+		private function onMove(event : MouseEvent) : void {
+			if(Data.touchScreen == true){
+				bgShape.alpha = Data.alphaHeadDown;
+			}
 		}
 
 		private function onClick(event : MouseEvent) : void {

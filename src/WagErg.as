@@ -6,7 +6,8 @@
  * If you're having trouble compiling, follow the steps at
  * http://blog.formatlos.de/2010/12/13/playbook-development-with-fdt-and-ant/
  */
-package {	
+package {
+	import model.Data;
 	import flash.display.Sprite;
 	import flash.events.Event;
 
@@ -22,6 +23,7 @@ package {
 			var main:Main = new Main();
 			addChild(main);
 			stage.nativeWindow.visible = true;
+			Data.touchScreen=true;
 		}
 
 		

@@ -19,6 +19,7 @@ package view.components {
 		private var synth:SfxrSynth;
 		private var baseParams:SfxrParams;
 		private var bgShape:Shape = new Shape;
+		private var bgWhite:Shape = new Shape;
 		public var color:Number = Math.random() * 0xFFFFFF; 
 		private var passedHeight:Number;
 		private var passedWidth:Number;
@@ -94,10 +95,22 @@ package view.components {
 			bgShape.graphics.endFill();			
 			addChild(bgShape);
 			
+			//highlight
+			bgWhite.graphics.clear();
+			bgWhite.graphics.beginFill(0xFFFFFF);
+			bgWhite.graphics.drawRect(0,0,passedHeight,passedWidth);
+			bgWhite.graphics.endFill();
+			addChild(bgWhite);
+			bgWhite.alpha = Data.alphaHeadUp;
+			
 			this.buttonMode = true;
 			this.useHandCursor = true;
 			this.mouseChildren = false;
 			this.addEventListener(MouseEvent.CLICK, onClick);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
+			this.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
+			this.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			this.addEventListener(MouseEvent.MOUSE_OUT, onUp);
 		}
 		
 		private function onNewColor():void{
@@ -139,15 +152,22 @@ package view.components {
 		
 		public function redraw(newWidth : Number = -1) : void {
 			bgShape.graphics.clear();
+			bgWhite.graphics.clear();
+
 			bgShape.graphics.beginFill(color);
+			bgWhite.graphics.beginFill(0xFFFFFF);
+
 			if(newWidth != -1){
 				bgShape.graphics.drawRect(0,0,newWidth,passedHeight);
+				bgWhite.graphics.drawRect(0,0,newWidth,passedHeight);
 				passedWidth = newWidth;
 			}else{
 				bgShape.graphics.drawRect(0,0,passedWidth,passedHeight);
+				bgWhite.graphics.drawRect(0,0,passedWidth,passedHeight);
 			}
+			
+			bgWhite.graphics.endFill();
 			bgShape.graphics.endFill();
-			addChild(bgShape);
 		}
 		
 		
@@ -159,6 +179,22 @@ package view.components {
 		public function euSeq():Array{
 			return euclideanSequence._euHits;
 		}
+		
+		private function onUp(event : MouseEvent) : void {
+			bgWhite.alpha = Data.alphaHeadUp;
+		}
+
+		private function onDown(event : MouseEvent) : void {
+			bgWhite.alpha = Data.alphaHeadDown;
+		}
+
+		private function onMove(event : MouseEvent) : void {
+			if(Data.touchScreen == true){
+				bgWhite.alpha = Data.alphaHeadDown;
+			}
+		}
+
+		
 				
 	}
 }

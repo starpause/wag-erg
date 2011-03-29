@@ -11,7 +11,9 @@ package model {
 		public static var drums : Vector.<DrumHead> = new Vector.<DrumHead>();
 		public static var alphaUp : Number = .5;
 		public static var alphaDown : Number = .75;
-		
+		public static var alphaHeadUp : Number = 0.0;
+		public static var alphaHeadDown : Number = 0.15;
+		public static var touchScreen : Boolean = false;
 
 		//
 		

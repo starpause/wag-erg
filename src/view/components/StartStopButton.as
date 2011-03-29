@@ -70,6 +70,7 @@ package view.components {
 			holder.useHandCursor = true;
 			holder.addEventListener(MouseEvent.CLICK, onHit);
 			holder.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
+			holder.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
 			holder.addEventListener(MouseEvent.MOUSE_UP, onUp);
 			holder.addEventListener(MouseEvent.MOUSE_OUT, onUp);
 			
@@ -85,6 +86,12 @@ package view.components {
 
 		private function onDown(event : MouseEvent) : void {
 			this.alpha = Data.alphaDown;
+		}
+
+		private function onMove(event : MouseEvent) : void {
+			if(Data.touchScreen == true){
+				this.alpha = Data.alphaDown;
+			}
 		}
 
 		private function showStart() : void {
