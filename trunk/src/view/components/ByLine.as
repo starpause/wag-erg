@@ -1,4 +1,5 @@
 package view.components {
+	import model.Data;
 	import flash.text.TextFieldAutoSize;
 	import flash.events.Event;
 	import flash.text.TextFormat;
@@ -33,8 +34,8 @@ package view.components {
 			//textfield properties
 			addDrumField.embedFonts = true;
 			addDrumField.autoSize = TextFieldAutoSize.LEFT;
-			addDrumField.antiAliasType = flash.text.AntiAliasType.ADVANCED;			
-			addDrumField.defaultTextFormat = new TextFormat("nokia", 32, 0xFFFFFF);
+			addDrumField.antiAliasType = flash.text.AntiAliasType.NORMAL;			
+			addDrumField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0xFFFFFF);
 			addDrumField.border = false;
 			addDrumField.selectable = false;
 			addDrumField.text = ' wag ERG by k9d';

@@ -91,13 +91,13 @@ package {
 			drumControlsHolder.visible = false;
 		}
 
-		private function onStartSeq(event:Thought) : void {
+		private function onStartSeq(event:Thought=null) : void {
 			//set position?
 			Data.beaterOn=true;
 			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
 		}
 
-		private function onStopSeq(event:Thought) : void {
+		private function onStopSeq(event:Thought=null) : void {
 			//store position?
 			Data.beaterOn=false;
 			beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
@@ -135,7 +135,10 @@ package {
 			
 			//blank out the screen so user doesn't going nuts on adding sounds or expect the app to be responsive
 			waitScreen.visible = true;
-
+			if(Data.userStoppedSequencer==false){
+				beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
+			}
+			
 			//when we make a new drum sound every property sits on the head
 			//when the controls and ring might also need access
 			//so an array of sounds should sit in Data with all the interesting properties
@@ -162,6 +165,9 @@ package {
 		
 		private function onAddDrumComplete(event:Thought):void{
 			waitScreen.visible = false;
+			if(Data.userStoppedSequencer==false){
+				beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+			}
 			//re arange all the drums
 			redrawDrums();
 			Brain.send(new Thought(Thought.DRUM_HEAD_HIT, {key:event.params['key']}));

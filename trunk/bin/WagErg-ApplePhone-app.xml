@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<application xmlns="http://ns.adobe.com/air/application/2.6" minimumPatchLevel="0"> 
+    <id>com.starpause.wagerg</id> 
+    <name>WAG ERG</name> 
+    <versionNumber>1.0.1</versionNumber> 
+    <filename>WAG ERG</filename> 
+    <supportedProfiles>mobileDevice</supportedProfiles> 
+    <initialWindow> 
+        <content>WagErgApplePhone.swf</content> 
+        <title>WAG ERG</title>
+		<aspectRatio>landscape</aspectRatio>
+		<autoOrients>false</autoOrients>
+		<fullScreen>true</fullScreen>
+		<renderMode>cpu</renderMode> <!--gpu was slower on 3gs, also need filters for seqhead to draw nice-->
+    </initialWindow> 
+    <icon> 
+        <image29x29>icons/iOS_29.png</image29x29> 
+        <image57x57>icons/iOS_57.png</image57x57> 
+        <image512x512>icons/iOS_512.png</image512x512> 
+    </icon> 
+</application>

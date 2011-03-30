@@ -40,7 +40,7 @@ package view.components {
 			startField.embedFonts = true;
 			startField.autoSize = TextFieldAutoSize.LEFT;
 			startField.antiAliasType = flash.text.AntiAliasType.ADVANCED;			
-			startField.defaultTextFormat = new TextFormat("nokia", 32, 0x000000);
+			startField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			startField.border = false;
 			startField.selectable = false;
 			startField.text = ' start sequencer';
@@ -49,7 +49,7 @@ package view.components {
 			stopField.embedFonts = true;
 			stopField.autoSize = TextFieldAutoSize.LEFT;
 			stopField.antiAliasType = flash.text.AntiAliasType.ADVANCED;			
-			stopField.defaultTextFormat = new TextFormat("nokia", 32, 0x000000);
+			stopField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			stopField.border = false;
 			stopField.selectable = false;
 			stopField.text = ' stop sequencer';
@@ -106,9 +106,11 @@ package view.components {
 
 		private function onHit(event : MouseEvent) : void {
 			if(Data.beaterOn==true){
+				Data.userStoppedSequencer=true;
 				Brain.send(new Thought(Thought.STOP_SEQ));
 				showStart();
 			}else{
+				Data.userStoppedSequencer=false;
 				Brain.send(new Thought(Thought.START_SEQ));
 				showStop();
 			}

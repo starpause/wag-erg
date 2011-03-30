@@ -120,11 +120,6 @@ package view.components {
 			bgShape.graphics.endFill();			
 		}
 
-		private function onClick(event : MouseEvent) : void {
-			triggerSound();
-			Brain.send(new Thought(Thought.DRUM_HEAD_HIT, {key:this.key}));
-		}
-		
 		private function onTick(event:Thought):void{
 			var position:uint = event.params['position'];
 			if(euclideanSequence.hasHitAt(position)){
@@ -183,16 +178,21 @@ package view.components {
 		private function onUp(event : MouseEvent) : void {
 			bgWhite.alpha = Data.alphaHeadUp;
 		}
-
 		private function onDown(event : MouseEvent) : void {
+			triggerSound();
+			Brain.send(new Thought(Thought.DRUM_HEAD_HIT, {key:this.key}));
 			bgWhite.alpha = Data.alphaHeadDown;
 		}
-
 		private function onMove(event : MouseEvent) : void {
 			if(Data.touchScreen == true){
 				bgWhite.alpha = Data.alphaHeadDown;
 			}
 		}
+		private function onClick(event : MouseEvent) : void {
+			//moved to onDown because onClick wasn't triggering 
+			//until finger was lifted off screen on iOS
+		}
+		
 
 		
 				
