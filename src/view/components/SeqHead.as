@@ -134,6 +134,8 @@ package view.components {
 		}
 
 		private function onDown(event : MouseEvent) : void {
+			//which should be first here for most responsive feel?
+			Brain.send(new Thought(Thought.SEQ_HEAD_HIT));
 			bgShape.alpha = Data.alphaHeadDown;
 		}
 
@@ -143,8 +145,9 @@ package view.components {
 			}
 		}
 
-		private function onClick(event : MouseEvent) : void {
-			Brain.send(new Thought(Thought.SEQ_HEAD_HIT));
+		private function onClick(event : MouseEvent=null) : void {
+			//moved to onDown because onClick wasn't triggering 
+			//until finger was lifted off screen on iOS
 		}
 
 

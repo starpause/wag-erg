@@ -45,7 +45,7 @@ package view.components {
 			addDrumField.embedFonts = true;
 			addDrumField.autoSize = TextFieldAutoSize.LEFT;
 			addDrumField.antiAliasType = flash.text.AntiAliasType.ADVANCED;			
-			addDrumField.defaultTextFormat = new TextFormat("nokia", 32, 0x000000);
+			addDrumField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			addDrumField.border = false;
 			addDrumField.selectable = false;
 			addDrumField.text = ' '+copy;
