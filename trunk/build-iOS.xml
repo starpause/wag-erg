@@ -1,0 +1,128 @@
+<project default="1. Create directories" name="WAG ERG iOS" basedir="."> <!-- Edit me: Ant script name -->
+	<description>
+		Buildfile for iOS off template by Vaclav Vancura (http://vancura.org ~ Copyright 2011)
+    </description>
+
+	<!-- import project properties -->
+	<property file="build-iOS.example.properties" />	
+	
+	<tstamp>
+		<format property="timestamp" pattern="yyyy-MM-dd_HH-mm-ss" />
+	</tstamp>
+	
+	<!-- FLEX SDK configuration -->
+	<property name="mxmlc_path" value="${flex_sdk_dir}/lib/mxmlc.jar" />
+	<property name="adt_path" value="${flex_sdk_dir}/lib/adt.jar" />
+	
+	<!-- Application configuration -->
+	<property name="assets_dir" value="bin" />
+	<property name="certificates_dir" value="config" />
+	<property name="deploy_dir" value="deploy" />
+	<property name="libs_dir" value="libs" />
+	
+	<!-- Desktop configuration -->
+	<property name="desktop_certificate_filename" value="${certificates_dir}/${desktop_certificate_name}.pfx" />
+	<property name="desktop_air_filename" value="${deploy_dir}/${app_name}_${timestamp}.air" />
+	<property name="desktop_descriptor" value="${assets_dir}/desktop-app.xml" />
+	
+	<!-- iOS configuration -->
+	<property name="ios_target" value="ipa-test" />
+	<!--
+		Edit me: choose one from:
+			* ipa-test - Quick publishing for device testing
+			* ipa-debug - Quick publishing for device debugging
+			* ipa-ad-hoc - Deployment - Ad hoc
+			* ipa-app-store - Deployment - Apple App Store
+		OR set these up as different targets
+		AND have different mobile provisions as targets for all the ad-hocs
+	-->
+	
+	<property name="ios_ipa_filename" value="${debug_dir}/${app_name}.ipa" />
+	<!--
+	<property name="ios_ipa_filename" value="${deploy_dir}/${app_name}_${timestamp}.ipa" />	
+	-->
+	
+	
+	<!-- Create required directories -->
+	<target name="1. Create directories">
+	<!--
+		didn't like the script blowing away directories containging useful stuff for other builds
+		maybe at somepoint roll all the builds into one script
+		for now an ant script per platform is ok for me
+		<mkdir dir="${assets_dir}" />
+		<mkdir dir="${deploy_dir}" />
+		<mkdir dir="${debug_dir}" />
+		<mkdir dir="${libs_dir}" />
+		<mkdir dir="${certificates_dir}" />
+	-->
+	</target>
+
+	<!-- Creating a digital ID certificate -->
+	<target name="2. Create temporary desktop certificate">
+		<!--
+		<java jar="${adt_path}" fork="true">
+			<arg line="-certificate" />
+			<arg line="-cn ${desktop_certificate_name}" />
+			<arg line="-ou '${desktop_certicitace_org_unit}'" />
+			<arg line="-o '${desktop_certificate_org_name}'" />
+			<arg line="-c '${desktop_certificate_country_code}' ${desktop_certificate_key_type} ${certificates_dir}/${desktop_certificate_name}.pfx ${desktop_certificate_password}" />
+		</java>
+		-->
+	</target>
+
+
+	<!-- Compile SWF to build directory for desktop packaging -->
+	<target name="3. Compile" depends="1. Create directories">
+		<java jar="${mxmlc_path}" fork="true" failonerror="true">
+			<arg value="-debug=false" />
+			<arg value="-optimize=true" />
+			<arg value="+flexlib=${flex_sdk_dir}/frameworks" />
+			<arg value="+configname=air" />
+			<arg value="-file-specs=${main_source}" />
+			<arg value="-output=${swf_filename}" />
+			<arg value="-l+=${libs_dir}" />
+		</java>
+	</target>
+
+
+	<!-- Packaging the application to an air-file in the publish directory -->
+	<target name="Package for desktop" depends="3. Compile">
+		<java jar="${adt_path}" fork="true" failonerror="true">
+			<arg line="-package" />
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore '${desktop_certificate_filename}'" />
+			<arg line="-storepass '${desktop_certificate_password}'" />
+			<arg line="'${desktop_air_filename}'" />
+			<arg line="'${desktop_descriptor}'" />
+
+			<!-- Add folders to be bundled in the AIR file here -->
+			<arg line="'${swf_filename}'" />
+			<arg line="'${assets_dir}/icons/icon16.png'" />
+			<arg line="'${assets_dir}/icons/icon32.png'" />
+			<arg line="'${assets_dir}/icons/icon48.png'" />
+			<arg line="'${assets_dir}/icons/icon128.png'" />
+		</java>
+	</target>
+
+
+	<!-- Compile SWF to build directory for iOS packaging -->
+	<target name="Package for iOS (iPhone retina)" depends="3. Compile">
+		<java jar="${adt_path}" fork="true" failonerror="true">
+			<arg line="-package" />
+			<arg line="-target ${ios_target}" />
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore '${ios_certificate_filename}'" />
+			<arg line="-storepass '${ios_certificate_password}'" />
+			<arg line="-provisioning-profile '${ios_provisioning_profile_path}'" />
+			<arg line="'${ios_ipa_filename}'" />
+			<arg line="'${ios_iphone_descriptor}'" />
+			
+			<!-- Add folders to be bundled in the AIR file here -->
+			<!--<arg line="${swf_filename}" />-->
+			<arg line="${swf_filename}" />
+			<arg line="${assets_dir}/icons" />
+			<arg line="Default.png" />
+		</java>
+	</target>
+	
+</project>

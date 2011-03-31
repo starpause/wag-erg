@@ -1,4 +1,4 @@
-<project name="WAG ERG" default="release-deploy" basedir=".">
+<project name="WAG ERG Playbook" default="release-deploy" basedir=".">
 	<description>
         Build file for Playbook Development
     </description>
@@ -24,26 +24,8 @@
 		change your project settings here
      *****************************************************************-->
 	
-	
-	<property name="project.name" value="WagErg" />
-	<property name="project.src" value="${basedir}/src" />
-	<property name="project.bin" value="${basedir}/bin" />
-	<property name="project.lib" value="${basedir}/libs" />
-	<property name="project.mainclass" value="${project.src}/${project.name}.as" />
-	<property name="project.xml" value="${project.bin}/${project.name}-app.xml" />
-	<property name="blackberry-tablet.xml" value="${project.bin}/blackberry-tablet.xml" />
-	<property name="project.swf" value="${project.bin}/${project.name}.swf" />
-	<property name="project.bar" value="${project.bin}/${project.name}.bar" />
-	
-	<!-- playbook simulator ip -->
-	<property name="device.ip" value="172.16.54.129" />
-	<!-- playbook simulator password -->
-	<property name="device.password" value="z9kqu" />
-	<!-- your computers ip ... needed for debugging -->
-	<property name="host.ip" value="192.168.23.65" />
-	
-	
-	
+	<property file="build.example.properties" />	
+
 <!-- *****************************************************************
 		don't make any changes
 	 *****************************************************************-->
