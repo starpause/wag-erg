@@ -4,7 +4,7 @@
     </description>
 
 	<!-- import project properties -->
-	<property file="build-iOS.example.properties" />	
+	<property file="build-iOS.properties" />	
 	
 	<tstamp>
 		<format property="timestamp" pattern="yyyy-MM-dd_HH-mm-ss" />

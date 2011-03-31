@@ -24,7 +24,7 @@
 		change your project settings here
      *****************************************************************-->
 	
-	<property file="build.example.properties" />	
+	<property file="build.properties" />	
 
 <!-- *****************************************************************
 		don't make any changes
