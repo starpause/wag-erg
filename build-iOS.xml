@@ -1,4 +1,4 @@
-<project default="1. Create directories" name="WAG ERG iOS" basedir="."> <!-- Edit me: Ant script name -->
+<project default="Package for iOS (iPhone retina)" name="WAG ERG iOS" basedir="."> <!-- Edit me: Ant script name -->
 	<description>
 		Buildfile for iOS off template by Vaclav Vancura (http://vancura.org ~ Copyright 2011)
     </description>
