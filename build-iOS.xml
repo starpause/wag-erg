@@ -1,4 +1,4 @@
-<project default="Package for iOS (iPhone retina)" name="WAG ERG iOS" basedir="."> <!-- Edit me: Ant script name -->
+<project default="Package for iOS - TEST" name="WAG ERG iOS" basedir="."> <!-- Edit me: Ant script name -->
 	<description>
 		Buildfile for iOS off template by Vaclav Vancura (http://vancura.org ~ Copyright 2011)
     </description>
@@ -25,54 +25,13 @@
 	<property name="desktop_air_filename" value="${deploy_dir}/${app_name}_${timestamp}.air" />
 	<property name="desktop_descriptor" value="${assets_dir}/desktop-app.xml" />
 	
-	<!-- iOS configuration -->
-	<property name="ios_target" value="ipa-test" />
-	<!--
-		Edit me: choose one from:
-			* ipa-test - Quick publishing for device testing
-			* ipa-debug - Quick publishing for device debugging
-			* ipa-ad-hoc - Deployment - Ad hoc
-			* ipa-app-store - Deployment - Apple App Store
-		OR set these up as different targets
-		AND have different mobile provisions as targets for all the ad-hocs
-	-->
-	
 	<property name="ios_ipa_filename" value="${debug_dir}/${app_name}.ipa" />
 	<!--
 	<property name="ios_ipa_filename" value="${deploy_dir}/${app_name}_${timestamp}.ipa" />	
 	-->
-	
-	
-	<!-- Create required directories -->
-	<target name="1. Create directories">
-	<!--
-		didn't like the script blowing away directories containging useful stuff for other builds
-		maybe at somepoint roll all the builds into one script
-		for now an ant script per platform is ok for me
-		<mkdir dir="${assets_dir}" />
-		<mkdir dir="${deploy_dir}" />
-		<mkdir dir="${debug_dir}" />
-		<mkdir dir="${libs_dir}" />
-		<mkdir dir="${certificates_dir}" />
-	-->
-	</target>
-
-	<!-- Creating a digital ID certificate -->
-	<target name="2. Create temporary desktop certificate">
-		<!--
-		<java jar="${adt_path}" fork="true">
-			<arg line="-certificate" />
-			<arg line="-cn ${desktop_certificate_name}" />
-			<arg line="-ou '${desktop_certicitace_org_unit}'" />
-			<arg line="-o '${desktop_certificate_org_name}'" />
-			<arg line="-c '${desktop_certificate_country_code}' ${desktop_certificate_key_type} ${certificates_dir}/${desktop_certificate_name}.pfx ${desktop_certificate_password}" />
-		</java>
-		-->
-	</target>
-
 
 	<!-- Compile SWF to build directory for desktop packaging -->
-	<target name="3. Compile" depends="1. Create directories">
+	<target name="3. Compile">
 		<java jar="${mxmlc_path}" fork="true" failonerror="true">
 			<arg value="-debug=false" />
 			<arg value="-optimize=true" />
@@ -85,35 +44,67 @@
 	</target>
 
 
-	<!-- Packaging the application to an air-file in the publish directory -->
-	<target name="Package for desktop" depends="3. Compile">
+
+	
+	
+	<!-- iOS configuration -->
+	<property name="ios_target" value="ipa-test" />
+	<!--
+		Edit me: choose one from:
+			* ipa-test - Quick publishing for device testing
+			* ipa-debug - Quick publishing for device debugging
+			* ipa-ad-hoc - Deployment - Ad hoc
+			* ipa-app-store - Deployment - Apple App Store
+		OR set these up as different targets
+		AND have different mobile provisions as targets for all the ad-hocs
+	-->	
+	
+	<target name="Package for iOS - TEST" depends="3. Compile">
 		<java jar="${adt_path}" fork="true" failonerror="true">
 			<arg line="-package" />
-			<arg line="-storetype pkcs12" />
-			<arg line="-keystore '${desktop_certificate_filename}'" />
-			<arg line="-storepass '${desktop_certificate_password}'" />
-			<arg line="'${desktop_air_filename}'" />
-			<arg line="'${desktop_descriptor}'" />
-
-			<!-- Add folders to be bundled in the AIR file here -->
-			<arg line="'${swf_filename}'" />
-			<arg line="'${assets_dir}/icons/icon16.png'" />
-			<arg line="'${assets_dir}/icons/icon32.png'" />
-			<arg line="'${assets_dir}/icons/icon48.png'" />
-			<arg line="'${assets_dir}/icons/icon128.png'" />
-		</java>
-	</target>
-
-
-	<!-- Compile SWF to build directory for iOS packaging -->
-	<target name="Package for iOS (iPhone retina)" depends="3. Compile">
-		<java jar="${adt_path}" fork="true" failonerror="true">
-			<arg line="-package" />
-			<arg line="-target ${ios_target}" />
+			<arg line="-target ipa-test" />
 			<arg line="-storetype pkcs12" />
 			<arg line="-keystore '${ios_certificate_filename}'" />
 			<arg line="-storepass '${ios_certificate_password}'" />
-			<arg line="-provisioning-profile '${ios_provisioning_profile_path}'" />
+			<arg line="-provisioning-profile '${ios_provisioning_profile_test}'" />
+			<arg line="'${ios_ipa_filename}'" />
+			<arg line="'${ios_iphone_descriptor}'" />
+			
+			<!-- Add folders to be bundled in the AIR file here -->
+			<!--<arg line="${swf_filename}" />-->
+			<arg line="${swf_filename}" />
+			<arg line="${assets_dir}/icons" />
+			<arg line="Default.png" />
+		</java>
+	</target>
+	
+	<target name="Package for iOS - AD HOC" depends="3. Compile">
+		<java jar="${adt_path}" fork="true" failonerror="true">
+			<arg line="-package" />
+			<arg line="-target ipa-ad-hoc" />
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore '${ios_certificate_distribution}'" />
+			<arg line="-storepass '${ios_certificate_distribution_password}'" />
+			<arg line="-provisioning-profile '${ios_provisioning_profile_ad_hoc}'" />
+			<arg line="'${ios_ipa_filename}'" />
+			<arg line="'${ios_iphone_descriptor}'" />
+			
+			<!-- Add folders to be bundled in the AIR file here -->
+			<!--<arg line="${swf_filename}" />-->
+			<arg line="${swf_filename}" />
+			<arg line="${assets_dir}/icons" />
+			<arg line="Default.png" />
+		</java>
+	</target>
+	
+	<target name="Package for iOS - APP STORE" depends="3. Compile">
+		<java jar="${adt_path}" fork="true" failonerror="true">
+			<arg line="-package" />
+			<arg line="-target ipa-app-store" />
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore '${ios_certificate_filename}'" />
+			<arg line="-storepass '${ios_certificate_password}'" />
+			<arg line="-provisioning-profile '${ios_provisioning_profile_app_store}'" />
 			<arg line="'${ios_ipa_filename}'" />
 			<arg line="'${ios_iphone_descriptor}'" />
 			
