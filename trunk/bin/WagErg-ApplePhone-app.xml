@@ -19,5 +19,18 @@
         <image29x29>bin/icons/iOS_29.png</image29x29> 
         <image57x57>bin/icons/iOS_57.png</image57x57> 
         <image512x512>bin/icons/iOS_512.png</image512x512> 
-    </icon> 
+    </icon>
+    <!-- 
+    <iPhone> 
+        <InfoAdditions><![CDATA[
+			<key>UIBackgroundModes</key>
+			<string>audio</string> 
+			<key>UIDeviceFamily</key> 
+			<array>
+			    <string>1</string> 
+			    <string>2</string> 
+			</array>
+		]]></InfoAdditions> 
+    </iPhone>
+     -->     
 </application>
