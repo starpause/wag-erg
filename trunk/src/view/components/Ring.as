@@ -17,12 +17,9 @@ package view.components {
 		
 		private var offset:Number = -90;// Initial angle
 		private var circleR:Number; // Circle radius (in pixels)
-		private var maskR:Number;
 		
 		private var tickFill:Shape;
 		private var tickSprite:Sprite;
-		private var tickMaskFill:Shape;
-		private var tickMaskSprite:Sprite;
 		
 		private var thickness:int = 4;
 		private var key:String;
@@ -44,34 +41,9 @@ package view.components {
 			tickSprite = new Sprite();
 			addChild(tickSprite);
 			tickFill = new Shape();
-			tickSprite.addChild(tickFill);		
-			
-			//drawing set up
-			tickMaskSprite = new Sprite();
-			tickMaskFill = new Shape();
-			tickMaskSprite.addChild(tickMaskFill);
-			tickSprite.blendMode = BlendMode.LAYER;
-			tickMaskSprite.blendMode = BlendMode.ERASE;
-			tickSprite.addChild(tickMaskSprite);
+			tickSprite.addChild(tickFill);			
 		}
-
-		private function drawMask():void{
-			tickMaskFill.graphics.clear();
-			tickMaskFill.graphics.lineStyle(1,maskColor);
-			tickMaskFill.graphics.moveTo(0,0);
-			tickMaskFill.graphics.beginFill(maskColor,1);//.7
-			
-			for (var i:int=0; i<361; i++) {
-				tickMaskFill.graphics.lineTo(maskR*Math.cos(i*Math.PI/180), -maskR*Math.sin(i*Math.PI/180) );
-			}
-
-			//The final lineTo outside of the loop takes the "pen" back to its starting point.
-			tickMaskFill.graphics.lineTo(0,0);
-			
-			//Since the drawing is between beginFill and endFill, we get the filled shape.
-			tickMaskFill.graphics.endFill();
-		}
-
+		
 		private function drawTicks():void{
 			tickFill.graphics.clear();
 			tickFill.graphics.lineStyle(1,tickColor);
@@ -83,12 +55,13 @@ package view.components {
 					var dFirst:Number = (i+offset)*-1;
 					var dLast:Number = Math.floor((i+degreesPerChamber-2+offset)*-1);
 					while(dFirst > dLast){
+						tickFill.graphics.moveTo((circleR-thickness)*Math.cos(dFirst*Math.PI/180), -(circleR-thickness)*Math.sin(dFirst*Math.PI/180) );
 						tickFill.graphics.lineTo(circleR*Math.cos(dFirst*Math.PI/180), -circleR*Math.sin(dFirst*Math.PI/180) );
 						//tickFill.graphics.lineTo(circleR*Math.cos(dLast*Math.PI/180), -circleR*Math.sin(dLast*Math.PI/180) );
 						dFirst = dFirst - .5;
 					}
 					//The final lineTo outside of the loop takes the "pen" back to its starting point.
-					tickFill.graphics.lineTo(0,0);
+					//tickFill.graphics.lineTo(0,0);
 				}
 			}
 			
@@ -105,8 +78,7 @@ package view.components {
 		public function redraw(radius : Number, sequence:Array=null) : void {
 			//new radius
 			circleR = radius;
-			//required for punch out mask
-			maskR = circleR - thickness;
+			
 			//did we get a new sequence?
 			if(sequence!=null){
 				euHits=sequence;
@@ -117,7 +89,7 @@ package view.components {
 			drawTicks();
 			
 			//punch out masking of back
-			drawMask();				
+			//drawMask();				
 		}
 
 		public function get _key() : String {
