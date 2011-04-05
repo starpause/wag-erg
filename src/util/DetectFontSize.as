@@ -14,6 +14,8 @@ package util {
 	public class DetectFontSize extends Sprite {
 
 		public function DetectFontSize(){
+			//use the default font size if we're web/desktop
+			if(Data.touchScreen==false){return;};
 			//make a text field
 			var detectField:TextField = new TextField();
 			var pointSize:int = 1;
