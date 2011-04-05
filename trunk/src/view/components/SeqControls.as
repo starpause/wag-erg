@@ -1,4 +1,5 @@
 package view.components {
+	import com.junkbyte.console.Cc;
 	import model.Data;
 	import events.Thought;
 	import events.Brain;
@@ -18,7 +19,7 @@ package view.components {
 			//store passed variables
 			passedWidth = _width;
 			passedHeight = _height;
-
+			Cc.log('Seq Height: '+passedHeight);
 			//wait for the stage to init display
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);

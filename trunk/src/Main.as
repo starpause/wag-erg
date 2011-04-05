@@ -1,4 +1,6 @@
 package {
+	import flash.system.Capabilities;
+	import util.DetectFontSize;
 	import view.components.WaitScreen;
 	import events.BeatDispatcherEvent;
 	import events.BeatDispatcher;
@@ -37,16 +39,28 @@ package {
 		
 		public function Main(){
 			if (stage) init();
-			else addEventListener(Event.ADDED_TO_STAGE, init);			
+			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			//compute some stage based variables now that we have access
-			navHeight = stage.stageHeight/3;
-			Data.margin = Math.floor(stage.stageWidth * .01 / 2);
+			//debugging
+			Cc.startOnStage(this);
+			//Cc.startOnStage(this, "`");
 			
+			var detectFontSize:DetectFontSize = new DetectFontSize();
+			
+			//compute some stage based variables now that we have access
+			Cc.log("sh.INIT: "+stage.stageHeight);
+			var detectedHeight:Number = stage.stageHeight;  //Capabilities.screenResolutionX;
+			navHeight = detectedHeight/3;
+			Data.margin = Math.floor(detectedHeight * .01);
+			
+			Cc.y = 90;//stage.stageHeight-Cc.height;
+			Cc.width = stage.stageWidth/1.5;
+			Cc.x = stage.stageWidth - Cc.width;
+				
 			addListeners();
 			
 			//drawing
@@ -55,22 +69,24 @@ package {
 			addChild(waitScreen);
 			waitScreen.visible = false;
 			
+			Cc.log('sh.PRESEQ: '+stage.stageHeight);
 			var seqControls:SeqControls = new SeqControls(stage.stageWidth, stage.stageHeight-navHeight);
 			mainScreen.addChild(seqControls);
 			seqControls.x = 0;
 			seqControls.y = navHeight;
+			
 			var seqHead:SeqHead = new SeqHead(navHeight,navHeight);
 			mainScreen.addChild(seqHead);
 			seqHead.x = 0;//stage.stageWidth - seqHead.width;
 			seqHead.y = 0;
 						
 			//init the sequencer
-			initBeater();
+			initBeater();			
+		}
+
+	
+		private function detectFontSize() : void {
 			
-			//debugging
-			Cc.startOnStage(this, "`");
-			Cc.y = 90;//stage.stageHeight-Cc.height;
-			Cc.x = 300;//(stage.stageWidth-Cc.width)/2;
 		}
 
 		private function addListeners() : void {
@@ -122,7 +138,7 @@ package {
 		}
 
 		private function onTick(event : BeatDispatcherEvent) : void {
-			Cc.log(event.toString());
+			//Cc.log(event.toString());
 			Brain.send(new Thought(Thought.ON_TICK,{'position':event.currentPosition}));
 		}
 		
@@ -154,6 +170,7 @@ package {
 			
 			//new drum controls
 			//tempName = "controls"+drumCounter.toString();
+			Cc.log('sh.PREDRUM: '+stage.stageHeight);
 			var tempControls:DrumControls = new DrumControls(stage.stageWidth, stage.stageHeight-navHeight, tempName, tempDrum.color);
 			tempControls.x = 0;
 			tempControls.y = navHeight;

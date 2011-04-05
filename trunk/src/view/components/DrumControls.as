@@ -1,4 +1,5 @@
 package view.components {
+	import com.junkbyte.console.Cc;
 	import model.Data;
 	import flash.display.Shape;
 	import events.Thought;
@@ -22,6 +23,8 @@ package view.components {
 			color = _color;
 			passedWidth = _width;
 			passedHeight = _height;
+			Cc.log('Drum Height: '+passedHeight);
+			
 
 			//wait for the stage to init display
 			if (stage) init();
