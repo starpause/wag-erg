@@ -46,14 +46,19 @@ package {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			//debugging
-			Cc.startOnStage(this);
-			//Cc.startOnStage(this, "`");
+			//Cc.startOnStage(this);
+			Cc.startOnStage(this, "`");
 			
 			var detectFontSize:DetectFontSize = new DetectFontSize();
 			
 			//compute some stage based variables now that we have access
 			Cc.log("sh.INIT: "+stage.stageHeight);
-			var detectedHeight:Number = stage.stageHeight;  //Capabilities.screenResolutionX;
+			var detectedHeight:Number;
+			if(Data.touchScreen==true){
+				detectedHeight = Capabilities.screenResolutionX;
+			}else{
+				detectedHeight = stage.stageHeight;
+			}
 			navHeight = detectedHeight/3;
 			Data.margin = Math.floor(detectedHeight * .01);
 			
@@ -70,7 +75,7 @@ package {
 			waitScreen.visible = false;
 			
 			Cc.log('sh.PRESEQ: '+stage.stageHeight);
-			var seqControls:SeqControls = new SeqControls(stage.stageWidth, stage.stageHeight-navHeight);
+			var seqControls:SeqControls = new SeqControls(stage.stageWidth, detectedHeight-navHeight);
 			mainScreen.addChild(seqControls);
 			seqControls.x = 0;
 			seqControls.y = navHeight;
