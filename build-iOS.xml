@@ -1,10 +1,10 @@
-<project default="Package for iOS - TEST" name="WAG ERG iOS" basedir="."> <!-- Edit me: Ant script name -->
+<project name="WAG ERG iOS" basedir="." default="Package for iOS - TEST" >
 	<description>
 		Buildfile for iOS off template by Vaclav Vancura (http://vancura.org ~ Copyright 2011)
     </description>
 
 	<!-- import project properties -->
-	<property file="build-iOS.properties" />	
+	<property file="build-iOS.properties" />
 	
 	<tstamp>
 		<format property="timestamp" pattern="yyyy-MM-dd_HH-mm-ss" />
@@ -15,16 +15,10 @@
 	<property name="adt_path" value="${flex_sdk_dir}/lib/adt.jar" />
 	
 	<!-- Application configuration -->
-	<property name="assets_dir" value="bin" />
+	<property name="assets_dir" value="${debug_dir}" />
 	<property name="certificates_dir" value="config" />
-	<property name="deploy_dir" value="deploy" />
 	<property name="libs_dir" value="libs" />
-	
-	<!-- Desktop configuration -->
-	<property name="desktop_certificate_filename" value="${certificates_dir}/${desktop_certificate_name}.pfx" />
-	<property name="desktop_air_filename" value="${deploy_dir}/${app_name}_${timestamp}.air" />
-	<property name="desktop_descriptor" value="${assets_dir}/desktop-app.xml" />
-	
+		
 	<property name="ios_ipa_filename" value="${debug_dir}/${app_name}.ipa" />
 	<!--
 	<property name="ios_ipa_filename" value="${deploy_dir}/${app_name}_${timestamp}.ipa" />	
@@ -67,7 +61,7 @@
 			<arg line="-keystore '${ios_certificate_filename}'" />
 			<arg line="-storepass '${ios_certificate_password}'" />
 			<arg line="-provisioning-profile '${ios_provisioning_profile_test}'" />
-			<arg line="'${ios_ipa_filename}'" />
+			<arg line="'${debug_dir}/${app_name}-TEST.ipa'" />
 			<arg line="'${ios_iphone_descriptor}'" />
 			
 			<!-- Add folders to be bundled in the AIR file here -->
@@ -86,7 +80,7 @@
 			<arg line="-keystore '${ios_certificate_distribution}'" />
 			<arg line="-storepass '${ios_certificate_distribution_password}'" />
 			<arg line="-provisioning-profile '${ios_provisioning_profile_ad_hoc}'" />
-			<arg line="'${ios_ipa_filename}'" />
+			<arg line="'${debug_dir}/${app_name}-AD-HOC.ipa'" />
 			<arg line="'${ios_iphone_descriptor}'" />
 			
 			<!-- Add folders to be bundled in the AIR file here -->
@@ -102,10 +96,10 @@
 			<arg line="-package" />
 			<arg line="-target ipa-app-store" />
 			<arg line="-storetype pkcs12" />
-			<arg line="-keystore '${ios_certificate_filename}'" />
-			<arg line="-storepass '${ios_certificate_password}'" />
+			<arg line="-keystore '${ios_certificate_distribution}'" />
+			<arg line="-storepass '${ios_certificate_distribution_password}'" />
 			<arg line="-provisioning-profile '${ios_provisioning_profile_app_store}'" />
-			<arg line="'${ios_ipa_filename}'" />
+			<arg line="'${debug_dir}/${app_name}-APP-STORE.ipa'" />
 			<arg line="'${ios_iphone_descriptor}'" />
 			
 			<!-- Add folders to be bundled in the AIR file here -->

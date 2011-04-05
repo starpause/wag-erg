@@ -7,19 +7,23 @@
  * http://blog.formatlos.de/2010/12/13/playbook-development-with-fdt-and-ant/
  */
 package {
+	import flash.display.StageQuality;
 	import model.Data;
 	import flash.display.Sprite;
 	import flash.events.Event;
-
-	[SWF(height="600", width="1024", frameRate="30", backgroundColor="#010101")]
+	
+	[SWF(height="600", width="1024", frameRate="64", backgroundColor="#010101")]
 	public class WagErg extends Sprite
-	{		
+	{
 		public function WagErg(){
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);			
 		}
 		
 		private function init(e:Event=null):void{
+			//no anti aliasing suit required
+			stage.quality=StageQuality.LOW;
+			
 			var main:Main = new Main();
 			addChild(main);
 			stage.nativeWindow.visible = true;

@@ -7,25 +7,31 @@
  * http://blog.formatlos.de/2010/12/13/playbook-development-with-fdt-and-ant/
  */
 package {
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
+	import flash.display.StageQuality;
 	import model.Data;
 	import flash.display.Sprite;
 	import flash.events.Event;
 
-	[SWF(height="320", width="480", frameRate="40", backgroundColor="#010101")]
+	[SWF(heightPercent="100%", widthPercent="100%", frameRate="64", backgroundColor="#010101")]
 	public class WagErgApplePhone extends Sprite
-	{		
+	{
 		public function WagErgApplePhone(){
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);			
 		}
 		
 		private function init(e:Event=null):void{
+			//no anti aliasing suit required
+			stage.quality=StageQuality.LOW;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			
 			Data.touchScreen=true;
-			Data.fontSize=20;
 			var main:Main = new Main();
 			addChild(main);
 		}
 
-		
 	}
 }

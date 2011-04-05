@@ -7,6 +7,7 @@
  * http://blog.formatlos.de/2010/12/13/playbook-development-with-fdt-and-ant/
  */
 package {
+	import flash.display.StageQuality;
 	import model.Data;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -20,6 +21,9 @@ package {
 		}
 		
 		private function init(e:Event=null):void{
+			//no anti aliasing suit required
+			stage.quality=StageQuality.LOW;
+			
 			var main:Main = new Main();
 			addChild(main);
 			Data.touchScreen=false;
