@@ -1,0 +1,32 @@
+<project>
+
+    <target name="debug-package-android">
+        <exec executable="${air.sdk.home}/bin/adt.bat" dir="${project.bin}">
+            <arg value="-package" />
+            <arg value="-target" />
+            <arg value="apk" />
+            <arg value="-storetype"/>
+            <arg value="pkcs12"/>
+            <arg value="-keystore" />
+            <arg value="${basedir}/certs/WagErg.p12" />
+            <arg value="-storepass"/>
+            <arg value="WagErg"/>
+            <arg value="WagErg.apk" />
+            <arg value="${basedir}/config/WagErg-app.xml" />
+            <arg value="WagErgWeb.swf" />
+        </exec>
+    </target>
+    
+    <target name="debug-deploy-android">
+        <exec executable="${air.sdk.home}/bin/adt.bat" dir="${project.bin}">
+            <arg value="-installApp" />
+            <arg value="-platform" />
+            <arg value="android" />
+            <arg value="-platformsdk"/>
+            <arg value="${android.sdk.home}"/>
+            <arg value="-package" />
+            <arg value="WagErg.apk" />
+        </exec>
+    </target>
+    
+</project>

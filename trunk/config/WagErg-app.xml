@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- make sure to download the latest air sdk -->
+<application xmlns="http://ns.adobe.com/air/application/2.6"> 
+    <id>samples.android.WagErg</id> 
+    <versionNumber>0.0.1</versionNumber> 
+    <filename>WagErg</filename> 
+    <initialWindow> 
+        <content>WagErgWeb.swf</content>
+        <aspectRatio>landscape</aspectRatio>
+    </initialWindow> 
+    <supportedProfiles>mobileDevice</supportedProfiles>
+    <android>
+        <manifestAdditions> 
+        <![CDATA[ 
+            <manifest> 
+                <uses-permission android:name="android.permission.INTERNET"/>
+            </manifest> 
+        ]]> 
+    </manifestAdditions> 
+        
+    </android>
+</application>
