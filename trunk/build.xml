@@ -52,6 +52,11 @@
 	<target name="debug-compile" depends="clean" if="sdk.home" description="compile the app with debugging">
     	<macro_mxmlc mainclass="${project.mainclass}" output="${project.swf}" debug="true" />
 	</target>
+	
+	<!-- compile the WagErgWeb.swf for local debugging with Flash player -->
+    <target name="debug-compile-web">
+        <macro_mxmlc mainclass="${project.src}/WagErgWeb.as" output="${project.bin}/WagErgWeb.swf" debug="false" />
+    </target>
 				
 	<!-- debug deploy -->
 	<target name="debug-deploy" depends="debug-compile" if="sdk.home" description="create the app .bar debug package and deploy the app">
