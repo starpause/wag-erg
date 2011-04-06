@@ -42,7 +42,7 @@
 	<!-- flex tasks --> 
 	<taskdef resource="flexTasks.tasks" classpath="${sdk.home}/ant/lib/flexTasks.jar" />
 	
-	
+	<import file="build-android.xml"/>
 	
 	<!-- ================================= 
 	          debug targets              
