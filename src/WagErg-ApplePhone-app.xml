@@ -5,20 +5,22 @@
     <versionNumber>1.0.1</versionNumber> 
     <filename>WAG ERG</filename> 
     <supportedProfiles>mobileDevice</supportedProfiles> 
-    <initialWindow> 
-    	<!-- bin prefix cause the descriptor gets it's basedir from the ant task running it ... aka build-iOS.xml out on the root level of the project -->
-        <content>bin/WagErgApplePhone.swf</content> 
-        <title>WAG ERG</title>
-		<aspectRatio>landscape</aspectRatio>
-		<autoOrients>false</autoOrients>
-		<fullScreen>true</fullScreen>
-		<renderMode>cpu</renderMode> <!--gpu was slower on 3gs, also need filters for seqhead to draw nice-->
-    </initialWindow> 
+<initialWindow> 
+	<aspectRatio>landscape</aspectRatio>
+	<autoOrients>false</autoOrients>
+	<width>320</width>
+	<height>480</height>
+	<!-- bin prefix cause the descriptor gets it's basedir from the ant task running it ... aka build-iOS.xml out on the root level of the project -->
+	<content>bin/iOS/WagErgApplePhone.swf</content> 
+	<title>WAG ERG</title>
+	<fullScreen>true</fullScreen>
+	<renderMode>cpu</renderMode> <!--gpu was slower on 3gs, also need filters for seqhead to draw nice-->
+</initialWindow> 
     <icon>
     	<!-- bin prefix cause the descriptor gets it's basedir from the ant task running it ... aka build-iOS.xml out on the root level of the project -->
-        <image29x29>bin/icons/iOS_29.png</image29x29> 
-        <image57x57>bin/icons/iOS_57.png</image57x57> 
-        <image512x512>bin/icons/iOS_512.png</image512x512> 
+        <image29x29>src/assets/iOS/icons/iOS_29.png</image29x29>
+        <image57x57>src/assets/iOS/icons/iOS_57.png</image57x57>
+        <image512x512>src/assets/iOS/icons/iOS_512.png</image512x512> 
     </icon>
     <!-- 
     <iPhone> 

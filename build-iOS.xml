@@ -15,7 +15,6 @@
 	<property name="adt_path" value="${flex_sdk_dir}/lib/adt.jar" />
 	
 	<!-- Application configuration -->
-	<property name="assets_dir" value="${debug_dir}" />
 	<property name="certificates_dir" value="config" />
 	<property name="libs_dir" value="libs" />
 		
