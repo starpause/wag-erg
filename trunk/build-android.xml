@@ -28,5 +28,20 @@
             <arg value="WagErg.apk" />
         </exec>
     </target>
+	<!--
+	 | It's necessary to uninstall before re-installing an app.
+	 |-->
+    <target name="debug-undeploy-android">
+        <exec executable="${air.sdk.home}/bin/adt.bat" dir="${project.bin}">
+            <arg value="-uninstallApp" />
+            <arg value="-platform" />
+            <arg value="android" />
+            <arg value="-platformsdk"/>
+            <arg value="${android.sdk.home}"/>
+            <arg value="-appid" />
+            <arg value="samples.android.WagErg" />
+        </exec>
+    </target>
+	
     
 </project>
