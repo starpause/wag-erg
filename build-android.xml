@@ -17,7 +17,7 @@
         </exec>
     </target>
     
-    <target name="debug-deploy-android">
+    <target name="debug-deploy-android" depends="debug-package-android,debug-undeploy-android">
         <exec executable="${air.sdk.home}/bin/adt.bat" dir="${project.bin}">
             <arg value="-installApp" />
             <arg value="-platform" />
