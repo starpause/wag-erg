@@ -5,12 +5,12 @@ package view {
     import flash.text.TextField;
     import flash.text.TextFieldAutoSize;
     import flash.text.TextFormat;
+	import flash.text.AntiAliasType;
 
     import events.Thought;
     import events.Brain;
     import model.Data;
     import view.components.DrumButton;
-    import view.components.NewDrumButton;
     
     /**
      * Use this factory object to create platform-specific buttons.
@@ -41,16 +41,13 @@ package view {
         public function createNewButton():Sprite {
             //return new NewDrumButton(height - Data.margin * 2);
             var button:Sprite = new Sprite();
-
-            var holder:Sprite = new Sprite();
             var bg : Sprite = new Sprite();
-            var textField:TextField = new TextField();       
-            var passedHeight : Number;
-        
-            button.addChild(holder);
-            holder.addChild(bg);
-            holder.addChild(textField);
-            
+            var textField:TextField = new TextField();
+			
+            //button.addChild(holder);
+            button.addChild(bg);
+            button.addChild(textField);
+			
             //textfield properties
             textField.embedFonts = true;
             textField.autoSize = TextFieldAutoSize.LEFT;
@@ -66,17 +63,17 @@ package view {
             bg.graphics.endFill();
             
             /* Listen for a touch on the dialog. */
-            holder.buttonMode = true;
-            holder.mouseChildren = false;
-            holder.useHandCursor = true;
-            holder.addEventListener(MouseEvent.CLICK, onAddDrum);
-            holder.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
-            holder.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
-            holder.addEventListener(MouseEvent.MOUSE_UP, onUp);
-            holder.addEventListener(MouseEvent.MOUSE_OUT, onUp);
+            button.buttonMode = true;
+            button.mouseChildren = false;
+            button.useHandCursor = true;
+            button.addEventListener(MouseEvent.CLICK, onAddDrum);
+            button.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
+            button.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
+            button.addEventListener(MouseEvent.MOUSE_UP, onUp);
+            button.addEventListener(MouseEvent.MOUSE_OUT, onUp);
             
             //rotating inside the button so the layout class doesn't have to do funny width/heigt 
-            holder.rotation = -90;
+            button.rotation = -90;
             button.alpha = Data.alphaUp;
             
             return button;
