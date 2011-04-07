@@ -5,7 +5,7 @@
     <versionNumber>0.0.1</versionNumber> 
     <filename>WagErg</filename> 
     <initialWindow> 
-        <content>WagErgWeb.swf</content>
+        <content>WagErg.swf</content>
         <aspectRatio>landscape</aspectRatio>
     </initialWindow> 
     <supportedProfiles>mobileDevice</supportedProfiles>
