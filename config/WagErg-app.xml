@@ -1,22 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- make sure to download the latest air sdk -->
-<application xmlns="http://ns.adobe.com/air/application/2.6"> 
-    <id>samples.android.WagErg</id> 
-    <versionNumber>0.0.1</versionNumber> 
-    <filename>WagErg</filename> 
-    <initialWindow> 
-        <content>WagErg.swf</content>
-        <aspectRatio>landscape</aspectRatio>
-    </initialWindow> 
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/2.6">
+<!-- AIR Application Descriptor File. See http://www.adobe.com/go/learn_air_1.0_application_descriptor_en. -->
+    <id>com.starpause.wagerg</id>
+    <name>WAG ERG</name>
+        <!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade. 
+            Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
+            An updated version of application must have a versionNumber value higher than the previous version. Required for namespace >= 2.5 . -->
+        <versionNumber>1.0.1</versionNumber>
+    <filename>WAG ERG</filename>
+    <description>
+        <text xml:lang="en"><![CDATA[
+        ERG (verb): the act of casually creating fresh drum sounds and beats using Wag's Euclidean Rhythm Generator. 
+
+Within moments of booting up, it's possible to generate an abstract, ambient, or idm loop. The sound mixes perfectly in open air with a Buddha Machine or sx150 synth, for example.
+
+INSTRUCTIONS: (1) hit "add sound" (2) randomize the sound's color and sequence to your liking (3) hit the radar to return to the black screen & add more sounds (4) hit the color blocks to play a sound and return to it's controls for further modification.
+
+BACKGROUND: Sounds are randomized with DrPetter's SFXR ... "an MS Paint for sound effects." Sequences are randomized using Toussaint's concept of generating traditional world music beats via the Euclidean Algorithm, which "reveals a tantalizing pattern."
+
+DONT ERG AND DRIVE, SIP SLOW, PEasE !~]]></text>
+    </description>
+    <copyright>MIT License</copyright>
     <supportedProfiles>mobileDevice</supportedProfiles>
-    <android>
-        <manifestAdditions> 
-        <![CDATA[ 
-            <manifest> 
-                <uses-permission android:name="android.permission.INTERNET"/>
-            </manifest> 
-        ]]> 
-    </manifestAdditions> 
-        
-    </android>
+    <initialWindow>
+		<content>bin/android/WagErgApplePhone.swf</content>
+		<title>WAG ERG</title>
+		<aspectRatio>landscape</aspectRatio>
+		<autoOrients>false</autoOrients>
+		<fullScreen>true</fullScreen>
+    </initialWindow>
+
+    <icon>
+        <image36x36>src/assets/android/icons/android-36.png</image36x36>
+        <image48x48>src/assets/android/icons/android-48.png</image48x48>
+        <image72x72>src/assets/android/icons/android-72.png</image72x72>
+    </icon>
+
+	<android>
+		<manifestAdditions> 
+		<![CDATA[
+			<manifest> 
+			    <uses-permission android:name="android.permission.INTERNET"/>
+			</manifest> 
+		]]>
+		</manifestAdditions>
+	</android>
+    
+    
 </application>
+
