@@ -3,6 +3,7 @@ package view.components {
 	import model.Data;
 	import events.Thought;
 	import events.Brain;
+	import view.ButtonFactory;
 	import flash.events.Event;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -14,12 +15,15 @@ package view.components {
 		private var passedHeight : Number;
 		private var bgShape : Shape = new Shape;
 		private var lastX : Number = 0;
+		private var factory:ButtonFactory;
 		
 		public function SeqControls(_width:Number,_height:Number){
 			//store passed variables
 			passedWidth = _width;
 			passedHeight = _height;
 			Cc.log('Seq Height: '+passedHeight);
+			
+			factory  = new ButtonFactory(_height);
 			//wait for the stage to init display
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
@@ -59,7 +63,8 @@ package view.components {
 		}
 
 		private function drawNewDrumButton() : void {
-			var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (Data.margin*2));
+			//var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (Data.margin*2));
+            var newDrumButton:Sprite = factory.createNewButton();
 			addChild(newDrumButton);
 			
 			newDrumButton.x = lastX; 
