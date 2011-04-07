@@ -1,6 +1,7 @@
 package view.components {
 	import com.junkbyte.console.Cc;
 	import model.Data;
+    import flash.events.MouseEvent;
 	import events.Thought;
 	import events.Brain;
 	import view.ButtonFactory;
@@ -64,7 +65,8 @@ package view.components {
 
 		private function drawNewDrumButton() : void {
 			//var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (Data.margin*2));
-            var newDrumButton:Sprite = factory.createNewButton();
+            var newDrumButton:Sprite = factory.createNewButton(" add sound");
+            newDrumButton.addEventListener(MouseEvent.CLICK, onAddDrum);
 			addChild(newDrumButton);
 			
 			newDrumButton.x = lastX; 
@@ -89,7 +91,10 @@ package view.components {
 			addChild(bgShape);			
 		}
 		
-		
+
+        private function onAddDrum(event : MouseEvent) : void {
+            Brain.send(new Thought(Thought.ADD_DRUM));
+        }
 		
 	}
 }

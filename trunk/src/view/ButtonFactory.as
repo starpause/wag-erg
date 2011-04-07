@@ -7,8 +7,6 @@ package view {
     import flash.text.TextFormat;
 	import flash.text.AntiAliasType;
 
-    import events.Thought;
-    import events.Brain;
     import model.Data;
     import view.components.DrumButton;
     
@@ -38,7 +36,7 @@ package view {
         /**
          * Create a NEW drum button with specific size.
          */
-        public function createNewButton():Sprite {
+        public function createNewButton(text:String):Sprite {
             //return new NewDrumButton(height - Data.margin * 2);
             var button:Sprite = new Sprite();
             var bg : Sprite = new Sprite();
@@ -55,7 +53,7 @@ package view {
             textField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
             textField.border = false;
             textField.selectable = false;
-            textField.text = ' add sound';
+            textField.text = text;
             
             //bg properties after tf is done
             bg.graphics.beginFill(0xFFFFFF);
@@ -66,7 +64,6 @@ package view {
             button.buttonMode = true;
             button.mouseChildren = false;
             button.useHandCursor = true;
-            button.addEventListener(MouseEvent.CLICK, onAddDrum);
             button.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
             button.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
             button.addEventListener(MouseEvent.MOUSE_UP, onUp);
@@ -94,10 +91,6 @@ package view {
             if(Data.touchScreen == true){
                 button.alpha = Data.alphaDown;
             }
-        }
-
-        private function onAddDrum(event : MouseEvent) : void {
-            Brain.send(new Thought(Thought.ADD_DRUM));
         }
     }
 }
