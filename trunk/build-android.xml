@@ -13,7 +13,7 @@
             <arg value="WagErg"/>
             <arg value="WagErg.apk" />
             <arg value="${basedir}/config/WagErg-app.xml" />
-            <arg value="WagErgWeb.swf" />
+            <arg value="WagErg.swf" />
         </exec>
     </target>
     
