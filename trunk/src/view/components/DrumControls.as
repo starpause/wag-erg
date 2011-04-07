@@ -1,7 +1,9 @@
 package view.components {
 	import com.junkbyte.console.Cc;
 	import model.Data;
+    import view.ButtonFactory;
 	import flash.display.Shape;
+	import flash.events.MouseEvent;
 	import events.Thought;
 	import events.Brain;
 	import flash.events.Event;
@@ -16,6 +18,7 @@ package view.components {
 		private var bgShape : Shape = new Shape;
 		private var key : String = "";
 		private var lastX : Number = 0;
+		private var buttonFactory : ButtonFactory;
 		
 		public function DrumControls(_width:Number,_height:Number,_name:String="",_color:Number=0x000000){
 			//store passed variables
@@ -25,6 +28,7 @@ package view.components {
 			passedHeight = _height;
 			Cc.log('Drum Height: '+passedHeight);
 			
+            buttonFactory  = new ButtonFactory(_height);
 
 			//wait for the stage to init display
 			if (stage) init();
@@ -104,7 +108,9 @@ package view.components {
 		}
 
 		private function drawRemoveDrumButton() : void {
-			var eraseDrumButton:EraseDrumButton = new EraseDrumButton(passedHeight - (Data.margin*2),key);
+			//var eraseDrumButton:EraseDrumButton = new EraseDrumButton(passedHeight - (Data.margin*2),key);
+			var eraseDrumButton:Sprite = buttonFactory.createNewButton(" erase sound");
+			eraseDrumButton.addEventListener(MouseEvent.CLICK, onEraseDrum)
 			addChild(eraseDrumButton);
 			
 			eraseDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
@@ -127,6 +133,9 @@ package view.components {
 			bgShape.graphics.endFill();
 		}
 		
+		private function onEraseDrum(event : MouseEvent) : void {
+            Brain.send(new Thought(Thought.ERASE_DRUM, {key:this.key}));
+        }
 		
 		
 	}
