@@ -21,22 +21,19 @@ package view {
          * Construct a button factory with the parameters common to all
          * the buttons. These parameters may be platform-specific, thus
          * the factory creates the correct kind of buttons for the platform.
+         *
+         * @param height the height of the buttons
          */
         public function ButtonFactory(height:Number) {
             this.height = height;
         }
 
         /**
-         * Create a drum button with specific size, font, rollover effects.
+         * Create a button with specific size, font, rollover effects.
+         *
+         * @param text the text of the button
          */
-        public function createButton(_height:Number, _key:String, _copy:String, _event:String):Sprite {
-            return new DrumButton(_height, _key, _copy, _event);
-        }
-
-        /**
-         * Create a NEW drum button with specific size.
-         */
-        public function createNewButton(text:String):Sprite {
+        public function createButton(text:String):Sprite {
             //return new NewDrumButton(height - Data.margin * 2);
             var button:Sprite = new Sprite();
             var bg : Sprite = new Sprite();

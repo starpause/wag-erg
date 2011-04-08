@@ -108,8 +108,7 @@ package view.components {
 		}
 
 		private function drawRemoveDrumButton() : void {
-			//var eraseDrumButton:EraseDrumButton = new EraseDrumButton(passedHeight - (Data.margin*2),key);
-			var eraseDrumButton:Sprite = buttonFactory.createNewButton(" erase sound");
+			var eraseDrumButton:Sprite = buttonFactory.createButton(" erase sound");
 			eraseDrumButton.addEventListener(MouseEvent.CLICK, onEraseDrum)
 			addChild(eraseDrumButton);
 			
