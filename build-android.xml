@@ -4,10 +4,11 @@
 	
 	<!-- FLEX SDK configuration -->
 	<property name="mxmlc_path" value="${flex_sdk_dir}/lib/mxmlc.jar" />
-	<property name="adt_path" value="${flex_sdk_dir}/lib/adt.jar" />
+	<property name="adt_path" value="${air.sdk.home}/lib/adt.jar" />
 	
 	<!-- Application configuration -->
 	<property name="libs_dir" value="libs" />
+	<property name="apk_filename" value="${project.bin}/WagErg.apk"/>
 	
 	<!-- Compile SWF to build directory for desktop packaging -->
 	<target name="compile">
@@ -35,7 +36,7 @@
 			<arg value="${self_signed_cert_pass}"/>
 			<arg value="${apk_filename}" />
 			<arg value="${basedir}/config/WagErg-app.xml" />
-			<arg value="${swf_filename}" />
+			<arg value="${project.swf}" />
 			<arg value="src/assets/android/icons/"/>
 		</java>
 	</target>
@@ -55,7 +56,7 @@
 	 | It's necessary to uninstall before re-installing an app.
 	 |-->
     <target name="debug-undeploy-android">
-    	<java jar="${adt_path}" fork="true" failonerror="true">
+    	<java jar="${adt_path}" fork="true" failonerror="false">
             <arg value="-uninstallApp" />
             <arg value="-platform" />
             <arg value="android" />
