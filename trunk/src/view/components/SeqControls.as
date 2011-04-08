@@ -64,8 +64,7 @@ package view.components {
 		}
 
 		private function drawNewDrumButton() : void {
-			//var newDrumButton:NewDrumButton = new NewDrumButton(passedHeight - (Data.margin*2));
-            var newDrumButton:Sprite = factory.createNewButton(" add sound");
+            var newDrumButton:Sprite = factory.createButton(" add sound");
             newDrumButton.addEventListener(MouseEvent.CLICK, onAddDrum);
 			addChild(newDrumButton);
 			
