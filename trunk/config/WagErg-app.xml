@@ -23,7 +23,7 @@ DONT ERG AND DRIVE, SIP SLOW, PEasE !~]]></text>
     <copyright>MIT License</copyright>
     <supportedProfiles>mobileDevice</supportedProfiles>
     <initialWindow>
-		<content>bin/android/WagErgApplePhone.swf</content>
+		<content>bin/WagErg.swf</content>
 		<title>WAG ERG</title>
 		<aspectRatio>landscape</aspectRatio>
 		<autoOrients>false</autoOrients>
