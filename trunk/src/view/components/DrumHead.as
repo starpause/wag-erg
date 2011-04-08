@@ -13,6 +13,20 @@ package view.components {
 	import model.EuclideanSequence;
 	
 	/**
+	 * A DrumHead object is a sound that is played via a sequence and has a key color.
+	 * Also manages a button for selecting the track.
+	 *
+	 * Upon construction, it creates:
+	 * 1) a random euclidean sequence
+	 * 2) a random synth sound paramters
+	 * 3) a random color
+	 * 4) starts the process of creating the sound via the synth
+	 * When the synth has finished, the callback triggers the sound and add
+	 * event handlers for the tick event and to randomize the sequence and to reandomize
+	 * the color.
+	 *
+	 * This class has a bit too many responsibilities.
+	 *
 	 * @author jgray
 	 */
 	public class DrumHead extends Sprite {
