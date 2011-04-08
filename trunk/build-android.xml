@@ -9,6 +9,7 @@
 	<!-- Application configuration -->
 	<property name="libs_dir" value="libs" />
 	<property name="apk_filename" value="${project.bin}/WagErg.apk"/>
+	<property name="android.package.name" value="com.starpause.wagerg"/>
 	
 	<!-- Compile SWF to build directory for desktop packaging -->
 	<target name="compile">
@@ -63,7 +64,7 @@
             <arg value="-platformsdk"/>
             <arg value="${android.sdk.home}"/>
             <arg value="-appid" />
-            <arg value="com.starpause.WagErg" />
+            <arg value="${android.package.name}" />
         </java>
     </target>
 	
