@@ -32,7 +32,7 @@
 			<arg value="-storetype"/>
 			<arg value="pkcs12"/>
 			<arg value="-keystore" />
-			<arg value="${certs_dir}/${self_signed_cert}" />
+			<arg value="${certs.dir}/${self_signed_cert}" />
 			<arg value="-storepass"/>
 			<arg value="${self_signed_cert_pass}"/>
 			<arg value="${apk_filename}" />
