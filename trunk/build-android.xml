@@ -1,4 +1,4 @@
-<project name="WagErg Android" default="main">
+<project name="WagErg Android" default="android.all">
 	<!-- build environmanet -->
 	<property name="flex.sdk.home" value="d:/flash/flex-sdk-4.1"/>
 	<property name="air.sdk.home" value="d:/flash/air-sdk-2.6"/>
@@ -21,7 +21,7 @@
 	<property name="android.main.source" value="src/WagErgAndroidPhone.as"/>
 	<property name="android.package.name" value="com.starpause.wagerg"/> <!-- must match id in app.xml -->
 	
-	<target name="main" depends="android.compile,android.deploy,android.launch"/>
+	<target name="android.all" depends="android.compile,android.deploy,android.launch"/>
 	<target name="android.compile">
 		<java jar="${mxmlc.jar}" fork="true" failonerror="true">
 			<arg value="-debug=false" />
