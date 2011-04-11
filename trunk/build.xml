@@ -41,6 +41,7 @@
 	
 	<!-- flex tasks --> 
 	<taskdef resource="flexTasks.tasks" classpath="${sdk.home}/ant/lib/flexTasks.jar" />
+	<property name="FLEX_HOME" value="${sdk.home}"/>
 	
 	<import file="build-android.xml"/>
 	
