@@ -35,9 +35,15 @@ package {
 		//set -managers=flash.fonts.AFEFontManager in the flex compiler arguments if fonts are blank
 		//comment out all other font managers in /blackberry-tablet-sdk-0.9.2/frameworks/air-config.xml
 		[Embed(source="/assets/nokiafc22.ttf", fontFamily="nokia", mimeType="application/x-font-truetype")]
-		public var nokia:String;
+		public var nokia : String;
+		private var detectedWidth : int;
+		private	var detectedHeight:int;
 		
 		public function Main(){
+			//non stage dependent init
+			var detectFontSize:DetectFontSize = new DetectFontSize();
+			detectFontSize;
+			//stage dependent init
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -45,27 +51,20 @@ package {
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			//debugging
-			//Cc.startOnStage(this);
-			Cc.startOnStage(this, "`");
+			//debugging, would be cool to show debugging window with a four finger swipe or other gesture
+			Cc.startOnStage(this);
+			//Cc.startOnStage(this, "`");			
 			
-			var detectFontSize:DetectFontSize = new DetectFontSize();
+			detectStageSize();
 			
-			//compute some stage based variables now that we have access
-			Cc.log("sh.INIT: "+stage.stageHeight);
-			var detectedHeight:Number;
-			if(Data.touchScreen==true){
-				detectedHeight = Capabilities.screenResolutionX;
-			}else{
-				detectedHeight = stage.stageHeight;
-			}
 			navHeight = detectedHeight/3;
 			Data.margin = Math.floor(detectedHeight * .01);
 			
-			Cc.y = 90;//stage.stageHeight-Cc.height;
-			Cc.width = stage.stageWidth/1.5;
-			Cc.x = stage.stageWidth - Cc.width;
-				
+			//position Cc
+			Cc.y = Data.pokeSize + 10;
+			Cc.width = detectedWidth - navHeight - 20;
+			Cc.x = navHeight + 10;
+			
 			addListeners();
 			
 			//drawing
@@ -89,11 +88,21 @@ package {
 			initBeater();			
 		}
 
-	
-		private function detectFontSize() : void {
-			
+		
+		private function detectStageSize() : void {
+			//compute some stage based variables now that we have access
+			Cc.log("stage.stageHeight: "+stage.stageHeight);
+			if(Data.platform=="IOS"){
+				Cc.log("CONFIG::PLATFORM is IOS");
+				detectedHeight = Capabilities.screenResolutionX;
+				detectedWidth = Capabilities.screenResolutionY;
+			}else{
+				detectedHeight = stage.stageHeight;
+				detectedWidth = stage.stageWidth;
+			}
+			Cc.log("detected height:" +detectedHeight);
 		}
-
+	
 		private function addListeners() : void {
 			Brain.addThoughtListener(Thought.ADD_DRUM, onAddDrum);
 			Brain.addThoughtListener(Thought.ERASE_DRUM, eraseDrum);
@@ -124,10 +133,6 @@ package {
 			beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
 		}
 		
-		private function destroyBeater():void{
-			
-		}
-
 		private function initBeater() : void {
 			//the max example of euclidean beats that i played with had a resolution of 128 steps and that was accurate enough
 			//so 16 measures * 4 beats a measure * 2 ticks a beat should be enough resolution

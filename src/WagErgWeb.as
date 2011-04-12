@@ -24,9 +24,9 @@ package {
 			//no anti aliasing suit required
 			stage.quality=StageQuality.LOW;
 			
+			Data.touchScreen=false;
 			var main:Main = new Main();
 			addChild(main);
-			Data.touchScreen=false;
 		}
 
 		

@@ -1,4 +1,5 @@
 package {
+	import model.Platform;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -22,6 +23,7 @@ package {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
+			Data.platform=Platform.ANDROID;
 			Data.touchScreen=true;
 			var main:Main = new Main();
 			addChild(main);
