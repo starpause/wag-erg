@@ -1,0 +1,56 @@
+<project name="WagErg iPhone" default="iphone.all">
+	<!-- toolchain environment -->
+	<property name="flex.sdk.home" value="d:/flash/flex-sdk-4.1"/>
+	<property name="air.sdk.home" value="d:/flash/air-sdk-2.6"/>
+	<property name="android.sdk.home" value="c:/android-sdk-windows"/>
+	
+	<!-- code-signing environment -->
+	<property name="iphone.keystore.path" value="certs/WagErg.p12"/>
+	<property name="iphone.keystore.pass" value="WagErg"/>
+	
+	<!-- build toolchain -->
+	<property name="mxmlc.jar" value="${flex.sdk.home}/lib/mxmlc.jar" />
+	<property name="adt.jar" value="${air.sdk.home}/lib/adt.jar"/>
+
+	<!-- application -->
+	<property name="app.name" value="WagErg"/>
+	<property name="lib.dir" value="libs"/>
+	
+	<!-- platform -->
+	<property name="iphone.build.dir" value="build/iphone"/>
+	<property name="iphone.app-descriptor.path" value="src/WagErg-ApplePhone-app.xml"/>
+	<property name="iphone.swf" value="bin/iOS/WagErgApplePhone.swf"/> <!-- must match content element in descriptor -->
+	<property name="iphone.assets.dir" value="src/assets/iOS"/>
+	<property name="iphone.main.source" value="src/WagErgApplePhone.as"/>
+
+	<target name="iphone.all"/>
+	<target name="iphone.compile">
+		<java jar="${mxmlc.jar}" fork="true" failonerror="true">
+			<arg value="-debug=false" />
+			<arg value="-optimize=true" />
+			<arg value="+flexlib=${flex.sdk.home}/frameworks" />
+			<arg value="+configname=air" />
+			<arg value="-file-specs=${iphone.main.source}" />
+			<arg value="-output=${iphone.swf}" />
+			<arg value="-l+=${lib.dir}" />
+		</java>
+	</target>
+	<target name="iphone.package.adhoc">
+		<mkdir dir="${iphone.build.dir}"/>
+		<java jar="${adt.jar}" fork="true" failonerror="true">
+			<arg line="-package" />
+			<arg line="-target ipa-ad-hoc" />
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore '${iphone.keystore.path}'" />
+			<arg line="-storepass '${iphone.keystore.pass}'" />
+			<arg line="-provisioning-profile '${ios_provisioning_profile_ad_hoc}'" />
+			<arg line="'${iphone.build.dir}/${app_name}-AD-HOC.ipa'" />
+			<arg line="'${iphone.app-descriptor.path}'" />
+			
+			<!-- Add folders to be bundled in the AIR file here -->
+			<arg line="${iphone.swf}" />
+			<arg line="${iphone.assets.dir}/icons" />
+			<arg line="Default.png" />
+		</java>
+	</target>
+</project>
