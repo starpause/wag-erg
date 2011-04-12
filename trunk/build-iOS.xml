@@ -1,10 +1,10 @@
-<project name="WAG ERG iOS" basedir="." default="Package for iOS - TEST" >
+<project name="WAG ERG iOS" basedir="." default="Package for iOS - AD HOC" >
 	<description>
 		Buildfile for iOS off template by Vaclav Vancura (http://vancura.org ~ Copyright 2011)
     </description>
 
 	<!-- import project properties -->
-	<property file="build-iOS.properties" />
+	<property file="build.properties" />
 	
 	<tstamp>
 		<format property="timestamp" pattern="yyyy-MM-dd_HH-mm-ss" />
@@ -22,7 +22,7 @@
 	<!--
 	<property name="ios_ipa_filename" value="${deploy_dir}/${app_name}_${timestamp}.ipa" />	
 	-->
-
+	
 	<!-- Compile SWF to build directory for desktop packaging -->
 	<target name="3. Compile">
 		<java jar="${mxmlc_path}" fork="true" failonerror="true">

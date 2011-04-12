@@ -1,25 +1,32 @@
 <project name="WagErg Android" default="android.all">
 	<!-- build environmanet -->
+	<!--
 	<property name="flex.sdk.home" value="d:/flash/flex-sdk-4.1"/>
 	<property name="air.sdk.home" value="d:/flash/air-sdk-2.6"/>
 	<property name="android.sdk.home" value="c:/android-sdk-windows"/>
+	-->
+	
+	<property file="build.properties" />
 	
 	<!-- build toolchain -->
 	<property name="mxmlc.jar" value="${flex.sdk.home}/lib/mxmlc.jar" />
 	<property name="adt.jar" value="${air.sdk.home}/lib/adt.jar"/>
 	
 	<!-- application -->
-	<property name="app.name" value="WagErg"/>
-	<property name="lib.dir" value="libs"/>
+	<property name="app.name" value="${file.safe.project.name}"/>
+	<property name="lib.dir" value="${project.lib}"/>
 	
 	<!-- platform -->
+	<!--
 	<property name="android.build.dir" value="build/android"/>
 	<property name="android.apk.path" value="${android.build.dir}/WagErg.apk"/>
 	<property name="android.keystore.path" value="certs/WagErg.p12"/>
 	<property name="android.keystore.pass" value="WagErg"/>
 	<property name="android.swf" value="bin/WagErg.swf"/>
 	<property name="android.main.source" value="src/WagErgAndroidPhone.as"/>
+	-->
 	<property name="android.package.name" value="com.starpause.wagerg"/> <!-- must match id in app.xml -->
+	
 	
 	<target name="android.all" depends="android.compile,android.deploy,android.launch"/>
 	<target name="android.compile">
@@ -33,7 +40,7 @@
 			<arg value="-l+=${lib.dir}" />
 		</java>
 	</target>
-	<target name="android.deploy" depends="android.package,android.undeploy">
+	<target name="android.deploy" depends="android.package.device,android.undeploy">
 		<java jar="${adt.jar}" fork="true" failonerror="true">
             <arg line="-installApp" />
             <arg line="-platform android"/>
@@ -41,7 +48,7 @@
             <arg line="-package ${android.apk.path}" />
         </java>
 	</target>
-	<target name="android.package">
+	<target name="android.package.device">
 		<mkdir dir="${android.build.dir}"/>
 		<java jar="${adt.jar}" fork="true" failonerror="true">
 			<arg line="-package" />
@@ -50,6 +57,20 @@
 			<arg line="-keystore ${android.keystore.path}" />
 			<arg line="-storepass ${android.keystore.pass}"/>
 			<arg line="${android.apk.path}" />
+			<arg line="${basedir}/config/WagErg-app.xml" />
+			<arg line="${android.swf}" />
+			<arg line="src/assets/android/icons/"/>
+        </java>
+	</target>
+	<target name="android.package.emulator">
+		<mkdir dir="${android.build.dir}"/>
+		<java jar="${adt.jar}" fork="true" failonerror="true">
+			<arg line="-package" />
+			<arg line="-target apk-emulator" />
+			<arg line="-storetype pkcs12"/>
+			<arg line="-keystore ${android.keystore.path}" />
+			<arg line="-storepass ${android.keystore.pass}"/>
+			<arg line="${android.emulator.apk.path}" />
 			<arg line="${basedir}/config/WagErg-app.xml" />
 			<arg line="${android.swf}" />
 			<arg line="src/assets/android/icons/"/>

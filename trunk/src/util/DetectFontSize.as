@@ -47,7 +47,7 @@ package util {
 			
 			//we found a decent value, let the applicaiton use it
 			Data.fontSize = pointSize;
-			
+			Data.pokeSize = detectField.height;
 			//cleanup?
 		}
 		

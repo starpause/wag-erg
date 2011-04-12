@@ -15,7 +15,9 @@ package model {
 		public static var alphaHeadDown : Number = 0.15;
 		public static var touchScreen : Boolean = false;
 		public static var fontSize : Number = 32;
-		public static var userStoppedSequencer:Boolean=false;
+		public static var userStoppedSequencer : Boolean = false;
+		public static var pokeSize : Number;
+		public static var platform : String;
 		//
 		
 
