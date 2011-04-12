@@ -51,9 +51,10 @@ package {
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			//debugging, would be cool to show debugging window with a four finger swipe or other gesture
-			Cc.startOnStage(this);
-			//Cc.startOnStage(this, "`");			
+			//debugging, would be cool to show debugging window with a four finger swipe 
+			//or other geststure or key combo press
+			//Cc.startOnStage(this);
+			Cc.startOnStage(this, "`");			
 			
 			detectStageSize();
 			
