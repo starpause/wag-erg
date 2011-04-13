@@ -7,7 +7,7 @@
 	<property file="build.properties" />
 	
 	<!-- PLATFORM PROPERTIES -->
-	<property name="android.build.dir" value="build/android"/>
+	<property name="android.build.dir" value="${project.bin}/android"/>
 	<property name="android.device.apk.path" value="${android.build.dir}/WagErg.apk"/>
 	<property name="android.emulator.apk.path" value="${android.build.dir}/WagErg-emulator.apk"/>
 	<property name="android.swf" value="bin/WagErg.swf"/>
