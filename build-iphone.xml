@@ -1,21 +1,11 @@
 <project name="WagErg iPhone" default="iphone.all">
-	<!-- toolchain environment -->
-	<property name="flex.sdk.home" value="d:/flash/flex-sdk-4.1"/>
-	<property name="air.sdk.home" value="d:/flash/air-sdk-2.6"/>
-	<property name="android.sdk.home" value="c:/android-sdk-windows"/>
-	
-	<!-- code-signing environment -->
-	<property name="iphone.keystore.path" value="certs/WagErg.p12"/>
-	<property name="iphone.keystore.pass" value="WagErg"/>
-	
-	<!-- build toolchain -->
-	<property name="mxmlc.jar" value="${flex.sdk.home}/lib/mxmlc.jar" />
-	<property name="adt.jar" value="${air.sdk.home}/lib/adt.jar"/>
 
-	<!-- application -->
-	<property name="app.name" value="WagErg"/>
-	<property name="lib.dir" value="libs"/>
-	
+   <!-- LOCAL TOOLCHAIN AND CODE_SIGNING PROPERTIES -->
+    <property file="local.properties"/>
+    
+    <!-- COMMON BUILD PROPERTIES -->
+    <property file="build.properties" />
+
 	<!-- platform -->
 	<property name="iphone.build.dir" value="build/iphone"/>
 	<property name="iphone.app-descriptor.path" value="src/WagErg-ApplePhone-app.xml"/>
