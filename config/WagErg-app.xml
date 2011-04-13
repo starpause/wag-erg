@@ -40,7 +40,6 @@ DONT ERG AND DRIVE, SIP SLOW, PEasE !~]]></text>
 		<manifestAdditions> 
 		<![CDATA[
 			<manifest> 
-			    <uses-permission android:name="android.permission.INTERNET"/>
 			</manifest> 
 		]]>
 		</manifestAdditions>
