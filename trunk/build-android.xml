@@ -1,32 +1,18 @@
 <project name="WagErg Android" default="android.all">
-	<!-- build environmanet -->
-	<!--
-	<property name="flex.sdk.home" value="d:/flash/flex-sdk-4.1"/>
-	<property name="air.sdk.home" value="d:/flash/air-sdk-2.6"/>
-	<property name="android.sdk.home" value="c:/android-sdk-windows"/>
-	-->
 	
+	<!-- LOCAL TOOLCHAIN AND CODE_SIGNING PROPERTIES -->
+	<property file="local.properties"/>
+	
+	<!-- COMMON BUILD PROPERTIES -->
 	<property file="build.properties" />
 	
-	<!-- build toolchain -->
-	<property name="mxmlc.jar" value="${flex.sdk.home}/lib/mxmlc.jar" />
-	<property name="adt.jar" value="${air.sdk.home}/lib/adt.jar"/>
-	
-	<!-- application -->
-	<property name="app.name" value="${file.safe.project.name}"/>
-	<property name="lib.dir" value="${project.lib}"/>
-	
-	<!-- platform -->
-	<!--
+	<!-- PLATFORM PROPERTIES -->
 	<property name="android.build.dir" value="build/android"/>
-	<property name="android.apk.path" value="${android.build.dir}/WagErg.apk"/>
-	<property name="android.keystore.path" value="certs/WagErg.p12"/>
-	<property name="android.keystore.pass" value="WagErg"/>
+	<property name="android.device.apk.path" value="${android.build.dir}/WagErg.apk"/>
+	<property name="android.emulator.apk.path" value="${android.build.dir}/WagErg-emulator.apk"/>
 	<property name="android.swf" value="bin/WagErg.swf"/>
 	<property name="android.main.source" value="src/WagErgAndroidPhone.as"/>
-	-->
 	<property name="android.package.name" value="com.starpause.wagerg"/> <!-- must match id in app.xml -->
-	
 	
 	<target name="android.all" depends="android.compile,android.deploy,android.launch"/>
 	<target name="android.compile">
@@ -56,7 +42,7 @@
 			<arg line="-storetype pkcs12"/>
 			<arg line="-keystore ${android.keystore.path}" />
 			<arg line="-storepass ${android.keystore.pass}"/>
-			<arg line="${android.apk.path}" />
+			<arg line="${android.device.apk.path}" />
 			<arg line="${basedir}/config/WagErg-app.xml" />
 			<arg line="${android.swf}" />
 			<arg line="src/assets/android/icons/"/>
