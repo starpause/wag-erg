@@ -31,7 +31,7 @@
             <arg line="-installApp" />
             <arg line="-platform android"/>
             <arg line="-platformsdk ${android.sdk.home}"/>
-            <arg line="-package ${android.apk.path}" />
+            <arg line="-package ${android.device.apk.path}" />
         </java>
 	</target>
 	<target name="android.package.device">
