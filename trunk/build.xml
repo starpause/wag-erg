@@ -20,10 +20,7 @@
 	
 	
 	
-<!-- *****************************************************************
-		change your project settings here
-     *****************************************************************-->
-	
+    <property file="local.properties"/>
 	<property file="build.properties" />	
 
 <!-- *****************************************************************
@@ -34,16 +31,13 @@
 	<property environment="env"/>
 	
 	<!-- compiler, packager, and deployer settings -->
-	<property name="sdk.home" value="${BB_TABLET_SDK_HOME}" />
+	<property name="sdk.home" value="${bbtablet.sdk.home}" />
 	<property name="sdk.adl" value="${sdk.home}/bin/adl"/>
 	<property name="sdk.bbpack" value="${sdk.home}/bin/blackberry-airpackager" />
 	<property name="sdk.bbdeploy" value="${sdk.home}/bin/blackberry-deploy" />
 	
 	<!-- flex tasks --> 
-	<taskdef resource="flexTasks.tasks" classpath="${sdk.home}/ant/lib/flexTasks.jar" />
-	<property name="FLEX_HOME" value="${sdk.home}"/>
-	
-	<import file="build-android.xml"/>
+	<taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
 	
 	<!-- ================================= 
 	          debug targets              
