@@ -4,6 +4,7 @@
     </description>
 
 	<!-- import project properties -->
+	<property file="local.properties" />
 	<property file="build.properties" />
 	
 	<tstamp>
@@ -11,61 +12,44 @@
 	</tstamp>
 	
 	<!-- FLEX SDK configuration -->
-	<property name="mxmlc_path" value="${flex_sdk_dir}/lib/mxmlc.jar" />
-	<property name="adt_path" value="${flex_sdk_dir}/lib/adt.jar" />
+	<property name="mxmlc_path" value="${flex.sdk.home}/lib/mxmlc.jar" />
+	<property name="adt_path" value="${flex.sdk.home}/lib/adt.jar" />
 	
 	<!-- Application configuration -->
 	<property name="certificates_dir" value="config" />
 	<property name="libs_dir" value="libs" />
-		
-	<property name="ios_ipa_filename" value="${debug_dir}/${app_name}.ipa" />
-	<!--
-	<property name="ios_ipa_filename" value="${deploy_dir}/${app_name}_${timestamp}.ipa" />	
-	-->
+	<property name="main_source" value="${project.src}/WagErgApplePhone.as" />
+	<property name="assets_dir" value="${project.src}/assets/iOS" />	
+	<property name="ios_ipa_filename" value="${project.bin}/${project.name}.ipa" />
+	<property name="ios.iphone.descriptor" value="${project.src}/WagErg-ApplePhone-app.xml" />
 	
 	<!-- Compile SWF to build directory for desktop packaging -->
 	<target name="3. Compile">
 		<java jar="${mxmlc_path}" fork="true" failonerror="true">
 			<arg value="-debug=false" />
 			<arg value="-optimize=true" />
-			<arg value="+flexlib=${flex_sdk_dir}/frameworks" />
+			<arg value="+flexlib=${flex.sdk.home}/frameworks" />
 			<arg value="+configname=air" />
 			<arg value="-file-specs=${main_source}" />
-			<arg value="-output=${swf_filename}" />
+			<arg value="-output=${project.swf}" />
 			<arg value="-l+=${libs_dir}" />
 		</java>
 	</target>
-
-
-
-	
-	
-	<!-- iOS configuration -->
-	<property name="ios_target" value="ipa-test" />
-	<!--
-		Edit me: choose one from:
-			* ipa-test - Quick publishing for device testing
-			* ipa-debug - Quick publishing for device debugging
-			* ipa-ad-hoc - Deployment - Ad hoc
-			* ipa-app-store - Deployment - Apple App Store
-		OR set these up as different targets
-		AND have different mobile provisions as targets for all the ad-hocs
-	-->	
 	
 	<target name="Package for iOS - TEST" depends="3. Compile">
 		<java jar="${adt_path}" fork="true" failonerror="true">
 			<arg line="-package" />
 			<arg line="-target ipa-test" />
 			<arg line="-storetype pkcs12" />
-			<arg line="-keystore '${ios_certificate_filename}'" />
-			<arg line="-storepass '${ios_certificate_password}'" />
-			<arg line="-provisioning-profile '${ios_provisioning_profile_test}'" />
+			<arg line="-keystore '${ios.certificate.filename}'" />
+			<arg line="-storepass '${ios.certificate.password}'" />
+			<arg line="-provisioning-profile '${ios.provisioning.profile.test}'" />
 			<arg line="'${debug_dir}/${app_name}-TEST.ipa'" />
-			<arg line="'${ios_iphone_descriptor}'" />
+			<arg line="'${ios.iphone.descriptor}'" />
 			
 			<!-- Add folders to be bundled in the AIR file here -->
-			<!--<arg line="${swf_filename}" />-->
-			<arg line="${swf_filename}" />
+			<!--<arg line="${project.swf}" />-->
+			<arg line="${project.swf}" />
 			<arg line="${assets_dir}/icons" />
 			<arg line="Default.png" />
 		</java>
@@ -76,15 +60,15 @@
 			<arg line="-package" />
 			<arg line="-target ipa-ad-hoc" />
 			<arg line="-storetype pkcs12" />
-			<arg line="-keystore '${ios_certificate_distribution}'" />
-			<arg line="-storepass '${ios_certificate_distribution_password}'" />
-			<arg line="-provisioning-profile '${ios_provisioning_profile_ad_hoc}'" />
+			<arg line="-keystore '${ios.certificate.distribution}'" />
+			<arg line="-storepass '${ios.certificate.distribution.password}'" />
+			<arg line="-provisioning-profile '${ios.provisioning.profile.ad.hoc}'" />
 			<arg line="'${debug_dir}/${app_name}-AD-HOC.ipa'" />
-			<arg line="'${ios_iphone_descriptor}'" />
+			<arg line="'${ios.iphone.descriptor}'" />
 			
 			<!-- Add folders to be bundled in the AIR file here -->
-			<!--<arg line="${swf_filename}" />-->
-			<arg line="${swf_filename}" />
+			<!--<arg line="${project.swf}" />-->
+			<arg line="${project.swf}" />
 			<arg line="${assets_dir}/icons" />
 			<arg line="Default.png" />
 		</java>
@@ -99,11 +83,11 @@
 			<arg line="-storepass '${ios_certificate_distribution_password}'" />
 			<arg line="-provisioning-profile '${ios_provisioning_profile_app_store}'" />
 			<arg line="'${debug_dir}/${app_name}-APP-STORE.ipa'" />
-			<arg line="'${ios_iphone_descriptor}'" />
+			<arg line="'${ios.iphone.descriptor}'" />
 			
 			<!-- Add folders to be bundled in the AIR file here -->
-			<!--<arg line="${swf_filename}" />-->
-			<arg line="${swf_filename}" />
+			<!--<arg line="${project.swf}" />-->
+			<arg line="${project.swf}" />
 			<arg line="${assets_dir}/icons" />
 			<arg line="Default.png" />
 		</java>
