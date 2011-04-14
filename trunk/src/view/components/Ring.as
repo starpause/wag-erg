@@ -53,7 +53,7 @@ package view.components {
 			for (var i:int=0; i<361; i++) {
 				if(degreeHits[i]==true){
 					var dFirst:Number = (i+offset)*-1;
-					var dLast:Number = Math.floor((i+degreesPerChamber+offset)*-1);
+					var dLast:Number = Math.floor((i+degreesPerChamber-1+offset)*-1);
 					while(dFirst > dLast){
 						tickFill.graphics.moveTo((circleR-thickness)*Math.cos(dFirst*Math.PI/180), -(circleR-thickness)*Math.sin(dFirst*Math.PI/180) );
 						tickFill.graphics.lineTo(circleR*Math.cos(dFirst*Math.PI/180), -circleR*Math.sin(dFirst*Math.PI/180) );
