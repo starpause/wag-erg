@@ -48,7 +48,7 @@ package view.components {
 			addDrumField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			addDrumField.border = false;
 			addDrumField.selectable = false;
-			addDrumField.text = copy;
+			addDrumField.text = ' ' + copy;
 			
 			//bg properties after tf is done
 			bg.graphics.beginFill(0xFFFFFF);

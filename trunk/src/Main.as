@@ -1,4 +1,8 @@
 package {
+	import flash.ui.Keyboard;
+	import model.Platform;
+	import flash.events.KeyboardEvent;
+	import flash.desktop.NativeApplication;
 	import flash.system.Capabilities;
 	import util.DetectFontSize;
 	import view.components.WaitScreen;
@@ -118,7 +122,7 @@ package {
 			drumControlsHolder.visible = true;
 		}
 
-		private function onSeqHeadHit(event:Thought) : void {
+		private function onSeqHeadHit(event:Thought=null) : void {
 			drumControlsHolder.visible = false;
 		}
 
