@@ -18,6 +18,7 @@ package model {
 		public static var userStoppedSequencer : Boolean = false;
 		public static var pokeSize : Number;
 		public static var platform : String;
+		public static var controlHeight : Number;
 		//
 		
 

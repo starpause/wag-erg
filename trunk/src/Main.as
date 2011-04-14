@@ -63,6 +63,7 @@ package {
 			detectStageSize();
 			
 			navHeight = detectedHeight/3;
+			Data.controlHeight = detectedHeight - navHeight;
 			Data.margin = Math.floor(detectedHeight * .01);
 			
 			//position Cc

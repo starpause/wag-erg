@@ -103,7 +103,7 @@ package view.components {
 		
 		private function redrawRings(event:Thought=null) : void {
 			var i:int=0;
-			var sequence:Array = new Array;//get from event
+			//var sequence:Array = new Array;//get from event
 			for each (var ring:Ring in rings){
 				Cc.log("i"+i+" "+ring._key);
 				ring.redraw(greatestRadius - i*ringSpacer);
@@ -128,7 +128,7 @@ package view.components {
 			this.addEventListener(MouseEvent.MOUSE_UP, onUp);
 			this.addEventListener(MouseEvent.MOUSE_OUT, onUp);
 		}
-
+		
 		private function onUp(event : MouseEvent) : void {
 			bgShape.alpha = Data.alphaHeadUp;
 		}
