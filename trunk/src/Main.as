@@ -58,7 +58,7 @@ package {
 			//debugging, would be cool to show debugging window with a four finger swipe 
 			//or other geststure or key combo press
 			//Cc.startOnStage(this);
-			Cc.startOnStage(this, "`");			
+			Cc.startOnStage(this, "`");
 			
 			detectStageSize();
 			
@@ -142,7 +142,7 @@ package {
 			//the max example of euclidean beats that i played with had a resolution of 128 steps and that was accurate enough
 			//so 16 measures * 4 beats a measure * 2 ticks a beat should be enough resolution
 			//went with more measures than more ticks per beat because things were slowing down when i increased the tick resolution, even matching lsdj's 6 ticks a beat would pause on cached sfxr play
-			beater = new BeatDispatcher(160, 16, 4, 2);
+			beater = new BeatDispatcher(160, 8, 4, 6);
 			//beater.addEventListener(BeatDispatcherEvent.BEAT, onBeat);
 			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
 			beater.addEventListener(BeatDispatcherEvent.TICK,onGhost);
