@@ -28,6 +28,7 @@
 		public static const UPDATE_RINGS : String = "UPDATE_RINGS";
 		public static const RANDOMIZE_COLOR : String = "RANDOMIZE_COLOR";
 		public static const NEW_COLOR : String = "NEW_COLOR";
+		public static const BY_LINE_HIT : String = "BY_LINE_HIT";
 
 
 
