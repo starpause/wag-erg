@@ -1,4 +1,5 @@
 package {
+	import view.components.ByLine;
 	import flash.ui.Keyboard;
 	import model.Platform;
 	import flash.events.KeyboardEvent;
@@ -34,6 +35,7 @@ package {
 		private var mainScreen:Sprite = new Sprite();
 		private var drumControlsHolder:Sprite = new Sprite();
 		private var waitScreen:WaitScreen = new WaitScreen();
+		private var byLineWithMargin:Number;
 		
 		//assets
 		//set -managers=flash.fonts.AFEFontManager in the flex compiler arguments if fonts are blank
@@ -75,23 +77,33 @@ package {
 			
 			//drawing
 			addChild(mainScreen);
+			populateMainScreen();
+			//drum controls get their own holder for easy show/hide of all them at once
 			addChild(drumControlsHolder);
 			addChild(waitScreen);
 			waitScreen.visible = false;
 			
-			Cc.log('sh.PRESEQ: '+stage.stageHeight);
-			var seqControls:SeqControls = new SeqControls(stage.stageWidth, detectedHeight-navHeight);
+						
+			//init the sequencer
+			initBeater();			
+		}
+
+		private function populateMainScreen() : void {
+			var byLine:ByLine = new ByLine(detectedHeight-navHeight - (Data.margin*2));
+			mainScreen.addChild(byLine);
+			byLine.x = Data.margin;
+			byLine.y = detectedHeight - Data.margin;
+			byLineWithMargin = byLine.width + Data.margin*2;
+			
+			var seqControls:SeqControls = new SeqControls(stage.stageWidth - byLineWithMargin, detectedHeight-navHeight);
 			mainScreen.addChild(seqControls);
-			seqControls.x = 0;
+			seqControls.x = byLineWithMargin;
 			seqControls.y = navHeight;
 			
 			var seqHead:SeqHead = new SeqHead(navHeight,navHeight);
 			mainScreen.addChild(seqHead);
 			seqHead.x = 0;//stage.stageWidth - seqHead.width;
 			seqHead.y = 0;
-						
-			//init the sequencer
-			initBeater();			
 		}
 
 		
@@ -116,6 +128,7 @@ package {
 			Brain.addThoughtListener(Thought.STOP_SEQ, onStopSeq);
 			Brain.addThoughtListener(Thought.START_SEQ, onStartSeq);
 			Brain.addThoughtListener(Thought.SEQ_HEAD_HIT, onSeqHeadHit);
+			Brain.addThoughtListener(Thought.BY_LINE_HIT, onSeqHeadHit);
 			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, onDrumHeadHit);
 		}
 
@@ -187,8 +200,8 @@ package {
 			//new drum controls
 			//tempName = "controls"+drumCounter.toString();
 			Cc.log('sh.PREDRUM: '+stage.stageHeight);
-			var tempControls:DrumControls = new DrumControls(stage.stageWidth, stage.stageHeight-navHeight, tempName, tempDrum.color);
-			tempControls.x = 0;
+			var tempControls:DrumControls = new DrumControls(stage.stageWidth-byLineWithMargin, stage.stageHeight-navHeight, tempName, tempDrum.color);
+			tempControls.x = byLineWithMargin;
 			tempControls.y = navHeight;
 			drumControlsHolder.addChild(tempControls);
 			
