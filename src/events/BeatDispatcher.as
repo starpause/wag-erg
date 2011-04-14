@@ -76,6 +76,7 @@
 		//--------------------------------------------------------------------------
 		
 		public function get bpm():uint { return _bpm; }
+		public function set bpm(newBpm:uint):void { _bpm = newBpm; }
 		public function get measure():uint { return _measure; }
 		public function get beat():uint { return _beat; }
 		public function get tpqn():uint { return _tpqn; }

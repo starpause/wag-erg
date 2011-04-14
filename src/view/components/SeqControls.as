@@ -27,28 +27,16 @@ package view.components {
 			factory  = new ButtonFactory(_height);
 			//wait for the stage to init display
 			if (stage) init();
-			else addEventListener(Event.ADDED_TO_STAGE, init);
-			
-			// add listeners
-			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, hide);
-			Brain.addThoughtListener(Thought.SEQ_HEAD_HIT, show);
+			else addEventListener(Event.ADDED_TO_STAGE, init);			
 		}
-
-		private function hide(event : Thought) : void {
-			this.visible = false;
-		}
-
-		private function show(event : Thought) : void {
-			this.visible = true;
-		}
-
+		
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 
 			lastX = Data.margin;
 			
 			drawBackground();
-			drawByLine();
+			//drawByLine();
 			drawNewDrumButton();
 			drawStartStopButton();
 		}
@@ -57,7 +45,7 @@ package view.components {
 			var byLine:ByLine = new ByLine(passedHeight - (Data.margin*2));
 			addChild(byLine);
 			
-			byLine.alpha = 1;
+			byLine.alpha = 0;
 			byLine.x = lastX; 
 			byLine.y = passedHeight - Data.margin;
 			lastX = lastX + byLine.width + Data.margin;			
