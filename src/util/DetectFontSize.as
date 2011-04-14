@@ -36,7 +36,8 @@ package util {
 				
 				Cc.log('pointSize: '+pointSize);
 				
-				if(detectField.height > Conversion.inchesToPixels(11/64)){
+				//was 11/64, maybe we can increment by .5?
+				if(detectField.height > Conversion.inchesToPixels(5/32)){
 					textBigEnoughToPoke=true;
 				}else{
 					pointSize++;

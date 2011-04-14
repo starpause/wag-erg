@@ -38,7 +38,7 @@ package view.components {
 			addDrumField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0xFFFFFF);
 			addDrumField.border = false;
 			addDrumField.selectable = false;
-			addDrumField.text = 'wag ERG by k9d';
+			addDrumField.text = ' wag ERG by k9d';
 			
 			//bg properties after tf is done
 			bg.graphics.beginFill(0x000000);
