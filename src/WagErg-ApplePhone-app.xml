@@ -11,7 +11,7 @@
 	<width>320</width>
 	<height>480</height>
 	<!-- bin prefix cause the descriptor gets it's basedir from the ant task running it ... aka build-iOS.xml out on the root level of the project -->
-	<content>bin/iOS/WagErgApplePhone.swf</content> 
+	<content>bin/WagErg.swf</content> 
 	<title>WAG ERG</title>
 	<fullScreen>true</fullScreen>
 	<renderMode>cpu</renderMode> <!--gpu was slower on 3gs, also need filters for seqhead to draw nice-->
