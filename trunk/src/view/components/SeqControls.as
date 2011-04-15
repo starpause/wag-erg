@@ -36,27 +36,18 @@ package view.components {
 			lastX = Data.margin;
 			
 			drawBackground();
-			//drawByLine();
+			//drawUniversalLabel();
 			drawNewDrumButton();
+			//drawSequencerLabel();
 			drawStartStopButton();
 		}
-
-		private function drawByLine() : void {
-			var byLine:ByLine = new ByLine(passedHeight - (Data.margin*2));
-			addChild(byLine);
-			
-			byLine.alpha = 0;
-			byLine.x = lastX; 
-			byLine.y = passedHeight - Data.margin;
-			lastX = lastX + byLine.width + Data.margin;			
-		}
-
+		
 		private function drawNewDrumButton() : void {
-            var newDrumButton:Sprite = factory.createButton(" add sound");
+            var newDrumButton:Sprite = factory.createButton(" add drum");
             newDrumButton.addEventListener(MouseEvent.CLICK, onAddDrum);
 			addChild(newDrumButton);
 			
-			newDrumButton.x = lastX; 
+			newDrumButton.x = lastX;
 			newDrumButton.y = passedHeight - Data.margin;
 			lastX = lastX + newDrumButton.width + Data.margin;
 		}

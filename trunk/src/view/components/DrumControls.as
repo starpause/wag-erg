@@ -1,4 +1,5 @@
 package view.components {
+	import view.LabelFactory;
 	import com.junkbyte.console.Cc;
 	import model.Data;
     import view.ButtonFactory;
@@ -19,6 +20,7 @@ package view.components {
 		private var key : String = "";
 		private var lastX : Number = 0;
 		private var buttonFactory : ButtonFactory;
+		private var labelFactory : LabelFactory;
 		
 		public function DrumControls(_width:Number,_height:Number,_name:String="",_color:Number=0x000000){
 			//store passed variables
@@ -29,6 +31,7 @@ package view.components {
 			Cc.log('Drum Height: '+passedHeight);
 			
             buttonFactory  = new ButtonFactory(_height);
+            labelFactory  = new LabelFactory(_height);
 
 			//wait for the stage to init display
 			if (stage) init();
@@ -67,17 +70,38 @@ package view.components {
 			drawBackground();
 			
 			//drawCloneDrumButton();
+			drawSoundLabel();
 			drawRandomizeColorButton();
+			drawRemoveDrumButton();
+
+			drawSequenceLabel();
 			drawRandomizeSequenceButton();
 			//drawMutatePrevButton();
 			//drawMutateNextButton();
 			//drawCacheMutationButton();
-			drawRemoveDrumButton();
 			
 			hide();
 			//draw the other shit drums need
 			Brain.addThoughtListener(Thought.NEW_COLOR, onNewColor);
 			
+		}
+
+		private function drawSequenceLabel() : void {
+			var sequenceLabel:Sprite = labelFactory.createLabel(" sequence");
+			addChild(sequenceLabel);
+			
+			sequenceLabel.x = lastX; //(passedWidth - sequenceLabel.width)/2;
+			sequenceLabel.y = passedHeight - Data.margin;
+			lastX = lastX + sequenceLabel.width + Data.margin;
+		}
+		
+		private function drawSoundLabel() : void {
+			var soundLabel:Sprite = labelFactory.createLabel(" "+key);
+			addChild(soundLabel);
+			
+			soundLabel.x = lastX; //(passedWidth - soundLabel.width)/2;
+			soundLabel.y = passedHeight - Data.margin;
+			lastX = lastX + soundLabel.width + Data.margin;
 		}
 
 		private function drawRandomizeColorButton() : void {
@@ -108,7 +132,7 @@ package view.components {
 		}
 
 		private function drawRemoveDrumButton() : void {
-			var eraseDrumButton:Sprite = buttonFactory.createButton(" erase sound");
+			var eraseDrumButton:Sprite = buttonFactory.createButton(" erase drum");
 			eraseDrumButton.addEventListener(MouseEvent.CLICK, onEraseDrum)
 			addChild(eraseDrumButton);
 			

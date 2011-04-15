@@ -46,7 +46,7 @@ package view {
             //textfield properties
             textField.embedFonts = true;
             textField.autoSize = TextFieldAutoSize.LEFT;
-            textField.antiAliasType = flash.text.AntiAliasType.ADVANCED;         
+            textField.antiAliasType = flash.text.AntiAliasType.NORMAL;         
             textField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
             textField.border = false;
             textField.selectable = false;
