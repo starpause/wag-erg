@@ -33,7 +33,7 @@
 	<!-- compiler, packager, and deployer settings -->
 	<property name="sdk.home" value="${bbtablet.sdk.home}" />
 	<property name="sdk.adl" value="${sdk.home}/bin/adl"/>
-	<property name="sdk.bbpack" value="${sdk.home}/bin/blackberry-airpackager" />
+	<property name="sdk.bbpack" value="${sdk.home}/bin/blackberry-airpackager.bat" />
 	<property name="sdk.bbdeploy" value="${sdk.home}/bin/blackberry-deploy" />
 	
 	<!-- flex tasks --> 
@@ -69,7 +69,7 @@
 			<arg value="-target" />
 			<arg value="bar-debug" />
 			<arg value="-connect"/>
-			<arg value="${host.ip}"/>
+			<arg value="${bbtablet.vmware.i}"/>
 			<arg value="-package" />
 			<arg value="${project.bar}" />
 			<arg value="-installApp" />
@@ -78,9 +78,9 @@
 			<arg value="${project.swf}" />
 			<arg value="${blackberry-tablet.xml}" />
 			<arg value="-device" />
-			<arg value="${device.ip}" />
+			<arg value="${bbtablet.device.ip}" />
 			<arg value="-password"/>
-			<arg value="${device.password}"/>
+			<arg value="${bbtablet.device.password}"/>
 			<arg line="-C ${project.bin} ${bin.dirs.string}" />
 		</exec>
 	</target>
