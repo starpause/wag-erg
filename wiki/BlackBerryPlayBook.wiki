@@ -1,0 +1,11 @@
+Tips for working with the BB PlayBook emulator.
+
+The emulator vm image requires 512 MB and graphics accelerator.
+
+Before using the emulator, set the time, debug mode, and password.
+
+You can connect with the localhost ip of 127.0.0.1, but then the debugging connection won't work.
+
+Get the emulator's ip address at the bottom of the settings panel.
+
+Haven't figured out how the exit WagErg. You're supposed to drag from the edge of the display. That lets the PlayBook desktop visible, but can't get to the other apps and settings button.
