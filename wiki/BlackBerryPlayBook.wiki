@@ -8,4 +8,4 @@ You can connect with the localhost ip of 127.0.0.1, but then the debugging conne
 
 Get the emulator's ip address at the bottom of the settings panel.
 
-Haven't figured out how the exit WagErg. You're supposed to drag from the edge of the display. That lets the PlayBook desktop visible, but can't get to the other apps and settings button.
+To minimize the WagErg app, drag from the bottom of the screen.
