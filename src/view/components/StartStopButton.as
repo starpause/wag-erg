@@ -39,7 +39,7 @@ package view.components {
 			//textfield properties
 			startField.embedFonts = true;
 			startField.autoSize = TextFieldAutoSize.LEFT;
-			startField.antiAliasType = flash.text.AntiAliasType.ADVANCED;			
+			startField.antiAliasType = flash.text.AntiAliasType.NORMAL;			
 			startField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			startField.border = false;
 			startField.selectable = false;
@@ -48,7 +48,7 @@ package view.components {
 			//textfield properties
 			stopField.embedFonts = true;
 			stopField.autoSize = TextFieldAutoSize.LEFT;
-			stopField.antiAliasType = flash.text.AntiAliasType.ADVANCED;			
+			stopField.antiAliasType = flash.text.AntiAliasType.NORMAL;			
 			stopField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			stopField.border = false;
 			stopField.selectable = false;
