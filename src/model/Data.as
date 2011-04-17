@@ -1,9 +1,10 @@
 package model {
 	import view.components.DrumHead;
+	import model.DrumFactory;
 	//create public static vars for easy reference without getting an instance ala
 	//import model.Data; 
 	//Data.margin = 2; 
-    public class Data{
+    public class Data {
 		//layout
 		public static var margin : int;
 		public static var totalTicks : int;
@@ -19,6 +20,7 @@ package model {
 		public static var pokeSize : Number;
 		public static var platform : String;
 		public static var controlHeight : Number;
+		public static var drumFactory : DrumFactory = new DrumFactory();
 		//
 		
 
