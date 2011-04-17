@@ -43,10 +43,12 @@ package model {
 				}
 				
 				// there appears to be a race somewhere that messes up the display, so the callback
-				// must be delayed
-				// FIXME: solve race or reduce delay
-				var timer:Timer = new Timer(500,1);
-				timer.addEventListener(TimerEvent.TIMER, function():void { callback(); });
+				// must be delayed. it's probably not the amount of time delay, but just doing it
+				// on a separate "thread"
+				var timer:Timer = new Timer(10,1);
+				timer.addEventListener(TimerEvent.TIMER, function():void {
+					callback();
+				});
 				timer.start();
 				
 				return drum;
