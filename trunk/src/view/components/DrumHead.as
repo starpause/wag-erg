@@ -55,20 +55,10 @@ package view.components {
 			//init sequencer
 			euclideanSequence = new EuclideanSequence(Data.totalTicks);
 			
-			//init sound
-			synth = new SfxrSynth();
-			synth.params.randomize();
-			
-			//hard set some values
-			synth.params.minFrequency = 0;
-			
-			//baseParams = synth.params.clone();
 			//silence
 			SoundMixer.soundTransform = sTransform;
-			//when max time per frame was 500 it was making sounds faster in desktop debug mode
-			//but it was causing a lag in the wait screen appearing on iOS
-			//so it's been dropped to 50 and i increased all the SWF specs to run at 60fps
-			synth.cacheSound(onCacheComplete,50);
+			
+			synth = Data.drumFactory.getDrum(onCacheComplete);
 		}
 		
 		private function onRandomizeColor(event:Thought) : void {
