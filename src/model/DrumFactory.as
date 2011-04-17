@@ -1,5 +1,4 @@
 package model {
-	import flash.events.EventDispatcher;
 	import flash.events.Event;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
@@ -14,8 +13,7 @@ package model {
 	 * 
 	 * @author feweiss
 	 */
-	public class DrumFactory
-	extends EventDispatcher {
+	public class DrumFactory {
 		private var drums:Array;
 		private var queueLimit:Number;
 		private var maxTimePerFrame:Number;
