@@ -31,7 +31,6 @@ package view.components {
 	 */
 	public class DrumHead extends Sprite {
 		private var synth:SfxrSynth;
-		private var baseParams:SfxrParams;
 		private var bgShape:Shape = new Shape;
 		private var bgWhite:Shape = new Shape;
 		public var color:Number = Math.random() * 0xFFFFFF; 
@@ -142,12 +141,6 @@ package view.components {
 		}
 		
 		private function triggerSound(event:Event=null):void{
-			/*
-			synth.params = baseParams.clone();
-			synth.params.mutate();
-			synth.params.minFrequency = 0;
-			synth.play();
-			*/
 			if(synth==null){return;};
 			synth.play();
 		}
