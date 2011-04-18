@@ -55,6 +55,7 @@ package model {
 			} else {
 				// fallback
 				var synth:SfxrSynth = createRandomSound();
+				//synth.cacheMutations(3,.05,callback,maxTimePerFrame);
 				synth.cacheSound(callback, maxTimePerFrame);
 				return synth;
 			}
@@ -66,8 +67,14 @@ package model {
 		private function createRandomSound():SfxrSynth {
 			var synth:SfxrSynth = new SfxrSynth();
 			synth.params.randomize();
-			// hard set some parameters
+			// some hard set some parameters ...
+			// if min freq is too high the synth sound wont play, known bug
+			// http://code.google.com/p/as3sfxr/issues/detail?id=4
 			synth.params.minFrequency = 0;
+			// lets keep the sounds shorter 1) more like drums 2) generate faster
+			synth.params.attackTime = synth.params.attackTime * .40;
+			synth.params.sustainTime = synth.params.sustainTime * .60;
+			synth.params.decayTime = synth.params.decayTime * .60;
 			return synth;
 		}
 		/**
