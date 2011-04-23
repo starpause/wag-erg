@@ -16,6 +16,13 @@ package model {
 			totalTicks = _totalTicks;
 			randomizeHits();
 		}
+
+		private function randomizeShift() : void {
+			var shiftAmount:int = Math.floor((Math.random()*euHits.length));
+			var tail:Array = euHits.slice(0,shiftAmount);
+			var head:Array = euHits.slice(shiftAmount);
+			euHits = head.concat(tail);
+		}
 		
 		public function randomizeHits():void{
 			//clear old
@@ -26,6 +33,7 @@ package model {
 			chambers = Math.floor((Math.random()*totalTicks));
 			bullets = Math.floor((Math.random()*chambers));
 			euHits = eugen(chambers,bullets);
+			randomizeShift();
 			
 			mapChambersToTick();			
 		}
