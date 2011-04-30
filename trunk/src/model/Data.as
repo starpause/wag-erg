@@ -17,7 +17,7 @@ package model {
 		public static var touchScreen : Boolean = false;
 		public static var fontSize : Number = 32;
 		public static var userStoppedSequencer : Boolean = false;
-		public static var pokeSize : Number;
+		public static var pokeSize : Number = 40;
 		public static var platform : String;
 		public static var controlHeight : Number;
 		public static var drumFactory : DrumFactory = new DrumFactory();

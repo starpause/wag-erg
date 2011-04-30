@@ -89,6 +89,7 @@ package view.components {
 			
 			//listeners
 			Brain.addThoughtListener(Thought.ON_TICK, onTick);
+			Brain.addThoughtListener(Thought.VOLUME_CHANGE, onVolumeChange);
 			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
 			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
 		}
@@ -124,6 +125,12 @@ package view.components {
 			bgShape.graphics.beginFill(color);
 			bgShape.graphics.drawRect(0,0,passedWidth,passedHeight);
 			bgShape.graphics.endFill();			
+		}
+
+		private function onVolumeChange(event:Thought) : void {
+			if(this.key == event.params['key']){
+				synth.params.masterVolume = event.params['volume']; 
+			}
 		}
 
 		private function onTick(event:Thought):void{

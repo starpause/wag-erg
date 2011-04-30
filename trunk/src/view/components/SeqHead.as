@@ -84,6 +84,7 @@ package view.components {
 		}
 		
 		private function onAddRing(event:Thought) : void {
+			//TODO: uncache as bitmap?
 			//new ring
 			var tKey:String = event.params['key'];
 			var tColor:Number = event.params['drumColor'];
@@ -93,6 +94,7 @@ package view.components {
 			rings.unshift(tempRing);
 			//make 'em pritty
 			redrawRings();
+			//TODO:cache ring holder as bitmap?
 		}
 
 		private function drawRingHolder() : void {

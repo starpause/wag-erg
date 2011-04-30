@@ -12,11 +12,13 @@ package model {
 		private var chambers:int;
 		private var bullets:int;
 		
+		private var ticksPerChamber:Number;
+		
 		public function EuclideanSequence(_totalTicks:int):void{
 			totalTicks = _totalTicks;
 			randomizeHits();
 		}
-
+		
 		private function randomizeShift() : void {
 			var shiftAmount:int = Math.floor((Math.random()*euHits.length));
 			var tail:Array = euHits.slice(0,shiftAmount);
@@ -37,10 +39,10 @@ package model {
 			
 			mapChambersToTick();			
 		}
-
+		
 		private function mapChambersToTick() : void {
 			//map the eu resolution to our tick resolution
-			var ticksPerChamber:Number = totalTicks / chambers;
+			ticksPerChamber = totalTicks / chambers;
 			for(var i:int=0;i<chambers;i++){
 				if(euHits[i]==1){
 					//would Math.round be better? worried about going out of bounds
@@ -52,6 +54,10 @@ package model {
 		
 		public function hasHitAt(position:int):Boolean{
 			return tickHits[position];
+		}
+		
+		public function get _ticksPerChamber():Number{
+			return ticksPerChamber;
 		}
 		
 		public function hasAccentedHitAt(position:int):Boolean{

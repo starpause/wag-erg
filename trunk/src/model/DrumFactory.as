@@ -71,6 +71,7 @@ package model {
 			// if min freq is too high the synth sound wont play, known bug
 			// http://code.google.com/p/as3sfxr/issues/detail?id=4
 			synth.params.minFrequency = 0;
+			synth.params.masterVolume = .5;
 			// lets keep the sounds shorter 1) more like drums 2) generate faster
 			synth.params.attackTime = synth.params.attackTime * .40;
 			synth.params.sustainTime = synth.params.sustainTime * .60;
