@@ -1,4 +1,9 @@
 package view.components {
+	import flash.text.AntiAliasType;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	import flash.text.TextFieldAutoSize;
+	import com.bit101.components.VSlider;
 	import view.LabelFactory;
 	import com.junkbyte.console.Cc;
 	import model.Data;
@@ -71,8 +76,10 @@ package view.components {
 			
 			//drawCloneDrumButton();
 			drawSoundLabel();
-			drawRandomizeColorButton();
 			drawRemoveDrumButton();
+			drawRandomizeColorButton();
+			drawVolumeLabel();
+			drawVolumeSlider();
 
 			drawSequenceLabel();
 			drawRandomizeSequenceButton();
@@ -84,6 +91,51 @@ package view.components {
 			//draw the other shit drums need
 			Brain.addThoughtListener(Thought.NEW_COLOR, onNewColor);
 			
+		}
+
+		private function drawVolumeLabel() : void {
+		}
+
+		private function drawVolumeSlider() : void {
+			var textBack:TextField = new TextField();
+			
+            //label.addChild(holder);
+			addChild(textBack);			
+            //textBack properties
+            textBack.embedFonts = true;
+            textBack.autoSize = TextFieldAutoSize.LEFT;
+            textBack.antiAliasType = flash.text.AntiAliasType.NORMAL;         
+            textBack.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
+            textBack.border = false;
+            textBack.selectable = false;
+            textBack.text = " volume";
+            textBack.alpha = Data.alphaUp;
+            textBack.x=lastX;
+            textBack.y=passedHeight - Data.margin;
+            textBack.rotation = -90;
+
+
+			var sliderVolume:VSlider = new VSlider();
+			addChild(sliderVolume);
+			
+			//draw slider
+			sliderVolume.alpha = .5;
+			sliderVolume.x = lastX;
+			sliderVolume.y = Data.margin;
+			sliderVolume.height = passedHeight-(Data.margin*2);
+			sliderVolume.width = Data.pokeSize+Data.pokeSize/2;
+			//sliderVolume.backClick = false;
+			//map slider volume to synth volume
+			sliderVolume.maximum = 1;
+			sliderVolume.minimum = 0;
+			sliderVolume.value = .5;//naughty magic value, should get this from synth on init
+			sliderVolume.name = key;
+			sliderVolume.addEventListener(Event.CHANGE, onSliderVolumeChange);
+			lastX = lastX + sliderVolume.width + Data.margin;
+		}
+
+		private function onSliderVolumeChange(event : Event) : void {
+			Brain.send(new Thought(Thought.VOLUME_CHANGE,{key:this.key,volume:VSlider(event.target).value}));
 		}
 
 		private function drawSequenceLabel() : void {

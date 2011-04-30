@@ -1,19 +1,14 @@
 package view.components {
-	import flash.filters.GlowFilter;
-	import events.Thought;
-	import events.Brain;
 	/**
 	 * @author jgray
 	 */
 	
-	import flash.display.BlendMode;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	
 	public class Ring extends Sprite{
 		private var fillColor:Number;
 		private var tickColor:Number;
-		private var maskColor:Number = 0xFF0000;
 		
 		private var offset:Number = -90;// Initial angle
 		private var circleR:Number; // Circle radius (in pixels)
@@ -46,19 +41,28 @@ package view.components {
 		
 		private function drawTicks():void{
 			tickFill.graphics.clear();
-			tickFill.graphics.lineStyle(1,tickColor);
 			tickFill.graphics.moveTo(0,0);
-			tickFill.graphics.beginFill(tickColor,1);//.7
+			//tickFill.graphics.beginFill(tickColor,1);//.7
 			
 			for (var i:int=0; i<361; i++) {
+				thickness = 4;
+				tickFill.graphics.lineStyle(thickness,tickColor,1);
+				
 				if(degreeHits[i]==true){
 					var dFirst:Number = (i+offset)*-1;
-					var dLast:Number = Math.floor((i+degreesPerChamber-1+offset)*-1);
+					var dLast:Number = Math.floor((i+degreesPerChamber-3+offset)*-1);
+					//var dControl:Number = (dFirst + this.degreesPerChamber /2)*-1;
+					var alphaTemp:Number = 1;
+					tickFill.graphics.moveTo((circleR-thickness/2)*Math.cos(dFirst*Math.PI/180), -(circleR-thickness/2)*Math.sin(dFirst*Math.PI/180) );
 					while(dFirst > dLast){
-						tickFill.graphics.moveTo((circleR-thickness)*Math.cos(dFirst*Math.PI/180), -(circleR-thickness)*Math.sin(dFirst*Math.PI/180) );
+						//tickFill.graphics.curveTo(circleR*Math.cos(dControl*Math.PI/180), -circleR*Math.sin(dControl*Math.PI/180), circleR*Math.cos(dLast*Math.PI/180), -circleR*Math.sin(dLast*Math.PI/180));
+						
 						tickFill.graphics.lineTo(circleR*Math.cos(dFirst*Math.PI/180), -circleR*Math.sin(dFirst*Math.PI/180) );
-						//tickFill.graphics.lineTo(circleR*Math.cos(dLast*Math.PI/180), -circleR*Math.sin(dLast*Math.PI/180) );
-						dFirst = dFirst - .5;
+						dFirst = dFirst - .1;
+						if(alphaTemp>.4){
+							alphaTemp-=.008;
+						}
+						tickFill.graphics.lineStyle(thickness,tickColor,alphaTemp);
 					}
 					//The final lineTo outside of the loop takes the "pen" back to its starting point.
 					//tickFill.graphics.lineTo(0,0);
@@ -66,7 +70,7 @@ package view.components {
 			}
 			
 			//Since the drawing is between beginFill and endFill, we get the filled shape.
-			tickFill.graphics.endFill();
+			//tickFill.graphics.endFill();
 		}
 		
 		public function newColor(color:Number):void{
