@@ -1,4 +1,5 @@
 package view.components {
+	import view.SliderFactory;
 	import flash.text.AntiAliasType;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -26,6 +27,7 @@ package view.components {
 		private var lastX : Number = 0;
 		private var buttonFactory : ButtonFactory;
 		private var labelFactory : LabelFactory;
+		private var sliderFactory : SliderFactory;
 		
 		public function DrumControls(_width:Number,_height:Number,_name:String="",_color:Number=0x000000){
 			//store passed variables
@@ -35,8 +37,10 @@ package view.components {
 			passedHeight = _height;
 			Cc.log('Drum Height: '+passedHeight);
 			
+			//todo: make these global so all drum controls can share factories
             buttonFactory  = new ButtonFactory(_height);
             labelFactory  = new LabelFactory(_height);
+            sliderFactory  = new SliderFactory(_height);
 
 			//wait for the stage to init display
 			if (stage) init();
@@ -97,41 +101,15 @@ package view.components {
 		}
 
 		private function drawVolumeSlider() : void {
-			var textBack:TextField = new TextField();
-			
-            //label.addChild(holder);
-			addChild(textBack);			
-            //textBack properties
-            textBack.embedFonts = true;
-            textBack.autoSize = TextFieldAutoSize.LEFT;
-            textBack.antiAliasType = flash.text.AntiAliasType.NORMAL;         
-            textBack.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
-            textBack.border = false;
-            textBack.selectable = false;
-            textBack.text = " volume";
-            textBack.alpha = Data.alphaUp;
-            textBack.x=lastX;
-            textBack.y=passedHeight - Data.margin;
-            textBack.rotation = -90;
 
-
-			var sliderVolume:VSlider = new VSlider();
-			addChild(sliderVolume);
+			var volumeSlider:Sprite = sliderFactory.createSlider(" volume", 1, 0, .5, key);
+			volumeSlider.getChildByName(key).addEventListener(Event.CHANGE, onSliderVolumeChange);
+			addChild(volumeSlider);
 			
-			//draw slider
-			sliderVolume.alpha = .5;
-			sliderVolume.x = lastX;
-			sliderVolume.y = Data.margin;
-			sliderVolume.height = passedHeight-(Data.margin*2);
-			sliderVolume.width = Data.pokeSize+Data.pokeSize/2;
-			//sliderVolume.backClick = false;
-			//map slider volume to synth volume
-			sliderVolume.maximum = 1;
-			sliderVolume.minimum = 0;
-			sliderVolume.value = .5;//naughty magic value, should get this from synth on init
-			sliderVolume.name = key;
-			sliderVolume.addEventListener(Event.CHANGE, onSliderVolumeChange);
-			lastX = lastX + sliderVolume.width + Data.margin;
+			volumeSlider.x = lastX; //(passedWidth - sequenceLabel.width)/2;
+			volumeSlider.y = passedHeight - Data.margin;
+			volumeSlider.name = key;
+			lastX = lastX + volumeSlider.width + Data.margin*3;
 		}
 
 		private function onSliderVolumeChange(event : Event) : void {
@@ -184,7 +162,7 @@ package view.components {
 		}
 
 		private function drawRemoveDrumButton() : void {
-			var eraseDrumButton:Sprite = buttonFactory.createButton(" erase drum");
+			var eraseDrumButton:Sprite = buttonFactory.createButton(" erase sound");
 			eraseDrumButton.addEventListener(MouseEvent.CLICK, onEraseDrum)
 			addChild(eraseDrumButton);
 			
