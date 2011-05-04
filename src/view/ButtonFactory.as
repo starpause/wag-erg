@@ -34,7 +34,6 @@ package view {
          * @param text the text of the button
          */
         public function createButton(text:String):Sprite {
-            //return new NewDrumButton(height - Data.margin * 2);
             var button:Sprite = new Sprite();
             var bg : Sprite = new Sprite();
             var textField:TextField = new TextField();

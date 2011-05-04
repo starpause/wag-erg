@@ -191,7 +191,7 @@ package {
 			
 			//new drum head
 			drumCounter++;
-			var tempName:String = "drum"+drumCounter.toString();
+			var tempName:String = "sound"+drumCounter.toString();
 			var tempDrum:DrumHead = new DrumHead(tempName, navHeight);
 			tempDrum.x = tempDrum.y = 0;
 			Data.drums.push(tempDrum);
