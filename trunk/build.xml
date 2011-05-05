@@ -3,8 +3,7 @@
         Build file for Playbook Development
     </description>
 
-<!-- *****************************************************************
-	
+<!-- *****************************************************************	
 	    define an ANT Property BB_TABLET_SDK_HOME with the path to the
         playbook sdk 
         (Eclipse Settings -> ANT -> runtime -> Properties -> Add Property)
@@ -20,15 +19,12 @@
 	
 	
 	
-    <property file="local.properties"/>
+	<property file="local.properties"/>
 	<property file="build.properties" />	
-
-<!-- *****************************************************************
-		don't make any changes
-	 *****************************************************************-->
 	
 	<!-- import project properties -->
 	<property environment="env"/>
+
 	
 	<!-- compiler, packager, and deployer settings -->
 	<property name="sdk.home" value="${bbtablet.sdk.home}" />

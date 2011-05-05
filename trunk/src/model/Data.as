@@ -10,8 +10,8 @@ package model {
 		public static var totalTicks : int;
 		public static var beaterOn : Boolean;
 		public static var drums : Vector.<DrumHead> = new Vector.<DrumHead>();
-		public static var alphaUp : Number = .5;
-		public static var alphaDown : Number = .75;
+		public static var alphaUp : Number = .4;
+		public static var alphaDown : Number = .6;
 		public static var alphaHeadUp : Number = 0.0;
 		public static var alphaHeadDown : Number = 0.15;
 		public static var touchScreen : Boolean = false;
@@ -21,7 +21,6 @@ package model {
 		public static var platform : String;
 		public static var controlHeight : Number;
 		public static var drumFactory : DrumFactory = new DrumFactory();
-		//
 		
 
 

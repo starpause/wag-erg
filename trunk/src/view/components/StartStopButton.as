@@ -43,7 +43,7 @@ package view.components {
 			startField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			startField.border = false;
 			startField.selectable = false;
-			startField.text = ' start sequencer';
+			startField.text = ' start clock';
 			
 			//textfield properties
 			stopField.embedFonts = true;
@@ -52,7 +52,7 @@ package view.components {
 			stopField.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
 			stopField.border = false;
 			stopField.selectable = false;
-			stopField.text = ' stop sequencer';
+			stopField.text = ' stop clock';
 			
 			//default state is playing
 			showStop();

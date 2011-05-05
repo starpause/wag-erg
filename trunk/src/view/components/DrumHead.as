@@ -1,4 +1,5 @@
 package view.components {
+	import util.Conversion;
 	import model.Data;
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
@@ -33,7 +34,8 @@ package view.components {
 		private var synth:SfxrSynth;
 		private var bgShape:Shape = new Shape;
 		private var bgWhite:Shape = new Shape;
-		public var color:Number = Math.random() * 0xFFFFFF; 
+		public var color:Number = Math.random() * 0xFFFFFF;
+		private var mutateChannel:int = Math.floor(Math.random() * 3); //random 0r 1g 2b 
 		private var passedHeight:Number;
 		private var passedWidth:Number;
 		private var key : String = "";
@@ -63,6 +65,43 @@ package view.components {
 		private function onRandomizeColor(event:Thought) : void {
 			if(event.params['key']==this.key){
 				color = Math.random() * 0xFFFFFF;
+				mutateChannel = Math.floor(Math.random() * 3); //random 0r 1g 2b
+				onNewColor();
+				Brain.send(new Thought(Thought.NEW_COLOR,{key:this.key,color:this.color}));
+			}
+		}
+
+		private function onMutateColor(event:Thought) : void {
+			if(event.params['key']==this.key){
+				var tempColor:Object = Conversion.hexToRGB(color);
+				switch(mutateChannel){
+					case 0:
+						tempColor.r = tempColor.r + Math.floor(Math.random() * 33)-16;
+						if(tempColor.r<0){
+							tempColor.r=0;
+						}
+						if(tempColor.r>255){
+							tempColor.r=255;
+						}
+					case 1:
+						tempColor.g = tempColor.g + Math.floor(Math.random() * 33)-6;
+						if(tempColor.g<0){
+							tempColor.g=0;
+						}
+						if(tempColor.g>255){
+							tempColor.g=255;
+						}
+					case 2:
+						tempColor.b = tempColor.b + Math.floor(Math.random() * 33)-16;
+						if(tempColor.b<0){
+							tempColor.b=0;
+						}
+						if(tempColor.b>255){
+							tempColor.b=255;
+						}
+				}
+				
+				color = Conversion.RGBToHex(tempColor);
 				onNewColor();
 				Brain.send(new Thought(Thought.NEW_COLOR,{key:this.key,color:this.color}));
 			}
@@ -92,6 +131,7 @@ package view.components {
 			//Brain.addThoughtListener(Thought.VOLUME_CHANGE, onVolumeChange);
 			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
 			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
+			//Brain.addThoughtListener(Thought.MUTATE_COLOR, onMutateColor);
 		}
 
 		private function drawBackground() : void {
@@ -137,6 +177,7 @@ package view.components {
 			var position:uint = event.params['position'];
 			if(euclideanSequence.hasHitAt(position)){
 				triggerSound();
+				//Brain.send(new Thought(Thought.MUTATE_COLOR, {key:this.key}));
 			}else if(euclideanSequence.hasAccentedHitAt(position)){
 				triggerSoundWithAccent();
 			}

@@ -29,7 +29,7 @@ package view.components {
 		private var labelFactory : LabelFactory;
 		private var sliderFactory : SliderFactory;
 		private var associatedSynth : SfxrSynth;
-		private var associatedRing : Ring;
+		//private var associatedRing : Ring;
 		
 		public function DrumControls(_associatedSynth:SfxrSynth, _width:Number,_height:Number,_name:String="",_color:Number=0x000000){
 			//store passed variables
@@ -100,7 +100,6 @@ package view.components {
 		}
 
 		private function drawVolumeSlider() : void {
-
 			var volumeSlider:Sprite = sliderFactory.createSlider(" volume", 1, 0, .5, key);
 			volumeSlider.getChildByName(key).addEventListener(Event.CHANGE, onSliderVolumeChange);
 			addChild(volumeSlider);
@@ -108,7 +107,7 @@ package view.components {
 			volumeSlider.x = lastX; //(passedWidth - sequenceLabel.width)/2;
 			volumeSlider.y = passedHeight - Data.margin;
 			volumeSlider.name = key;
-			lastX = lastX + volumeSlider.width + Data.margin*3;
+			lastX = lastX + volumeSlider.getChildByName(key).width + Data.margin;
 		}
 		
 		private function onSliderVolumeChange(event : Event) : void {
@@ -117,7 +116,7 @@ package view.components {
 		}
 
 		private function drawSequenceLabel() : void {
-			var sequenceLabel:Sprite = labelFactory.createLabel(" sequence");
+			var sequenceLabel:Sprite = labelFactory.createLabel(" rhythm");
 			addChild(sequenceLabel);
 			
 			sequenceLabel.x = lastX; //(passedWidth - sequenceLabel.width)/2;
@@ -142,9 +141,9 @@ package view.components {
 			drumButton.y = passedHeight - Data.margin;
 			lastX = lastX + drumButton.width + Data.margin;
 		}
-
+		
 		private function drawRandomizeSequenceButton() : void {
-			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand sequence',Thought.RANDOMIZE_SEQUENCE);
+			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand rhythm',Thought.RANDOMIZE_SEQUENCE);
 			addChild(drumButton);
 			
 			drumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
