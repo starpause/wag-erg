@@ -71,7 +71,7 @@ package view.components {
 		private function onRandomizeSequence(event:Thought) : void {
 			if(event.params['key'] == this.key){
 				euclideanSequence = new EuclideanSequence(Data.totalTicks);
-				Brain.send(new Thought(Thought.UPDATE_RINGS,{key:this.key,sequence:euclideanSequence._euHits}));
+				Brain.send(new Thought(Thought.UPDATE_RINGS,{key:this.key,sequence:euclideanSequence._euHits,tickSequence:euclideanSequence._tickHits}));
 			}
 		}
 
@@ -89,7 +89,7 @@ package view.components {
 			
 			//listeners
 			Brain.addThoughtListener(Thought.ON_TICK, onTick);
-			Brain.addThoughtListener(Thought.VOLUME_CHANGE, onVolumeChange);
+			//Brain.addThoughtListener(Thought.VOLUME_CHANGE, onVolumeChange);
 			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
 			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
 		}
@@ -182,6 +182,10 @@ package view.components {
 			return euclideanSequence._euHits;
 		}
 		
+		public function tickSeq():Vector.<Boolean>{
+			return euclideanSequence._tickHits;
+		}
+		
 		private function onUp(event : MouseEvent) : void {
 			bgWhite.alpha = Data.alphaHeadUp;
 		}
@@ -197,7 +201,11 @@ package view.components {
 		}
 		private function onClick(event : MouseEvent) : void {
 			//moved to onDown because onClick wasn't triggering 
-			//until finger was lifted off screen on iOS
+			// until finger was lifted off screen on iOS
+		}
+
+		public function get _synth() : SfxrSynth {
+			return synth;
 		}
 		
 

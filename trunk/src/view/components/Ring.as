@@ -19,18 +19,20 @@ package view.components {
 		private var thickness:int = 4;
 		private var key:String;
 		private var euHits : Array;
+		private var tickHits : Vector.<Boolean>;
 		private var degreeHits:Vector.<Boolean>;
-		private var degreesToDraw:int =1;
-		private var degreesPerChamber:Number =0;
+		private var degreesPerChamber:Number = 0;
+		private var degreesPerTick:Number = 0;
 		
-		public function Ring(radius:Number=29, _key:String="", foreColor:Number=0xFFFFFF, backgroundColor:Number=0x888888,sequence:Array=null){
+		public function Ring(radius:Number=29, _key:String="", foreColor:Number=0xFFFFFF, backgroundColor:Number=0x888888,sequence:Array=null,tickSequence:Vector.<Boolean>=null){
 			key = _key;
 			name = _key;
 			fillColor = foreColor;
 			tickColor = backgroundColor;
 			circleR = radius;
 			euHits=sequence;
-			mapChambersToDegrees();
+			tickHits=tickSequence;
+			mapTicksToDegrees();
 			
 			//drawing set up
 			tickSprite = new Sprite();
@@ -40,11 +42,18 @@ package view.components {
 		}
 		
 		private function drawTicks():void{
+			//undo cacheAsBitmap optimization
+			tickFill.cacheAsBitmap = false;
+			
+			//kill the old look
 			tickFill.graphics.clear();
 			tickFill.graphics.moveTo(0,0);
-			//tickFill.graphics.beginFill(tickColor,1);//.7
+						
+			//how wide should each tick be?
+			degreesPerChamber = 360 / euHits.length;
 			
-			for (var i:int=0; i<361; i++) {
+			//draw them ticks
+			for (var i:int=0; i<360; i++) {
 				thickness = 4;
 				tickFill.graphics.lineStyle(thickness,tickColor,1);
 				
@@ -69,8 +78,8 @@ package view.components {
 				}
 			}
 			
-			//Since the drawing is between beginFill and endFill, we get the filled shape.
-			//tickFill.graphics.endFill();
+			//graphics.draw results in vectors but bitmaps are faster to work with so cache the ticks
+			tickFill.cacheAsBitmap = true;			
 		}
 		
 		public function newColor(color:Number):void{
@@ -79,14 +88,15 @@ package view.components {
 		}
 		
 		//sequence is a euclidean sequence for getting the beat ring right
-		public function redraw(radius : Number, sequence:Array=null) : void {
+		public function redraw(radius : Number, sequence:Array=null, tickSequence:Vector.<Boolean>=null) : void {
 			//new radius
 			circleR = radius;
 			
 			//did we get a new sequence?
 			if(sequence!=null){
 				euHits=sequence;
-				mapChambersToDegrees();
+				tickHits=tickSequence;
+				mapTicksToDegrees();
 			}
 			
 			//draw back fill
@@ -100,14 +110,13 @@ package view.components {
 			return key;
 		}
 		
-		private function mapChambersToDegrees() : void {
+		private function mapTicksToDegrees() : void {
 			//map the eu resolution to our tick resolution
-			degreeHits = new Vector.<Boolean>(361);
-			degreesPerChamber = 360 / euHits.length;
-			degreesToDraw = Math.floor(degreesPerChamber);
-			for(var i:int=0;i<euHits.length;i++){
-				if(euHits[i]==1){
-					var targetDegree:Number = Math.round(i*degreesPerChamber);
+			degreeHits = new Vector.<Boolean>(360);
+			degreesPerTick = 360 / tickHits.length;
+			for(var i:int=0;i<tickHits.length;i++){
+				if(tickHits[i]==1){
+					var targetDegree:Number = Math.round(i*degreesPerTick);
 					degreeHits[targetDegree] = true;
 				}
 			}
