@@ -102,6 +102,7 @@ package view.components {
 		private function drawVolumeSlider() : void {
 			var volumeSlider:Sprite = sliderFactory.createSlider(" volume", 1, 0, .5, key);
 			volumeSlider.getChildByName(key).addEventListener(Event.CHANGE, onSliderVolumeChange);
+			TextField(volumeSlider.getChildByName('textValue')).text = ' = '+Math.floor(.5*100);
 			addChild(volumeSlider);
 			
 			volumeSlider.x = lastX; //(passedWidth - sequenceLabel.width)/2;
@@ -111,6 +112,7 @@ package view.components {
 		}
 		
 		private function onSliderVolumeChange(event : Event) : void {
+			TextField(VSlider(event.target).parent.getChildByName('textValue')).text = ' = '+Math.floor(VSlider(event.target).value*100);
 			associatedSynth.params.masterVolume = VSlider(event.target).value;
 			//Brain.send(new Thought(Thought.VOLUME_CHANGE,{key:this.key,volume:VSlider(event.target).value}));
 		}

@@ -37,9 +37,11 @@ package view {
 		public function createSlider(text:String, maximum:Number, minimum:Number, initialValue:Number, key:String, labelColor:Number=0x000000):Sprite {
         	var slider:Sprite = new Sprite();
 			var textBack:TextField = new TextField();
+			var textValue:TextField = new TextField();
 			var vSlider:VSlider = new VSlider();
 			
 			slider.addChild(textBack);			
+			slider.addChild(textValue);			
 			slider.addChild(vSlider);
 			
             //textBack properties
@@ -50,10 +52,25 @@ package view {
             textBack.border = false;
             textBack.selectable = false;
             textBack.text = text;
+            textBack.name = 'textBack';
             textBack.alpha = Data.alphaUp;
             //textBack.x=0;
             //textBack.y=height - Data.margin;
             textBack.rotation = -90;
+			
+			//valueText properties
+			textValue.embedFonts = true;
+			textValue.autoSize = TextFieldAutoSize.LEFT;
+			textValue.antiAliasType = flash.text.AntiAliasType.NORMAL;
+			textValue.defaultTextFormat = new TextFormat("nokia", Data.fontSize, labelColor);
+			textValue.border = false;
+			textValue.selectable = false;
+			//textValue.text = text;
+			textValue.name = 'textValue';
+			textValue.alpha = Data.alphaUp;
+			//textValue.x=0;
+			textValue.y=textBack.y - textBack.height;
+			textValue.rotation = -90;
 			
 			//draw slider
 			vSlider.alpha = Data.alphaUp;
