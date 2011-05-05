@@ -1,4 +1,6 @@
 package view.components {
+	import com.bit101.components.VSlider;
+	import view.SliderFactory;
 	import com.junkbyte.console.Cc;
 	import model.Data;
     import flash.events.MouseEvent;
@@ -16,6 +18,7 @@ package view.components {
 		private var bgShape : Sprite = new Sprite;
 		private var lastX : Number = 0;
 		private var factory:ButtonFactory;
+		private var sliderFactory:SliderFactory;
 		
 		public function SeqControls(_width:Number,_height:Number){
 			//store passed variables
@@ -24,6 +27,7 @@ package view.components {
 			//Cc.log('Seq Height: '+passedHeight);
 			
 			factory  = new ButtonFactory(_height);
+			sliderFactory  = new SliderFactory(_height);
 			//wait for the stage to init display
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);			
@@ -39,6 +43,23 @@ package view.components {
 			drawNewDrumButton();
 			//drawSequencerLabel();
 			drawStartStopButton();
+			drawSpeedSlider();
+		}
+
+		private function drawSpeedSlider() : void {
+			var key:String = "speed";
+			var speedSlider:Sprite = sliderFactory.createSlider(" bpm", 420, 17, Data.bpm, key, 0xFFFFFF);
+			speedSlider.getChildByName(key).addEventListener(Event.CHANGE, onSliderSpeedChange);
+			addChild(speedSlider);
+			
+			speedSlider.x = lastX; //(passedWidth - sequenceLabel.width)/2;
+			speedSlider.y = passedHeight - Data.margin;
+			speedSlider.name = key;
+			lastX = lastX + speedSlider.getChildByName(key).width + Data.margin;			
+		}
+
+		private function onSliderSpeedChange(event : Event) : void {
+			Brain.send(new Thought(Thought.SPEED_CHANGE,{bpm:VSlider(event.target).value}));
 		}
 		
 		private function drawNewDrumButton() : void {

@@ -34,19 +34,19 @@ package view {
          *
          * @param text the text of the button
          */
-		public function createSlider(text:String, maximum:Number, minimum:Number, initialValue:Number, key:String):Sprite {
+		public function createSlider(text:String, maximum:Number, minimum:Number, initialValue:Number, key:String, labelColor:Number=0x000000):Sprite {
         	var slider:Sprite = new Sprite();
 			var textBack:TextField = new TextField();
 			var vSlider:VSlider = new VSlider();
 			
 			slider.addChild(textBack);			
 			slider.addChild(vSlider);
-
+			
             //textBack properties
             textBack.embedFonts = true;
             textBack.autoSize = TextFieldAutoSize.LEFT;
-            textBack.antiAliasType = flash.text.AntiAliasType.NORMAL;         
-            textBack.defaultTextFormat = new TextFormat("nokia", Data.fontSize, 0x000000);
+            textBack.antiAliasType = flash.text.AntiAliasType.NORMAL;
+            textBack.defaultTextFormat = new TextFormat("nokia", Data.fontSize, labelColor);
             textBack.border = false;
             textBack.selectable = false;
             textBack.text = text;
@@ -54,7 +54,7 @@ package view {
             //textBack.x=0;
             //textBack.y=height - Data.margin;
             textBack.rotation = -90;
-
+			
 			//draw slider
 			vSlider.alpha = Data.alphaUp;
 			//vSlider.x = 0;

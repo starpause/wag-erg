@@ -6,6 +6,8 @@
 	<icon>
 		<image>images/blackberry.png</image>
 	</icon>
+	<author></author>
+	<authorId></authorId>
 	<publisher>STARPAUSE</publisher>
 	<category>core.media</category>
 	<splashscreen>images/blackberry-splash.png</splashscreen>
