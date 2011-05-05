@@ -133,6 +133,12 @@ package {
 			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, onDrumHeadHit);
 			Brain.addThoughtListener(Thought.BLACK_DOUBLE_CLICK, onBlackDoubleClick);
 			Brain.addThoughtListener(Thought.DRUM_FACTORY_START, onDrumFactoryStart);
+			Brain.addThoughtListener(Thought.SPEED_CHANGE, onSpeedChange);
+		}
+
+		private function onSpeedChange(event:Thought) : void {
+			Data.bpm = event.params['bpm'];
+			initBeater(Data.beaterOn);
 		}
 
 		private function onDrumFactoryStart(event:Thought) : void {
@@ -168,18 +174,25 @@ package {
 			beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
 		}
 		
-		private function initBeater() : void {
+		private function initBeater(startBeater:Boolean=true) : void {
+			if(beater!=null){
+				beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
+				beater.removeEventListener(BeatDispatcherEvent.TICK,onGhost);
+				beater=null;
+			}
 			//the max example of euclidean beats that i played with had a resolution of 128 steps and that was accurate enough
 			//so 16 measures * 4 beats a measure * 2 ticks a beat should be enough resolution
 			//went with more measures than more ticks per beat because things were slowing down when i increased the tick resolution, even matching lsdj's 6 ticks a beat would pause on cached sfxr play
-			beater = new BeatDispatcher(160, 8, 4, 3);
-			//beater.addEventListener(BeatDispatcherEvent.BEAT, onBeat);
-			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+			beater = new BeatDispatcher(Data.bpm, 8, 4, 3);
+			//listeners
 			beater.addEventListener(BeatDispatcherEvent.TICK,onGhost);
-			beater.start();
-			Data.beaterOn = beater.isTicking;
-			
-			Data.totalTicks = beater.totalPosition;
+			if(startBeater==true){
+				beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+				Data.beaterOn = true;//beater.isTicking;
+			}
+			//gg0g00g0
+			beater.start();			
+			Data.totalTicks = beater.totalPosition;			
 		}
 
 		private function onTick(event : BeatDispatcherEvent) : void {

@@ -21,6 +21,7 @@ package model {
 		public static var platform : String;
 		public static var controlHeight : Number;
 		public static var drumFactory : DrumFactory = new DrumFactory();
+		public static var bpm:int = 160;
 		
 
 

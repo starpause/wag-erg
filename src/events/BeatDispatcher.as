@@ -76,7 +76,10 @@
 		//--------------------------------------------------------------------------
 		
 		public function get bpm():uint { return _bpm; }
-		public function set bpm(newBpm:uint):void { _bpm = newBpm; }
+		public function set bpm(newBpm:uint):void {
+			_bpm = newBpm; 
+			_totalTime = 1000 * _measure * _beat * 60 / bpm;
+		}
 		public function get measure():uint { return _measure; }
 		public function get beat():uint { return _beat; }
 		public function get tpqn():uint { return _tpqn; }
@@ -124,7 +127,7 @@
 			
 			_totalPosition = _measure * _beat * _tpqn;
 			
-			_totalTime = 1000 * _measure * _beat * 60 / bpm;
+			_totalTime = 1000 * _measure * _beat * 60 / bpm; //1000 milliseconds * 60 seconds / bpm
 			
 			_isTicking = false;
 			
