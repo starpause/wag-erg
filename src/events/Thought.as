@@ -30,6 +30,8 @@
 		public static const NEW_COLOR : String = "NEW_COLOR";
 		public static const BY_LINE_HIT : String = "BY_LINE_HIT";
 		public static const VOLUME_CHANGE : String = "VOLUME_CHANGE";
+		public static const BLACK_DOUBLE_CLICK : String = "BLACK_DOUBLE_CLICK";
+		public static const DRUM_FACTORY_START : String = "DRUM_FACTORY_START";
 
 
 

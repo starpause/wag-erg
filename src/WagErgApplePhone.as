@@ -16,7 +16,7 @@ package {
 	import flash.display.Sprite;
 
 
-	[SWF(heightPercent="100%", widthPercent="100%", frameRate="32", backgroundColor="#010101")]
+	[SWF(heightPercent="100%", widthPercent="100%", frameRate="60", backgroundColor="#010101")]
 	public class WagErgApplePhone extends Sprite
 	{
 		public function WagErgApplePhone(){

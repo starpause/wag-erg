@@ -43,7 +43,7 @@ package {
 		[Embed(source="/assets/nokiafc22.ttf", fontFamily="nokia", mimeType="application/x-font-truetype")]
 		public var nokia : String;
 		private var detectedWidth : int;
-		private	var detectedHeight:int;
+		private	var detectedHeight : int;
 		
 		public function Main(){
 			//non stage dependent init
@@ -69,8 +69,9 @@ package {
 			Data.margin = Math.floor(detectedHeight * .01);
 			
 			//position Cc
-			Cc.y = Data.pokeSize + 10;
+			Cc.y = Data.pokeSize + 5;
 			Cc.width = detectedWidth - navHeight - 20;
+			Cc.height = navHeight - 15
 			Cc.x = navHeight + 10;
 			
 			addListeners();
@@ -109,7 +110,7 @@ package {
 		
 		private function detectStageSize() : void {
 			//compute some stage based variables now that we have access
-			Cc.log("stage.stageHeight: "+stage.stageHeight);
+			//Cc.log("stage.stageHeight: "+stage.stageHeight);
 			if(Data.platform=="IOS"){
 				Cc.log("CONFIG::PLATFORM is IOS");
 				detectedHeight = Capabilities.screenResolutionX;
@@ -118,7 +119,7 @@ package {
 				detectedHeight = stage.stageHeight;
 				detectedWidth = stage.stageWidth;
 			}
-			Cc.log("detected height:" +detectedHeight);
+			//Cc.log("detected height:" +detectedHeight);
 		}
 	
 		private function addListeners() : void {
@@ -130,6 +131,21 @@ package {
 			Brain.addThoughtListener(Thought.SEQ_HEAD_HIT, onSeqHeadHit);
 			Brain.addThoughtListener(Thought.BY_LINE_HIT, onSeqHeadHit);
 			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, onDrumHeadHit);
+			Brain.addThoughtListener(Thought.BLACK_DOUBLE_CLICK, onBlackDoubleClick);
+			Brain.addThoughtListener(Thought.DRUM_FACTORY_START, onDrumFactoryStart);
+		}
+
+		private function onDrumFactoryStart(event:Thought) : void {
+			Cc.log(event.params['drums']);
+		}
+
+		private function onBlackDoubleClick(event:Thought) : void {
+			return;
+			if(Cc.visible==true){
+				Cc.visible = false;
+			}else{
+				Cc.visible = true;
+			}
 		}
 
 		private function onDrumHeadHit(event:Thought) : void {
@@ -191,22 +207,23 @@ package {
 			
 			//new drum head
 			drumCounter++;
-			var tempName:String = "sound"+drumCounter.toString();
+			var tempName:String = "sound "+drumCounter.toString();
 			var tempDrum:DrumHead = new DrumHead(tempName, navHeight);
 			tempDrum.x = tempDrum.y = 0;
 			Data.drums.push(tempDrum);
 			mainScreen.addChild(tempDrum);
 			
+			//new drum ring
+			Brain.send(new Thought(Thought.ADD_RING,{drumColor:tempDrum.color,key:tempName,sequence:tempDrum.euSeq(),tickSequence:tempDrum.tickSeq()}));
+			
 			//new drum controls
 			//tempName = "controls"+drumCounter.toString();
-			Cc.log('sh.PREDRUM: '+stage.stageHeight);
-			var tempControls:DrumControls = new DrumControls(stage.stageWidth-byLineWithMargin, stage.stageHeight-navHeight, tempName, tempDrum.color);
+			//Cc.log('sh.PREDRUM: '+stage.stageHeight);
+			var tempControls:DrumControls = new DrumControls(tempDrum._synth, stage.stageWidth-byLineWithMargin, stage.stageHeight-navHeight, tempName, tempDrum.color);
 			tempControls.x = byLineWithMargin;
 			tempControls.y = navHeight;
 			drumControlsHolder.addChild(tempControls);
 			
-			//new drum ring
-			Brain.send(new Thought(Thought.ADD_RING,{drumColor:tempDrum.color,key:tempName,sequence:tempDrum.euSeq()}));
 		}
 		
 		private function onAddDrumComplete(event:Thought):void{

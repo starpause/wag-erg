@@ -1,12 +1,18 @@
 package model {
 	/**
 	 * @author jgray
+	 * ticks are how the sequencer tells time, think of it like resolution
+	 * there are 1 - n ticks per chamber, where n is the total number of ticks 
+	 * there are 0 - m bullets distributed umong the chambers, where m is the total number of chambers
+	 * 
+	 * whenever we randomize the euclidean sequence (bullets in the chambers)
+	 * we have to map those values back to the ticks
+	 * 
 	 */
 	public class EuclideanSequence {
 		private var tickHits:Vector.<Boolean>;
 		private var totalTicks:int;
 		
-		private var pulses:int;
 		private var euHits:Array;
 		
 		private var chambers:int;
@@ -20,10 +26,10 @@ package model {
 		}
 		
 		private function randomizeShift() : void {
-			var shiftAmount:int = Math.floor((Math.random()*euHits.length));
-			var tail:Array = euHits.slice(0,shiftAmount);
-			var head:Array = euHits.slice(shiftAmount);
-			euHits = head.concat(tail);
+			var shiftAmount:int = Math.floor((Math.random()*tickHits.length));
+			var tail:Vector.<Boolean> = tickHits.slice(0,shiftAmount);
+			var head:Vector.<Boolean> = tickHits.slice(shiftAmount);
+			tickHits = head.concat(tail);
 		}
 		
 		public function randomizeHits():void{
@@ -35,9 +41,9 @@ package model {
 			chambers = Math.floor((Math.random()*totalTicks));
 			bullets = Math.floor((Math.random()*chambers));
 			euHits = eugen(chambers,bullets);
-			randomizeShift();
 			
-			mapChambersToTick();			
+			mapChambersToTick();
+			randomizeShift();
 		}
 		
 		private function mapChambersToTick() : void {
@@ -121,6 +127,10 @@ package model {
 
 		public function get _euHits() : Array {
 			return euHits;
+		}
+
+		public function get _tickHits() : Vector.<Boolean> {
+			return tickHits;
 		}
 
 

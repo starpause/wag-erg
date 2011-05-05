@@ -28,13 +28,16 @@ package view.components {
 		private var buttonFactory : ButtonFactory;
 		private var labelFactory : LabelFactory;
 		private var sliderFactory : SliderFactory;
+		private var associatedSynth : SfxrSynth;
+		private var associatedRing : Ring;
 		
-		public function DrumControls(_width:Number,_height:Number,_name:String="",_color:Number=0x000000){
+		public function DrumControls(_associatedSynth:SfxrSynth, _width:Number,_height:Number,_name:String="",_color:Number=0x000000){
 			//store passed variables
 			key = _name;
 			color = _color;
 			passedWidth = _width;
 			passedHeight = _height;
+			associatedSynth = _associatedSynth;
 			Cc.log('Drum Height: '+passedHeight);
 			
 			//todo: make these global so all drum controls can share factories
@@ -48,10 +51,6 @@ package view.components {
 			
 			// add listeners
 			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, onDrumHeadHit);
-		}
-
-		private function onSeqHeadHit(event : Thought) : void {
-			hide();
 		}
 		
 		private function onDrumHeadHit(event : Thought) : void {
@@ -111,9 +110,10 @@ package view.components {
 			volumeSlider.name = key;
 			lastX = lastX + volumeSlider.width + Data.margin*3;
 		}
-
+		
 		private function onSliderVolumeChange(event : Event) : void {
-			Brain.send(new Thought(Thought.VOLUME_CHANGE,{key:this.key,volume:VSlider(event.target).value}));
+			associatedSynth.params.masterVolume = VSlider(event.target).value;
+			//Brain.send(new Thought(Thought.VOLUME_CHANGE,{key:this.key,volume:VSlider(event.target).value}));
 		}
 
 		private function drawSequenceLabel() : void {
@@ -163,7 +163,7 @@ package view.components {
 
 		private function drawRemoveDrumButton() : void {
 			var eraseDrumButton:Sprite = buttonFactory.createButton(" erase sound");
-			eraseDrumButton.addEventListener(MouseEvent.CLICK, onEraseDrum)
+			eraseDrumButton.addEventListener(MouseEvent.CLICK, onEraseDrum);
 			addChild(eraseDrumButton);
 			
 			eraseDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;

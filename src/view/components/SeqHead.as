@@ -48,7 +48,7 @@ package view.components {
 			Brain.addThoughtListener(Thought.UPDATE_RINGS, onUpdateRings);
 			Brain.addThoughtListener(Thought.NEW_COLOR, onNewColor);
 		}
-
+		
 		private function onNewColor(event:Thought) : void {
 			for each (var ring:Ring in rings) {
 				if (ring._key == event.params['key'] ){
@@ -56,11 +56,11 @@ package view.components {
 				}
 			}			
 		}
-
+		
 		private function onUpdateRings(event:Thought) : void {
 			for each (var ring:Ring in rings) {
 				if (ring._key == event.params['key'] ){
-					ring.redraw(ring._circleR,event.params['sequence']);
+					ring.redraw(ring._circleR,event.params['sequence'],event.params['tickSequence']);
 				}
 			}
 		}
@@ -89,7 +89,8 @@ package view.components {
 			var tKey:String = event.params['key'];
 			var tColor:Number = event.params['drumColor'];
 			var tSequence:Array = event.params['sequence'];
-			var tempRing:Ring = new Ring(greatestRadius, tKey, 0xFFFFFF, tColor,tSequence);
+			var tTickSequence:Vector.<Boolean> = event.params['tickSequence'];
+			var tempRing:Ring = new Ring(greatestRadius, tKey, 0xFFFFFF, tColor,tSequence,tTickSequence);
 			ringHolder.addChild(tempRing);
 			rings.unshift(tempRing);
 			//make 'em pritty
@@ -107,7 +108,7 @@ package view.components {
 			var i:int=0;
 			//var sequence:Array = new Array;//get from event
 			for each (var ring:Ring in rings){
-				Cc.log("i"+i+" "+ring._key);
+				//Cc.log("i"+i+" "+ring._key);
 				ring.redraw(greatestRadius - i*ringSpacer);
 				i++;
 			}

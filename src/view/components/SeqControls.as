@@ -6,7 +6,6 @@ package view.components {
 	import events.Brain;
 	import view.ButtonFactory;
 	import flash.events.Event;
-	import flash.display.Shape;
 	import flash.display.Sprite;
 	/**
 	 * @author jgray
@@ -14,7 +13,7 @@ package view.components {
 	public class SeqControls extends Sprite {
 		private var passedWidth : Number;
 		private var passedHeight : Number;
-		private var bgShape : Shape = new Shape;
+		private var bgShape : Sprite = new Sprite;
 		private var lastX : Number = 0;
 		private var factory:ButtonFactory;
 		
@@ -22,7 +21,7 @@ package view.components {
 			//store passed variables
 			passedWidth = _width;
 			passedHeight = _height;
-			Cc.log('Seq Height: '+passedHeight);
+			//Cc.log('Seq Height: '+passedHeight);
 			
 			factory  = new ButtonFactory(_height);
 			//wait for the stage to init display
@@ -43,7 +42,7 @@ package view.components {
 		}
 		
 		private function drawNewDrumButton() : void {
-            var newDrumButton:Sprite = factory.createButton(" add drum");
+            var newDrumButton:Sprite = factory.createButton(" add sound");
             newDrumButton.addEventListener(MouseEvent.CLICK, onAddDrum);
 			addChild(newDrumButton);
 			
@@ -66,7 +65,16 @@ package view.components {
 			bgShape.graphics.beginFill(0x000000);
 			bgShape.graphics.drawRect(0,0,passedWidth,passedHeight);
 			bgShape.graphics.endFill();
-			addChild(bgShape);			
+			addChild(bgShape);
+			bgShape.doubleClickEnabled = true;
+			bgShape.buttonMode = true;
+			bgShape.mouseChildren = false;
+			bgShape.useHandCursor = false;
+			bgShape.addEventListener(MouseEvent.DOUBLE_CLICK, onBgDoubleClick);
+		}
+
+		private function onBgDoubleClick(event : MouseEvent) : void {
+			Brain.send(new Thought(Thought.BLACK_DOUBLE_CLICK));
 		}
 		
 
