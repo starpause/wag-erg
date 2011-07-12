@@ -1,10 +1,8 @@
 package view.components {
-	import com.junkbyte.console.Cc;
 	import model.Data;
 	import events.Brain;
 	import events.Thought;
 	import flash.display.Shape;
-	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
 	import flash.display.Sprite;
 

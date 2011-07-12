@@ -3,8 +3,6 @@ package view.components {
 	import model.Data;
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
-	import flash.media.Sound;
-	import com.junkbyte.console.Cc;
 	import events.Thought;
 	import events.Brain;
 	import flash.events.Event;

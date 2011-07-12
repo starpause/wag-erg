@@ -33,6 +33,7 @@ package com.bit101.components
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import org.osflash.signals.Signal;
 	
 	[Event(name="change", type="flash.events.Event")]
 	public class Slider extends Component
@@ -50,6 +51,7 @@ package com.bit101.components
 		public static const VERTICAL : String = "vertical";
 		private var backMouseX : Number;
 		private var backMouseY : Number;
+		public var valueChanged:Signal = new Signal(Number);
 		
 		/**
 		 * Constructor
@@ -65,7 +67,7 @@ package com.bit101.components
 			super(parent, xpos, ypos);
 			if(defaultHandler != null)
 			{
-				addEventListener(Event.CHANGE, defaultHandler);
+				//addEventListener(Event.CHANGE, defaultHandler);
 			}
 		}
 		
@@ -227,29 +229,6 @@ package com.bit101.components
 			backMouseY = mouseY;
 		}
 		
-		/**
-		 * Handler called when user clicks the background of the slider, causing the handle to move to that point. Only active if backClick is true.
-		 * @param event The MouseEvent passed by the system.
-		 */
-		protected function onBackClickOld(event:MouseEvent):void
-		{
-			if(_orientation == HORIZONTAL)
-			{
-				_handle.x = mouseX - _height / 2;
-				_handle.x = Math.max(_handle.x, 0);
-				_handle.x = Math.min(_handle.x, _width - _height);
-				_value = _handle.x / (width - _height) * (_max - _min) + _min;
-			}
-			else
-			{
-				_handle.y = mouseY - _width / 2;
-				_handle.y = Math.max(_handle.y, 0);
-				_handle.y = Math.min(_handle.y, _height - _width);
-				_value = (_height - _width - _handle.y) / (height - _width) * (_max - _min) + _min;
-			}
-			dispatchEvent(new Event(Event.CHANGE));
-			
-		}
 		
 		/**
 		 * Internal mouseDown handler. Starts dragging the handle.
@@ -298,7 +277,8 @@ package com.bit101.components
 			}
 			if(_value != oldValue)
 			{
-				dispatchEvent(new Event(Event.CHANGE));
+				valueChanged.dispatch(_value);
+				//dispatchEvent(new Event(Event.CHANGE));
 			}
 		}
 		
@@ -316,7 +296,8 @@ package com.bit101.components
 			
 			if(_value != oldValue)
 			{
-				dispatchEvent(new Event(Event.CHANGE));
+				valueChanged.dispatch(_value);
+				//dispatchEvent(new Event(Event.CHANGE));
 			}
 		}
 		
