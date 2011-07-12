@@ -131,7 +131,20 @@ package view.components {
 			//Brain.addThoughtListener(Thought.VOLUME_CHANGE, onVolumeChange);
 			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
 			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
+			Brain.addThoughtListener(Thought.ERASE_DRUM, onEraseDrum);
 			//Brain.addThoughtListener(Thought.MUTATE_COLOR, onMutateColor);
+		}
+
+		private function onEraseDrum(event:Thought) : void {
+			if(this.key == event.params['key']){
+				this.removeEventListener(MouseEvent.CLICK, onClick);
+				this.removeEventListener(MouseEvent.MOUSE_DOWN, onDown);
+				this.removeEventListener(MouseEvent.MOUSE_MOVE, onMove);
+				this.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+				this.removeEventListener(MouseEvent.MOUSE_OUT, onUp);			
+				synth = null;
+				this.destroy();
+			}
 		}
 
 		private function drawBackground() : void {
@@ -174,12 +187,8 @@ package view.components {
 		}
 
 		private function onTick(event:Thought):void{
-			var position:uint = event.params['position'];
-			if(euclideanSequence.hasHitAt(position)){
+			if(euclideanSequence.hasHitAt(event.params['position'])){
 				triggerSound();
-				//Brain.send(new Thought(Thought.MUTATE_COLOR, {key:this.key}));
-			}else if(euclideanSequence.hasAccentedHitAt(position)){
-				triggerSoundWithAccent();
 			}
 		}
 

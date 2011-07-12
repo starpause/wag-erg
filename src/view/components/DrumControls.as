@@ -86,6 +86,7 @@ package view.components {
 
 			drawSequenceLabel();
 			drawRandomizeSequenceButton();
+			//drawSlicesSlider();
 			//drawMutatePrevButton();
 			//drawMutateNextButton();
 			//drawCacheMutationButton();
@@ -121,7 +122,7 @@ package view.components {
 			var sequenceLabel:Sprite = labelFactory.createLabel(" rhythm");
 			addChild(sequenceLabel);
 			
-			sequenceLabel.x = lastX; //(passedWidth - sequenceLabel.width)/2;
+			sequenceLabel.x = lastX;
 			sequenceLabel.y = passedHeight - Data.margin;
 			lastX = lastX + sequenceLabel.width + Data.margin;
 		}
@@ -130,7 +131,7 @@ package view.components {
 			var soundLabel:Sprite = labelFactory.createLabel(" "+key);
 			addChild(soundLabel);
 			
-			soundLabel.x = lastX; //(passedWidth - soundLabel.width)/2;
+			soundLabel.x = lastX;
 			soundLabel.y = passedHeight - Data.margin;
 			lastX = lastX + soundLabel.width + Data.margin;
 		}
@@ -139,7 +140,7 @@ package view.components {
 			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand color',Thought.RANDOMIZE_COLOR);
 			addChild(drumButton);
 			
-			drumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
+			drumButton.x = lastX;
 			drumButton.y = passedHeight - Data.margin;
 			lastX = lastX + drumButton.width + Data.margin;
 		}
@@ -148,7 +149,7 @@ package view.components {
 			var drumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'rand rhythm',Thought.RANDOMIZE_SEQUENCE);
 			addChild(drumButton);
 			
-			drumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
+			drumButton.x = lastX;
 			drumButton.y = passedHeight - Data.margin;
 			lastX = lastX + drumButton.width + Data.margin;
 		}
@@ -157,7 +158,7 @@ package view.components {
 			var cloneDrumButton:DrumButton = new DrumButton(passedHeight-(Data.margin*2), key, 'clone sound',Thought.CLONE_DRUM);
 			addChild(cloneDrumButton);
 			
-			cloneDrumButton.x = lastX; //(passedWidth - eraseDrumButton.width)/2;
+			cloneDrumButton.x = lastX;
 			cloneDrumButton.y = passedHeight - Data.margin;
 			lastX = lastX + cloneDrumButton.width + Data.margin;
 		}
@@ -188,6 +189,7 @@ package view.components {
 		}
 		
 		private function onEraseDrum(event : MouseEvent) : void {
+			this.associatedSynth=null;
             Brain.send(new Thought(Thought.ERASE_DRUM, {key:this.key}));
         }
 		

@@ -57,22 +57,11 @@ package {
 		private function init(e:Event=null):void{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			//debugging, would be cool to show debugging window with a four finger swipe 
-			//or other geststure or key combo press
-			//Cc.startOnStage(this);
-			Cc.startOnStage(this, "`");
-			
 			detectStageSize();
 			
 			navHeight = detectedHeight/3;
 			Data.controlHeight = detectedHeight - navHeight;
 			Data.margin = Math.floor(detectedHeight * .01);
-			
-			//position Cc
-			Cc.y = Data.pokeSize + 5;
-			Cc.width = detectedWidth - navHeight - 20;
-			Cc.height = navHeight - 15
-			Cc.x = navHeight + 10;
 			
 			addListeners();
 			
@@ -83,7 +72,6 @@ package {
 			addChild(drumControlsHolder);
 			addChild(waitScreen);
 			waitScreen.visible = false;
-			
 						
 			//init the sequencer
 			initBeater();			
@@ -110,16 +98,13 @@ package {
 		
 		private function detectStageSize() : void {
 			//compute some stage based variables now that we have access
-			//Cc.log("stage.stageHeight: "+stage.stageHeight);
 			if(Data.platform=="IOS"){
-				Cc.log("CONFIG::PLATFORM is IOS");
 				detectedHeight = Capabilities.screenResolutionX;
 				detectedWidth = Capabilities.screenResolutionY;
 			}else{
 				detectedHeight = stage.stageHeight;
 				detectedWidth = stage.stageWidth;
 			}
-			//Cc.log("detected height:" +detectedHeight);
 		}
 	
 		private function addListeners() : void {
@@ -131,7 +116,6 @@ package {
 			Brain.addThoughtListener(Thought.SEQ_HEAD_HIT, onSeqHeadHit);
 			Brain.addThoughtListener(Thought.BY_LINE_HIT, onSeqHeadHit);
 			Brain.addThoughtListener(Thought.DRUM_HEAD_HIT, onDrumHeadHit);
-			Brain.addThoughtListener(Thought.BLACK_DOUBLE_CLICK, onBlackDoubleClick);
 			Brain.addThoughtListener(Thought.DRUM_FACTORY_START, onDrumFactoryStart);
 			Brain.addThoughtListener(Thought.SPEED_CHANGE, onSpeedChange);
 		}
@@ -142,16 +126,6 @@ package {
 		}
 
 		private function onDrumFactoryStart(event:Thought) : void {
-			Cc.log(event.params['drums']);
-		}
-
-		private function onBlackDoubleClick(event:Thought) : void {
-			return;
-			if(Cc.visible==true){
-				Cc.visible = false;
-			}else{
-				Cc.visible = true;
-			}
 		}
 
 		private function onDrumHeadHit(event:Thought) : void {
@@ -196,7 +170,6 @@ package {
 		}
 
 		private function onTick(event : BeatDispatcherEvent) : void {
-			//Cc.log(event.toString());
 			Brain.send(new Thought(Thought.ON_TICK,{'position':event.currentPosition}));
 		}
 		
@@ -231,7 +204,6 @@ package {
 			
 			//new drum controls
 			//tempName = "controls"+drumCounter.toString();
-			//Cc.log('sh.PREDRUM: '+stage.stageHeight);
 			var tempControls:DrumControls = new DrumControls(tempDrum._synth, stage.stageWidth-byLineWithMargin, stage.stageHeight-navHeight, tempName, tempDrum.color);
 			tempControls.x = byLineWithMargin;
 			tempControls.y = navHeight;
@@ -260,7 +232,6 @@ package {
 			newWidth = newWidth / Data.drums.length;
 			
 			for each (var drum:DrumHead in Data.drums){
-				//Cc.log(drum.name+" "+newWidth+" "+lastX);
 				drum.redraw(newWidth);
 				drum.y = 0;
 				drum.x = lastX;
