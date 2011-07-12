@@ -36,6 +36,7 @@ package view.components {
 		private function drawPositionIndicator() : void {
 			positionIndicator = new PositionIndicator(greatestRadius+ringSpacer/2);
 			addChild(positionIndicator);
+			Data.positionIndicator = positionIndicator;
 			positionIndicator.x = (passedWidth)/2;
 			positionIndicator.y = (passedHeight)/2;			
 		}

@@ -22,10 +22,10 @@ package view.components {
 			Brain.addThoughtListener(Thought.ON_GHOST, onGhost);
 		}
 		
-		private function onTick(event:Thought):void{
+		public function onTick(position:Number):void{
 			//map total ticks against 360
 			var x:Number = 360/Data.totalTicks;
-			var i:Number = (x*event.params['position'])+offset;
+			var i:Number = (x*position)+offset;
 			i = i*-1;
 			
 			dial.graphics.clear();
@@ -37,11 +37,11 @@ package view.components {
 			dial.graphics.endFill();			
 		}
 		
-		private function onGhost(event:Thought):void{
+		public function onGhost(position:Number):void{
 			var ghostAlpha:Number = .2;
 			//map total ticks against 360
 			var x:Number = 360/Data.totalTicks;
-			var i:Number = (x*event.params['position'])+offset;
+			var i:Number = (x*position)+offset;
 			i = i*-1;
 			
 			ghost.graphics.clear();
