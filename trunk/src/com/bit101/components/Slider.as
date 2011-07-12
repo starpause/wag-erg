@@ -223,14 +223,8 @@ package com.bit101.components
 		{
 			stage.addEventListener(MouseEvent.MOUSE_UP, onDrop);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onBackSlide);
-			if(_orientation == HORIZONTAL)
-			{
-				backMouseX = mouseX;
-			}
-			else
-			{
-				backMouseY = mouseY;
-			}			
+			backMouseX = mouseX;
+			backMouseY = mouseY;
 		}
 		
 		/**
@@ -311,20 +305,15 @@ package com.bit101.components
 		protected function onBackSlide(event:MouseEvent):void
 		{
 			var oldValue:Number = _value;
-			var distance:Number;
-			if(_orientation == HORIZONTAL)
-			{
-				distance = backMouseX - stage.mouseX;
-				_value = (_handle.x + distance) / (width - _height) * (_max - _min) + _min;
-			}
-			else
-			{
-				distance = (backMouseY - mouseY) * 10/_height;
-				_handle.y = _handle.y - distance;
-				_handle.y = Math.max(_handle.y, 0);
-				_handle.y = Math.min(_handle.y, _height - _width);
-				_value = (_height - _width - _handle.y) / (height - _width) * (_max - _min) + _min;				
-			}
+			//var distanceX:Number;
+			var distanceY:Number;
+			//assume VERT so we don't have to check each tiem the slider moves
+			distanceY = (backMouseY - mouseY) * 10/_height;
+			_handle.y = _handle.y - distanceY;
+			_handle.y = Math.max(_handle.y, 0);
+			_handle.y = Math.min(_handle.y, _height - _width);
+			_value = (_height - _width - _handle.y) / (height - _width) * (_max - _min) + _min;				
+			
 			if(_value != oldValue)
 			{
 				dispatchEvent(new Event(Event.CHANGE));

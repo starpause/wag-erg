@@ -24,17 +24,26 @@ package model {
 		 */
 		public function DrumFactory() {
 			drums = new Array();
-			queueLimit = 3;
+			queueLimit = 0;
 			// when max time per frame was 500 it was making sounds faster in desktop debug mode
 			// but it was causing a lag in the wait screen appearing on iOS
 			// so it's been dropped to 50 and i increased all the SWF specs to run at 60fps
-			maxTimePerFrame  = 50;
+			// then dropped it even futher down ... 10ms per frame * 60fps = 600ms of every second spent rendering sound
+			// hopefully leaving plenty of for other computations
+			maxTimePerFrame  = 38;
 			start();
+		}
+		
+		public function getDrum(callback:Function):SfxrSynth{
+			var synth:SfxrSynth = createRandomSound();
+			//synth.cacheMutations(3,.05,callback,maxTimePerFrame);
+			synth.cacheSound(callback, maxTimePerFrame);
+			return synth;			
 		}
 		/**
 		 * Get a new Drum with a random sound and do the callback when the sound
 		 * has been generated. 
-		 */
+		 
 		public function getDrum(callback:Function):SfxrSynth {
 			if (drums.length > 0) {
 				var drum:SfxrSynth = drums.shift();
@@ -62,6 +71,7 @@ package model {
 				return synth;
 			}
 		}
+		 */
 		/**
 		 * Create a sound synthesizer with randomized parameters.
 		 * FIXME: why does minFrequency need to be 0?

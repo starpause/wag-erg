@@ -10,7 +10,7 @@ package {
 	/**
 	 * @author frankw
 	 */
-	[SWF(heightPercent="100%", widthPercent="100%", frameRate="64", backgroundColor="#010101")]
+	[SWF(heightPercent="100%", widthPercent="100%", frameRate="32", backgroundColor="#010101")]
 	public class WagErgAndroidPhone extends Sprite {
 		public function WagErgAndroidPhone(){
 			if (stage) init();

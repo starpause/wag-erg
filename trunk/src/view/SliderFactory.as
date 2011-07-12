@@ -34,7 +34,7 @@ package view {
          *
          * @param text the text of the button
          */
-		public function createSlider(text:String, maximum:Number, minimum:Number, initialValue:Number, key:String, labelColor:Number=0x000000):Sprite {
+		public function createSlider(text:String, maximum:Number, minimum:Number, initialValue:Number, key:String, _tick:Number=.01,labelColor:Number=0x000000):Sprite {
         	var slider:Sprite = new Sprite();
 			var textBack:TextField = new TextField();
 			var textValue:TextField = new TextField();
@@ -78,9 +78,10 @@ package view {
 			vSlider.y = - height + Data.margin*2;
 			vSlider.height = height-(Data.margin*2);
 			vSlider.width = Data.pokeSize+Data.pokeSize/2;
+			vSlider.tick = _tick;
 			vSlider.name = key;
 			//vSlider.addEventListener(Event.CHANGE, onSliderChange);
-			//vSlider.backClick = false;
+			vSlider.backClick = false;
 			//map slider volume to synth volume
 			vSlider.maximum = maximum;
 			vSlider.minimum = minimum;

@@ -2,7 +2,6 @@ package view.components {
 	import flash.text.TextField;
 	import com.bit101.components.VSlider;
 	import view.SliderFactory;
-	import com.junkbyte.console.Cc;
 	import model.Data;
     import flash.events.MouseEvent;
 	import events.Thought;
@@ -25,7 +24,6 @@ package view.components {
 			//store passed variables
 			passedWidth = _width;
 			passedHeight = _height;
-			//Cc.log('Seq Height: '+passedHeight);
 			
 			factory  = new ButtonFactory(_height);
 			sliderFactory  = new SliderFactory(_height);
@@ -49,7 +47,7 @@ package view.components {
 
 		private function drawSpeedSlider() : void {
 			var key:String = "speed";
-			var speedSlider:Sprite = sliderFactory.createSlider(" bpm", 420, 42, Data.bpm, key, 0xFFFFFF);
+			var speedSlider:Sprite = sliderFactory.createSlider(" bpm", 230, 23, Data.bpm, key, 1, 0xFFFFFF);
 			speedSlider.getChildByName(key).addEventListener(Event.CHANGE, onSliderSpeedChange);
 			TextField(speedSlider.getChildByName('textValue')).text = ' = '+Math.floor(Data.bpm);
 			addChild(speedSlider);
@@ -59,7 +57,7 @@ package view.components {
 			speedSlider.name = key;
 			lastX = lastX + speedSlider.getChildByName(key).width + Data.margin;			
 		}
-
+		
 		private function onSliderSpeedChange(event : Event) : void {
 			TextField(VSlider(event.target).parent.getChildByName('textValue')).text = ' = '+Math.floor(VSlider(event.target).value);
 			Brain.send(new Thought(Thought.SPEED_CHANGE,{bpm:VSlider(event.target).value}));
