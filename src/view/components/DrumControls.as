@@ -1,12 +1,9 @@
 package view.components {
 	import view.SliderFactory;
-	import flash.text.AntiAliasType;
 	import flash.text.TextField;
-	import flash.text.TextFormat;
-	import flash.text.TextFieldAutoSize;
 	import com.bit101.components.VSlider;
+	import com.bit101.components.Slider;
 	import view.LabelFactory;
-	import com.junkbyte.console.Cc;
 	import model.Data;
     import view.ButtonFactory;
 	import flash.display.Shape;
@@ -29,7 +26,9 @@ package view.components {
 		private var labelFactory : LabelFactory;
 		private var sliderFactory : SliderFactory;
 		private var associatedSynth : SfxrSynth;
-		//private var associatedRing : Ring;
+		private var volumeSlider : Sprite;
+		private var volumeSliderLabel : TextField;
+		private const DEFAULT_VOLUME : Number = .5;
 		
 		public function DrumControls(_associatedSynth:SfxrSynth, _width:Number,_height:Number,_name:String="",_color:Number=0x000000){
 			//store passed variables
@@ -38,7 +37,7 @@ package view.components {
 			passedWidth = _width;
 			passedHeight = _height;
 			associatedSynth = _associatedSynth;
-			Cc.log('Drum Height: '+passedHeight);
+			trace('Drum Height: '+passedHeight);
 			
 			//todo: make these global so all drum controls can share factories
             buttonFactory  = new ButtonFactory(_height);
@@ -101,21 +100,21 @@ package view.components {
 		}
 
 		private function drawVolumeSlider() : void {
-			var volumeSlider:Sprite = sliderFactory.createSlider(" volume", 1, 0, .5, key);
-			volumeSlider.getChildByName(key).addEventListener(Event.CHANGE, onSliderVolumeChange);
-			TextField(volumeSlider.getChildByName('textValue')).text = ' = '+Math.floor(.5*100);
+			volumeSlider = sliderFactory.createSlider(" volume", 1, 0, DEFAULT_VOLUME, key);
+			Slider(volumeSlider.getChildByName(key)).valueChanged.add(onSliderVolumeChange);
+			volumeSliderLabel = TextField(volumeSlider.getChildByName('textValue'))
+			volumeSliderLabel.text = ' = '+Math.floor(DEFAULT_VOLUME*100);
 			addChild(volumeSlider);
 			
-			volumeSlider.x = lastX; //(passedWidth - sequenceLabel.width)/2;
+			volumeSlider.x = lastX; 
 			volumeSlider.y = passedHeight - Data.margin;
 			volumeSlider.name = key;
 			lastX = lastX + volumeSlider.getChildByName(key).width + Data.margin;
 		}
 		
-		private function onSliderVolumeChange(event : Event) : void {
-			TextField(VSlider(event.target).parent.getChildByName('textValue')).text = ' = '+Math.floor(VSlider(event.target).value*100);
-			associatedSynth.params.masterVolume = VSlider(event.target).value;
-			//Brain.send(new Thought(Thought.VOLUME_CHANGE,{key:this.key,volume:VSlider(event.target).value}));
+		private function onSliderVolumeChange(newValue:Number=DEFAULT_VOLUME) : void {
+			volumeSliderLabel.text = ' = '+Math.floor(newValue*100);
+			associatedSynth.params.masterVolume = newValue;
 		}
 
 		private function drawSequenceLabel() : void {

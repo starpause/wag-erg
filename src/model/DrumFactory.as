@@ -1,7 +1,4 @@
 package model {
-	import events.Thought;
-	import events.Brain;
-	import com.junkbyte.console.Cc;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	

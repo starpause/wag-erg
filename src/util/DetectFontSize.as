@@ -1,5 +1,4 @@
 package util {
-	import com.junkbyte.console.Cc;
 	import model.Data;
 	import flash.text.TextFormat;
 	import flash.text.TextFieldAutoSize;
@@ -34,7 +33,7 @@ package util {
 				detectField.text = 'Pack my !@#$%^&* box with five dozen liquor jugs ()~{}|:"<>?,./';
 				addChild(detectField);
 				
-				Cc.log('pointSize: '+pointSize);
+				trace('pointSize: '+pointSize);
 				
 				//was 11/64, maybe we can increment by .5?
 				if(detectField.height > Conversion.inchesToPixels(5/32)){

@@ -139,31 +139,33 @@ package {
 		private function onStartSeq(event:Thought=null) : void {
 			//set position?
 			Data.beaterOn=true;
-			beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+			beater.tickSignal.add(onTick);
 		}
 
 		private function onStopSeq(event:Thought=null) : void {
 			//store position?
 			Data.beaterOn=false;
-			beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
+			beater.tickSignal.remove(onTick);
 		}
 		
 		private function initBeater(startBeater:Boolean=true) : void {
 			if(beater!=null){
-				beater.removeEventListener(BeatDispatcherEvent.TICK,onTick);
-				beater.removeEventListener(BeatDispatcherEvent.TICK,onGhost);
+				beater.tickSignal.removeAll();
 				beater=null;
 			}
+			
 			//the max example of euclidean beats that i played with had a resolution of 128 steps and that was accurate enough
 			//so 16 measures * 4 beats a measure * 2 ticks a beat should be enough resolution
 			//went with more measures than more ticks per beat because things were slowing down when i increased the tick resolution, even matching lsdj's 6 ticks a beat would pause on cached sfxr play
 			beater = new BeatDispatcher(Data.bpm, 8, 4, 3);
+			
 			//listeners
-			beater.addEventListener(BeatDispatcherEvent.TICK,onGhost);
+			beater.tickSignal.add(onGhost);
 			if(startBeater==true){
-				beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
-				Data.beaterOn = true;//beater.isTicking;
+				beater.tickSignal.add(onTick);
+				Data.beaterOn = true;
 			}
+			
 			//gg0g00g0
 			beater.start();			
 			Data.totalTicks = beater.totalPosition;			
@@ -214,13 +216,13 @@ package {
 		private function onAddDrumComplete(event:Thought):void{
 			waitScreen.visible = false;
 			if(Data.userStoppedSequencer==false){
-				beater.addEventListener(BeatDispatcherEvent.TICK,onTick);
+				beater.tickSignal.add(onTick);
 			}
 			//re arange all the drums
 			redrawDrums();
 			Brain.send(new Thought(Thought.DRUM_HEAD_HIT, {key:event.params['key']}));
 		}
-
+		
 		private function redrawDrums() : void {
 			//start stacking left to right
 			var lastX:Number = navHeight;
@@ -267,3 +269,4 @@ package {
 		
 	}
 }
+

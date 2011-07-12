@@ -1,5 +1,5 @@
 ﻿package events {
-	
+	import org.osflash.signals.Signal;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -14,13 +14,10 @@
 	public class BeatDispatcher extends Sprite {
 		
 		//--------------------------------------------------------------------------
-		// CLASS CONSTANTS
+		// SIGNALS
 		//--------------------------------------------------------------------------
-		
-		
-		
-		
-		
+		public var tickSignal:Signal = new Signal(BeatDispatcherEvent);
+					
 		//--------------------------------------------------------------------------
 		// VARIABLES
 		//--------------------------------------------------------------------------
@@ -58,17 +55,6 @@
 		private var _oldTick:uint;
 		
 		private var _refCounter:Dictionary;
-		
-		
-		
-		
-		
-		//--------------------------------------------------------------------------
-		// STAGE INSTANCES
-		//--------------------------------------------------------------------------
-		
-		
-		
 		
 		
 		//--------------------------------------------------------------------------
@@ -172,12 +158,12 @@
 			_currentTime    = 0;
 			
 			//イベント発行
-			_dispatchCustomEvent(BeatDispatcherEvent.START);
+			//_dispatchCustomEvent(BeatDispatcherEvent.START);
 			if (_refCounter[_currentPosition] != null) {
-				_dispatchCustomEvent(getEventTypeByPosition(_currentPosition));
+				//_dispatchCustomEvent(getEventTypeByPosition(_currentPosition));
 			}
-			_dispatchCustomEvent(BeatDispatcherEvent.MEASURE);
-			_dispatchCustomEvent(BeatDispatcherEvent.BEAT);
+			//_dispatchCustomEvent(BeatDispatcherEvent.MEASURE);
+			//_dispatchCustomEvent(BeatDispatcherEvent.BEAT);
 			_dispatchCustomEvent(BeatDispatcherEvent.TICK);
 			
 			addEventListener(Event.ENTER_FRAME, _update);
@@ -221,7 +207,7 @@
 			
 			//現在の累積Tickに登録されればすぐにイベントを発行する
 			if (_isTicking && position == _currentPosition) {
-				_dispatchCustomEvent(getEventTypeByPosition(_currentPosition));
+				//_dispatchCustomEvent(getEventTypeByPosition(_currentPosition));
 			}
 		}
 		
@@ -275,10 +261,13 @@
 		 * _dispatchCustomEvent
 		 * @param	e
 		 * @return
+		 * 
+		 * updated to send a signal and only called when a tick happens (since WAG ERG ignorings beats & measures)
 		 */
 		private function _dispatchCustomEvent(type:String):Boolean {
 			var e:BeatDispatcherEvent = new BeatDispatcherEvent(type, this, currentMeasure, currentBeat, currentTick, currentPosition);
-			return super.dispatchEvent(e);
+			tickSignal.dispatch(e);
+			return true;
 		}
 		
 		/**
@@ -378,13 +367,13 @@
 			_currentRatio = _currentTime / _totalTime;
 			
 			//イベントの発行
-			if (_isOnStart   ) _dispatchCustomEvent(BeatDispatcherEvent.START);
-			if (_isOnComplete) _dispatchCustomEvent(BeatDispatcherEvent.COMPLETE);
+			//if (_isOnStart   ) _dispatchCustomEvent(BeatDispatcherEvent.START);
+			//if (_isOnComplete) _dispatchCustomEvent(BeatDispatcherEvent.COMPLETE);
 			
-			if (hasListener  ) _dispatchCustomEvent(getEventTypeByPosition(_currentPosition));
+			//if (hasListener  ) _dispatchCustomEvent(getEventTypeByPosition(_currentPosition));
 			
-			if (_isOnMeasure ) _dispatchCustomEvent(BeatDispatcherEvent.MEASURE);
-			if (_isOnBeat    ) _dispatchCustomEvent(BeatDispatcherEvent.BEAT);
+			//if (_isOnMeasure ) _dispatchCustomEvent(BeatDispatcherEvent.MEASURE);
+			//if (_isOnBeat    ) _dispatchCustomEvent(BeatDispatcherEvent.BEAT);
 			if (_isOnTick    ) _dispatchCustomEvent(BeatDispatcherEvent.TICK);
 		}
 	}
