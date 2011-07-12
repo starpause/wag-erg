@@ -1,6 +1,7 @@
 package view.components {
 	import flash.text.TextField;
 	import com.bit101.components.VSlider;
+	import com.bit101.components.Slider;
 	import view.SliderFactory;
 	import model.Data;
     import flash.events.MouseEvent;
@@ -19,6 +20,7 @@ package view.components {
 		private var lastX : Number = 0;
 		private var factory:ButtonFactory;
 		private var sliderFactory:SliderFactory;
+		private var speedSlider:Sprite;
 		
 		public function SeqControls(_width:Number,_height:Number){
 			//store passed variables
@@ -47,8 +49,8 @@ package view.components {
 
 		private function drawSpeedSlider() : void {
 			var key:String = "speed";
-			var speedSlider:Sprite = sliderFactory.createSlider(" bpm", 230, 23, Data.bpm, key, 1, 0xFFFFFF);
-			speedSlider.getChildByName(key).addEventListener(Event.CHANGE, onSliderSpeedChange);
+			speedSlider = sliderFactory.createSlider(" bpm", 230, 23, Data.bpm, key, 1, 0xFFFFFF);
+			Slider(speedSlider.getChildByName(key)).valueChanged.add(onSliderSpeedChange);
 			TextField(speedSlider.getChildByName('textValue')).text = ' = '+Math.floor(Data.bpm);
 			addChild(speedSlider);
 			
@@ -58,9 +60,9 @@ package view.components {
 			lastX = lastX + speedSlider.getChildByName(key).width + Data.margin;			
 		}
 		
-		private function onSliderSpeedChange(event : Event) : void {
-			TextField(VSlider(event.target).parent.getChildByName('textValue')).text = ' = '+Math.floor(VSlider(event.target).value);
-			Brain.send(new Thought(Thought.SPEED_CHANGE,{bpm:VSlider(event.target).value}));
+		private function onSliderSpeedChange(newValue:Number) : void {
+			TextField(speedSlider.getChildByName('textValue')).text = ' = '+Math.floor(newValue);
+			Brain.send(new Thought(Thought.SPEED_CHANGE,{bpm:newValue}));
 		}
 		
 		private function drawNewDrumButton() : void {

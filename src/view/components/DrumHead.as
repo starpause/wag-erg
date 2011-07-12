@@ -125,7 +125,7 @@ package view.components {
 			Brain.send(new Thought(Thought.ADD_DRUM_COMPLETE,{key:this.key}));
 			
 			//listeners
-			Brain.addThoughtListener(Thought.ON_TICK, onTick);
+			//Brain.addThoughtListener(Thought.ON_TICK, onTick);
 			//Brain.addThoughtListener(Thought.VOLUME_CHANGE, onVolumeChange);
 			Brain.addThoughtListener(Thought.RANDOMIZE_SEQUENCE, onRandomizeSequence);
 			Brain.addThoughtListener(Thought.RANDOMIZE_COLOR, onRandomizeColor);
@@ -184,8 +184,8 @@ package view.components {
 			}
 		}
 
-		private function onTick(event:Thought):void{
-			if(euclideanSequence.hasHitAt(event.params['position'])){
+		public function checkTick(position:Number):void{
+			if( euclideanSequence.hasHitAt(position) ){
 				triggerSound();
 			}
 		}

@@ -171,12 +171,20 @@ package {
 			Data.totalTicks = beater.totalPosition;			
 		}
 
+		
+		
 		private function onTick(event : BeatDispatcherEvent) : void {
-			Brain.send(new Thought(Thought.ON_TICK,{'position':event.currentPosition}));
+			//update PositionIndicator
+			Data.positionIndicator.onTick(event.currentPosition);
+			
+			//tell each DrumHead what tick it is so they can trigger if they need to
+			for each (var drumHead:DrumHead in Data.drums){
+				drumHead.checkTick(event.currentPosition);
+			}
 		}
 		
 		private function onGhost(event : BeatDispatcherEvent) : void {
-			Brain.send(new Thought(Thought.ON_GHOST,{'position':event.currentPosition}));
+			Data.positionIndicator.onGhost(event.currentPosition);
 		}
 		
 		private function onAddDrum(event:Thought) : void {

@@ -1,6 +1,8 @@
 package model {
 	import view.components.DrumHead;
 	import model.DrumFactory;
+	import view.components.PositionIndicator;
+	
 	//create public static vars for easy reference without getting an instance ala
 	//import model.Data; 
 	//Data.margin = 2; 
@@ -22,6 +24,7 @@ package model {
 		public static var controlHeight : Number;
 		public static var drumFactory : DrumFactory = new DrumFactory();
 		public static var bpm:int = 160;
+		public static var positionIndicator:PositionIndicator;
 		
 
 
